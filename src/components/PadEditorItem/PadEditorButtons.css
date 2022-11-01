@@ -1,6 +1,7 @@
 .editor-btn{
-    color: #F2EDEA;
-    background-color: transparent;
+    color: #ffffff;
+    background-color: #010102;
+    border: 0px;
     transition: 0.3s ease-in-out;
     cursor: pointer;
     font-size: 2.5em;

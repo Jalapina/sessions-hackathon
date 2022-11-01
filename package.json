@@ -1,11 +1,13 @@
 {
-  "name": "sampler",
+  "name": "Sessions",
   "version": "0.1.0",
   "homepage": "./",
   "private": true,
   "dependencies": {
+    "framer-motion": "^7.6.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^6.4.2",
     "react-scripts": "2.1.8"
   },
   "scripts": {

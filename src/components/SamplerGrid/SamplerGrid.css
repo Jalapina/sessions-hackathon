@@ -1,7 +1,6 @@
 .grid-wrapper{
     position: relative;
     width: 100%;
-    max-width: 800px;
     height: 99vh;
     background: #131313;
     background: #000000;  /* fallback for old browsers */
@@ -16,4 +15,38 @@
 
 .grid{
     margin-top: 3vh
+}
+
+.cryptoLogosPolygon {
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    left: 50%;
+    top: 20%;
+    -webkit-transform: rotate(115.18deg);
+    transform: rotate(165.18deg);
+}
+
+.OnTheChain h3{
+    color: #ddd;
+    font-family: 'Beary';
+    font-size: 25vw;
+    position: relative;
+    max-width: 900px;
+}
+
+.OnTheChain{
+    background: #7f5af1;
+    padding: 20px;
+    position: relative;
+}
+
+@media (max-width: 600px) {
+    .OnTheChain h3{
+        font-size: 25vw;
+    }    
+    .cryptoLogosPolygon {
+        left: 55%;    
+        transform: rotate(300deg);
+    }    
 }

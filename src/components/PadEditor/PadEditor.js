@@ -29,7 +29,7 @@ export default () => {
     } else {
         return(
             <div className="editor-wrapper">
-                <EditorItemButtons cmd1="prev" cmd2="next" content1="◄" content2="►" val1={-1} val2={1} />
+                <EditorItemButtons cmd1="stop" value={context.gridPadsArr[context.selectedPad]} content="#"/>
                 <EditorItemButton cmd="play" content="►" />
                 <EditorItemRange label="start" value={selectedPad.sampleStart} max={max} step={0.001} />
                 <EditorItemRange label="end" value={selectedPad.sampleEnd} max={max} step={0.001} />

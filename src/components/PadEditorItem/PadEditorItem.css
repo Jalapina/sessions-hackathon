@@ -5,7 +5,7 @@
     text-overflow: clip;
     overflow: hidden;
     width: 50%;
-    
+    background: #000000 !important;
 }
 
 .pad-text{

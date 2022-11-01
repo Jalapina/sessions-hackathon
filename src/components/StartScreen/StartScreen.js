@@ -22,15 +22,6 @@ export default () => {
                 <div className="start-info">
                     <p><strong>LOAD:</strong> WAV/MP3 files</p>
                     <p><strong>RECORD:</strong> from default input</p>
-                    <p>Basic <strong>MIDI SUPPORT:</strong> on Chromium based browsers</p>
-                    <p><strong>KEYBOARD CONTROLS:</strong></p>
-                    <ul style={{listStyle:"none"}}>
-                        <li>1 - 4</li>
-                        <li>Q - R</li>
-                        <li>A - F</li>
-                        <li>Z - V</li>
-                    </ul>
-                    <p>New features incoming soon...</p>
                 </div>
                 <button 
                 className="btn"
@@ -52,13 +43,6 @@ export default () => {
             <h1>REACT SAMPLER <br/> with Web Audio API</h1>
             {renderInstallButton()}
             {displayContent()}
-            <div>
-                <h4>
-                    <a 
-                    className="start-links"
-                    href="https://github.com/CannonFodderr/Sampler" target="__blank">Fork me on GitHub</a> Made with <span style={{color: Colors.red, fontSize: "1.3rem"}}>♥</span> by <a className="start-links" href="https://idanprofile.herokuapp.com/profile/1/projects">Idan Izhaki</a>
-                </h4>
-            </div>
             </div>
         </div>            
         </div>

@@ -12,8 +12,10 @@ export default (props) => {
     let color = props.id === context.selectedPad ? currentPad.color : Colors.black;
     const handleTouchStart = (padId) => {
         if(!touchCTRL[padId].hold){
+
             touchCTRL[padId].hold = true;
             handlePadTrigger(context, padId);
+
         }
     }
     const handleTouchEnd = (padId) => {
@@ -28,12 +30,9 @@ export default (props) => {
     className="pad" 
     id={props.id}
     style={{
-        backgroundColor: color,
+        background: currentPad.source ? currentPad.color: Colors.black ,
         color: Colors.white, 
         transition: "0.5s linear", 
-        boxShadow: `0px 0px 3px 4px ${borderColor}`,
-        WebkitBoxShadow: `0px 0px 3px 4px ${borderColor}`,
-        MozBoxShadow: `0px 0px 3px 4px ${borderColor}`,
     }}
     onClick={() => {handleMouseClick(props.id)}}
     onDoubleClick={(e) => e.preventDefault()}

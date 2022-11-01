@@ -1,0 +1,26 @@
+.header{
+    background: #300085;
+    color: #ffffff;
+    padding: 20px 15px 50px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-family: Beary;    
+}
+.logoWrapper h1{
+    font-size: 5em;
+    display: inline-block;
+    /* width: 20em; */
+}
+.logoWrapper, .buttonWrapepr{
+    flex-grow: 2;
+}
+
+.createButton{
+    width: 5em;
+    margin-right: 10px;
+}
+.buttonWrapepr{
+    text-align: right;
+}

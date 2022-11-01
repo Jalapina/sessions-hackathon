@@ -80,7 +80,9 @@ export default (props) => {
         if(!context.midiInputs) return
             
     }, []);
-    if(context.midiInputs) addMidiListeners()
+    
+    if(context.midiInputs) addMidiListeners();
+
     return (
         <div className="ctl-select-wrapper">
             {renderMidiDeviceSelector()}

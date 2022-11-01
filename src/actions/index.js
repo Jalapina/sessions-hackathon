@@ -52,8 +52,11 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
         newSource.detune.value = context.gridPadsArr[padId].detune;
         let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
         context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
-        context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart , context.gridPadsArr[padId].sampleEnd);
-        context.gridPadsArr[padId].source.stop(context.ctx.currentTime + context.gridPadsArr[padId].sampleEnd);
+        context.gridPadsArr[padId].source.loop = true
+        context.gridPadsArr[padId].source.loopStart = context.gridPadsArr[padId].sampleStart
+        context.gridPadsArr[padId].source.loopEnd = context.gridPadsArr[padId].sampleEnd
+        context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart );
+        // context.gridPadsArr[padId].source.stop(context.ctx.currentTime + context.gridPadsArr[padId].sampleEnd);
     } else {
         if(context.selectedPad !== padId){
             context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {selectedPad}});
@@ -61,7 +64,10 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
     }
 }
 
-export const handlePadStop = (context, padId, gridPadsArr) => {
+export const handlePadStop = (padId, gridPadsArr,context) => {
+    console.log(padId)
+    console.log(gridPadsArr)
+    
     if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
         context.gridPadsArr[padId].source.stop();
         context.gridPadsArr[padId].isPlaying = false
@@ -70,6 +76,8 @@ export const handlePadStop = (context, padId, gridPadsArr) => {
 }
 
 export const updateEditorData = ({context, cmd, val}) => {
+    console.log(context)
+    
     let newPadsArr = context.gridPadsArr;
     let selectedPad = context.selectedPad;
     if(cmd === "start"){
@@ -86,17 +94,11 @@ export const updateEditorData = ({context, cmd, val}) => {
     if(cmd === "detune" && val !== "Current"){
         newPadsArr[context.selectedPad].detune = val;
     }
-    if(cmd === "prev"){
-        selectedPad = context.selectedPad + val < 0 ? context.gridPadsArr.length - 1 : context.selectedPad + val;
-    }
-    if(cmd === "next"){
-        selectedPad = context.selectedPad + val > context.gridPadsArr.length - 1 ?  0 : context.selectedPad + val;
-    }
     if(cmd === "play"){
         handlePadTrigger(context, context.selectedPad);
     }
     if(cmd === "stop"){
-        handlePadStop(context.selectedPad, newPadsArr);
+        handlePadStop(context.selectedPad, newPadsArr,context);
     }
     if(cmd === "color"){
         newPadsArr[context.selectedPad].color = Colors[val];

@@ -1,0 +1,81 @@
+.sessionContentTop{
+    align-items: flex-start;
+}
+.sessionContentCenter{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.grid, .sessionSpecs{
+    display: inline-block;
+}
+.sessionSpecs{
+    order: 1;
+    width: 25%;
+    height: 510px;
+    padding-left: 25px;
+}
+.grid{
+    width: 60%;
+    order: 2;
+    text-align: right;
+    padding-right: 25px;    
+}
+.sessionContentBottom{
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.sessionContentTop, .sessionContentBottom{
+    padding: 20px;
+    display: flex;
+}
+.sessionArt img{
+    width: 40%;
+    min-width: 150px;
+}
+.sessionArt{
+    /* background: purple; */
+    order: 2;
+    width: 45%;
+}
+.sessionAddLoop{
+    /* background: red; */
+    order: 2;
+    width: 50%;
+    position: relative;
+    text-align: center;
+}
+.sessionOptions{
+    /* background: forestgreen; */
+    order: 2;
+    width: 100%;
+    display: flex;
+    justify-items: center;
+}
+
+.needsWrapper,.optionsWrapper{
+    width: 49%;
+}
+
+.sessinoButtonWrapepr{
+    height: 125px;
+}
+
+.createSessionButton{
+    width: 5em;
+}
+@media (max-width: 600px) {
+    .sessionSpecs{
+        height: auto;
+    }    
+    .sessionContentBottom,.sessionContentCenter{
+        flex-direction: column;
+    }
+    .grid, .sessionSpecs{
+        width: 95%;
+        padding: 20px !important;
+    }
+    
+}    

@@ -1,64 +1,28 @@
-import React, {useContext, useEffect} from 'react';
-import {Context} from '../../contexts/SamplerContext';
-import * as types from '../../reducers/types';
-import GridPad from '../../contexts/Config/PadGrid';
-import Colors from '../../Config/ColorScheme';
-import Hud from '../Hud/Hud';
-import PadEditor from '../PadEditor/PadEditor';
-import Pad from '../Pad/Pad';
+import React, {useEffect} from 'react';
+import Header from '../Header/Header';
+
+import Home from '../../pages/Home';
 import midiMap from '../../Config/midiMap';
 import './SamplerGrid.css';
+import cryptoLogosPolygon from "./cryptoLogosPolygon.png"
 
 const SamplerGrid = () => {
-    const context = useContext(Context);
-    const gridArr = context.gridPadsArr;
-    const renderPad = (item) => {
-        let backgroundColor = Colors.black
-        let source = context.sources[item.id];
-        const midiNote = midiMap[item.id + 36].note;
-        if(!context.editMode && source && source.buffer) backgroundColor = context.gridPadsArr[context.selectedPad].color;
-        if(context.editMode && source && source.buffer) backgroundColor = Colors.green;
-        return <Pad 
-        midiNote={midiNote}
-        key={item.id} 
-        id={item.id} 
-        name={item.name}
-        backgroundColor={backgroundColor}
-        />
-    }   
-    const rendercontent = () => {
-        if(!context.editMode) return <div>{gridArr.map((item) => { return renderPad(item) })}</div>
-        return <PadEditor />
-    }
-    const testForTouchDevice = () => {
-        return 'ontouchstart' in window;
-    }
-    const testForMidiAPI = () => {
-        return "requestMIDIAccess" in navigator;
-    }
-    const generateGrid = () => {
-        let midiEnabled = testForMidiAPI();
-        let touchEnabled = testForTouchDevice();
-        let gridPadsArr = [];
-        for(let i = 0; i < context.numPads; i++){
-            let newPad = new GridPad({id: i})
-            gridPadsArr.push(newPad)
-        }
-        let payload = {gridPadsArr, touchEnabled, midiEnabled}
-        context.dispatch({ type: types.GENERATE_GRID, payload })
-    }
-    useEffect(() => { 
-        if(context.gridPadsArr.length < 1) generateGrid();
-    }, []);
+    
     return (
         <div 
         className="grid-wrapper" 
-        style={{backgroundColor: Colors.black}} 
         >
-        <Hud />
-            <div className="grid">
-                {rendercontent()}
+            
+            <Header title={"Sessions"} button={true}/>
+            <Home />
+            
+            <div className="OnTheChain">
+                <h3> ON THE CHAIN </h3>
+                <img className="cryptoLogosPolygon" src={cryptoLogosPolygon} />
             </div>
+
+
+
         </div>
     )
 }
