@@ -10,6 +10,8 @@ export default (props) => {
     let currentPad = context.gridPadsArr[props.id]
     let borderColor = currentPad.source ? currentPad.color : Colors.gray;
     let color = props.id === context.selectedPad ? currentPad.color : Colors.black;
+    
+
     const handleTouchStart = (padId) => {
         if(!touchCTRL[padId].hold){
 
@@ -18,9 +20,11 @@ export default (props) => {
 
         }
     }
+
     const handleTouchEnd = (padId) => {
         touchCTRL[padId].hold = false;
     }
+
     const handleMouseClick = (padId) => {
         if(!context.touchEnabled){
             handlePadTrigger(context, padId)

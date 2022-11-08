@@ -32,6 +32,7 @@ const Session = () =>{
         backgroundColor={backgroundColor}
         />
     }   
+    
     const rendercontent = () => {
         if(!context.editMode) return <div>{gridArr.map((item) => { return renderPad(item) })}</div>
         return <PadEditor />

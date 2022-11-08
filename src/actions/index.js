@@ -1,10 +1,13 @@
 import * as types from '../reducers/types'
 import Colors from '../Config/ColorScheme';
+import WAAClock from "waaclock";
+import * as Tone from 'tone'
 
 export const setCTX = async (context) => {
     let ctx = !context.ctx ? new (window.AudioContext || window.webkitAudioContext)() : null;
     createAnalyser(context, ctx)
 }
+
 export const createAnalyser = (context, ctx) =>{
     let analyser = ctx.createAnalyser();
     analyser.connect(ctx.destination);
@@ -33,7 +36,14 @@ export const updateSources = (context, file) => {
     reader.readAsArrayBuffer(file);
 }
 
+
+
+
 export const handlePadTrigger = (context, padId, velocity = 127) => {
+
+    const clock = new WAAClock(context.ctx);
+    clock.start();
+
     let selectedSource =  context.sources[padId];
     let selectedPad = padId
     if(selectedSource && selectedSource.buffer){
@@ -50,12 +60,67 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
         }
         newSource.connect(context.gridPadsArr[padId].gainNode);
         newSource.detune.value = context.gridPadsArr[padId].detune;
+
         let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
+        let length = gridPadsArr[padId].source.buffer.duration;
+
+        // console.log(context.ctx.decodeAudioData(gridPadsArr[padId].source.buffer));
+        // console.log(gridPadsArr[padId].source);
+        
         context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
         context.gridPadsArr[padId].source.loop = true
         context.gridPadsArr[padId].source.loopStart = context.gridPadsArr[padId].sampleStart
         context.gridPadsArr[padId].source.loopEnd = context.gridPadsArr[padId].sampleEnd
-        context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart );
+        
+        console.log(gridPadsArr[padId]);
+
+
+        let Players = new Tone.Players({
+            [gridPadsArr[padId].name]:gridPadsArr[padId].source.buffer
+        }).toDestination();
+
+        let notation = Tone.Time(length).toNotation()
+
+        var loop = new Tone.Loop(function(length){
+            //triggered every eighth note. 
+            Players.player(gridPadsArr[padId].name).start();
+            
+        }, length).start(0);
+
+
+        Tone.Transport.start();
+
+
+
+
+
+
+        // const event = clock.setTimeout(function() { 
+        // context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart);
+        
+        // const time = Tone.Time(length).toSeconds();
+        // const time = Tone.Time(length).toTicks();
+        // const time = Tone.Time(length).toNotation();
+        // let time = Tone.Time(length).toSamples();
+        // let time = Tone.Time(length).toBarsBeatsSixteenths();
+        // const node = new Tone.Gain();
+        // console.log(node.numberOfInputs);
+
+        // console.log(time);
+
+        // const loop = new Tone.Loop((time) => {
+        //     // triggered every eighth note.
+        //     const player = new Tone.Player(newSource.buffer).toDestination();
+        //     Tone.loaded().then(() => {
+                
+        //         player.start();
+    
+        //     });
+
+        // }, "0n").start(0);
+        
+        // Tone.Transport.start();
+        // }, 2)
         // context.gridPadsArr[padId].source.stop(context.ctx.currentTime + context.gridPadsArr[padId].sampleEnd);
     } else {
         if(context.selectedPad !== padId){
@@ -65,8 +130,6 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
 }
 
 export const handlePadStop = (padId, gridPadsArr,context) => {
-    console.log(padId)
-    console.log(gridPadsArr)
     
     if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
         context.gridPadsArr[padId].source.stop();
@@ -76,7 +139,6 @@ export const handlePadStop = (padId, gridPadsArr,context) => {
 }
 
 export const updateEditorData = ({context, cmd, val}) => {
-    console.log(context)
     
     let newPadsArr = context.gridPadsArr;
     let selectedPad = context.selectedPad;

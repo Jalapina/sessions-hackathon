@@ -51,7 +51,7 @@
 }
 .purple{
     z-index: 1;
-    left: 35%;
+    left: 40%;
     top: 250px;
 }
 .green{
@@ -67,6 +67,11 @@
 .about{
     width: 80%;
 }
+@media (max-width: 1125px) {
+    .pink{      
+        left: 80px;
+    }
+}    
 /* #spin {
     color:red;
   }

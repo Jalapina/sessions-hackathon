@@ -5,7 +5,7 @@ import "../Register/register.css"
 const Login = () =>{
     return(
         <div className="login">
-        <Header title={"Login"}/>
+        <Header title={"CREATE"}/>
         <div className="container">
             <form action="">
               <input type="text" className="ghost-input" placeholder="Name" required/> 
