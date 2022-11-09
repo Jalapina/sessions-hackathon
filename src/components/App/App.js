@@ -12,6 +12,9 @@ import Session from "../../pages/Session/Session"
 import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
+export const AppContext = React.createContext();
+
 export default function App () {
     
     const context = useContext(Context);

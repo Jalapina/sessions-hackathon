@@ -5,8 +5,8 @@ import PurpleArrow from "./purple-arrow.png";
 import PinkArrow from "./pink-arrow.png";
 import GreenArrow from "./green-arrow.png";
 
+
 const Home = () =>{
-        
     // const elts = {
     //     text1: document.getElementById("text1"),
     //     text2: document.getElementById("text2")
@@ -106,7 +106,7 @@ const Home = () =>{
 
     return(
         <div className="home">
-
+    
             <div className="intro">
 
                 <div className="element left">

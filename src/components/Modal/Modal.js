@@ -1,88 +1,71 @@
-// import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-// import { motion, AnimatePresence } from "framer-motion";
+import React, { SFC, createContext } from "react";
+import { useTransition, config, animated } from "react-spring";
 
-// const Modal = forwardRef((props, ref) => {
+import { DialogOverlay, DialogContent } from "@reach/dialog";
+
+import "../../assets/css/reach-modal-overrides.scss";
+
+export const StandardModalHeader = props => {
+  let { onHide, caption } = props;
+  return (
+    <>
+      <div className="standard-reach-header">
+        <div className="modal-title">{caption}</div>
+        <span
+          style={{ cursor: "pointer", marginLeft: "auto" }}
+          className="close"
+          onClick={onHide}
+        >
+          <span>&times;</span>
+        </span>
+      </div>
+      <hr />
+    </>
+  );
+};
+
+const AnimatedDialogOverlay = animated(DialogOverlay);
+const AnimatedDialogContent = animated(DialogContent);
+
+const Modal: SFC<any> = props => {
+
+    let { isOpen, onHide, headerCaption, focusRef = null, children } = props;
+
+    const modalTransition = useTransition(!!isOpen, {
+    config: isOpen ? { ...config.stiff } : { duration: 150 },
+    from: { opacity: 0, transform: `translate3d(0px, -10px, 0px)` },
+    enter: { opacity: 1, transform: `translate3d(0px, 0px, 0px)` },
+    leave: { opacity: 0, transform: `translate3d(0px, 10px, 0px)` }
+    });
+
+    return modalTransition(
+    (styles, isOpen) =>
+        isOpen && (
+        <AnimatedDialogOverlay
+            allowPinchZoom={true}
+            initialFocusRef={focusRef}
+            onDismiss={onHide}
+            isOpen={isOpen}
+            style={{ opacity: styles.opacity }}
+        >
+            <AnimatedDialogContent
+            style={{
+                border: "4px solid hsla(0, 0%, 0%, 0.5)",
+                borderRadius: 10,
+                maxWidth: "400px",
+                ...styles
+            }}
+            >
+            <div>
+                <div>
+                <StandardModalHeader caption={headerCaption} onHide={onHide} />
+                {children}
+                </div>
+            </div>
+            </AnimatedDialogContent>
+        </AnimatedDialogOverlay>
+        )
+    );
+};
         
-//     const [open, setOpen] = useState(true);
-
-//     useImperativeHandle(ref, () => { 
-//         return {
-//             open: () => setOpen(true),
-//             close: () => setOpen(false)
-//         }
-//     });
-
-//     return (
-//         <AnimatePresence> 
-//             {open && ( 
-//             <div> 
-//                 <motion.div
-//                     initial={{
-//                         opacity: 0
-//                     }}
-//                     animate={{
-//                         opacity: 1,
-//                         transition: {
-//                             duration: 0.3
-//                             }
-//                         }}
-//                     exit={{
-//                         opacity: 0,
-//                         transition: {
-//                             delay: 0.3
-//                             }
-//                         }}
-//                     onClick={() => setOpen(false) }
-//                     className="modal-backdrop"
-//                 />
-
-
-//                 <motion.div
-//                     initial={{
-//                         scale: 0
-//                     }}
-//                     animate={{
-//                         scale: 1,
-//                         transition:{
-//                             duration: 0.3
-//                         }
-//                     }}
-//                     exit={{
-//                         scale: 0,
-//                         transition: {
-//                             delay: 0.3
-//                         }
-//                     }}
-//                     className="modal-content-wrapper"
-//                     >
-
-//                 <motion.div className="modal-content"
-//                     initial={{
-//                         x: 100,
-//                         opacity: 0
-//                     }}
-//                     animate={{
-//                         x: 0,
-//                         opacity: 1,
-//                         transition: {
-//                             delay: 0.3,
-//                             duration: 0.3
-//                         }
-//                     }}
-//                     exit={{
-//                         x: 100,
-//                         opacity: 0,
-//                         transition: {
-//                             duration: 0.3
-//                             }
-//                         }} >
-//                         {props.children}
-//                         </motion.div> 
-//                         </motion.div>
-//                         </div>
-//                 )};
-//                 </AnimatePresence>
-//         )});
-
-    
-// export default Modal
+export default Modal
