@@ -1,0 +1,50 @@
+import React, {useState,useEffect,useRef,Fragment} from 'react';
+import Header from '../../components/Header/Header';
+import "../Register/register.css"
+
+import { signInWithMoralis as signInWithMoralisByEvm } from '@moralisweb3/client-firebase-evm-auth';
+import { signInWithMoralis as signInWithMoralisBySolana } from '@moralisweb3/client-firebase-sol-auth';
+import { httpsCallable } from '@firebase/functions';
+// import { User } from '@firebase/auth';
+import { auth, functions, moralisAuth } from '../../functions/firebase.js';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { Web3Provider } from '@ethersproject/providers';
+
+const Login = () =>{
+    const [currentUser, setCurrentUser] = useState(null);    
+
+    const signInWithMetamask = async () => {
+      console.log("CLICKED!!!!")
+        const result = await signInWithMoralisByEvm(moralisAuth);
+        console.log("currentUser",result);
+        
+        setCurrentUser(result.credentials.user);
+      }
+      
+    return(
+        <div className="login">
+        <Header title={"Login"}/>
+        <div className="container">
+            <form action="">
+              <input type="text" className="ghost-input" placeholder="username" required/> 
+              <input type="password" className="ghost-input" placeholder="Password" required/>
+              <input type="submit" className="ghost-button"/>
+            </form>
+        <strong>
+          {currentUser ? (
+            <Fragment>
+              address: {currentUser.displayName}, uid: {currentUser.uid}
+            </Fragment>
+          ) : (
+            'unknown'
+          )}
+        </strong>
+            <button onClick={signInWithMetamask}>Sign in with MetaMask</button>
+        </div>
+        </div>
+
+    )
+}
+    
+
+export default Login

@@ -1,0 +1,15 @@
+.editor-btn{
+    color: #ffffff;
+    background-color: #010102;
+    border: 0px;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    font-size: 2.5em;
+    font-weight: 800;
+    outline: none;
+}
+.editor-btn:hover{
+    color: #F2EDEA;
+    background-color: #0B0002;
+    border: 1px solid #0B0002;
+}
