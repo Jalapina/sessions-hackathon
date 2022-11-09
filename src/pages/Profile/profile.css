@@ -1,0 +1,50 @@
+.container {
+    width: 90%;
+    display: flex;
+    margin: 0 auto;
+  }
+
+  .leftSideBar {
+    width: 30%;
+    padding-top: 40px;
+  }
+
+  .profilePicture {
+    width: 200px;
+    height: 200px;
+    margin-right: 20px;
+  }
+
+  .mainContentArea {
+    padding: 40px;
+    margin-right: 20px;
+  }
+
+  .bio {
+    
+    padding-bottom: 40px;
+
+  }
+
+  .profileOptions {
+    width: 100%;
+    height: 100px;
+    background-color: #72757e;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+  }
+
+  .profileButton {
+    margin: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: black;
+    color: white;
+  }
+
+  .editProfileArea {
+    width: 100%;
+    background-color: #72757e;
+    display: flex;
+  }

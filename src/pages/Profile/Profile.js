@@ -1,16 +1,48 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
+import "./profile.css"
 
 const profile = () =>{
     return(
         <div className="profile">
         <Header title={"profile"}/>
         <div className="container">
-            <form action="">
-              <input type="text" className="ghost-input" placeholder="username" required/> 
-              <input type="password" className="ghost-input" placeholder="Password" required/>
-              <input type="submit" className="ghost-button"/>
-            </form>
+           <div className="leftSideBar">
+                <div className="profilePicture">
+                    <img className="profilePicture" alt="profilePic" src="https://images.unsplash.com/photo-1662659512201-3f93560f1421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1364&q=80"
+                    />
+                </div>
+                <div className='specs'>
+                    <h2>SPECS</h2>
+                    <h4>Sessions: 2</h4>
+                    <h4>collabs: 7</h4>
+                </div>
+           </div>
+           <div className="mainContentArea">
+            <div className='bio'>
+                Welcome to the website. If you're here, you're likely looking to find random words. Random Word Generator is the perfect tool to help you do this. While this tool isn't a word creator, it is a word generator that will generate random words for a variety of activities or uses. 
+            </div>
+            <div className='profileOptions'>
+                <button className='profileButton'>sessions</button>
+                <button className='profileButton'>collabs</button>
+                <button className='profileButton'>comments</button>
+                <button className='profileButton'>settings</button>
+            </div>
+            <div className='editProfileArea'>
+                <div className='leftSide'>
+                    <h4>Change Password</h4>
+                    <h4>Change Email</h4>
+                    <h4>Change Username</h4>
+                    <h4>Add Link</h4>
+                </div>
+                <div className='rightSide'>
+                    <div className='changePicture'>
+                        *Rob- add pciture edit code
+                    </div>
+                </div>
+            </div>
+            
+           </div>
         </div>
         </div>
 
