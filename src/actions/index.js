@@ -1,6 +1,5 @@
 import * as types from '../reducers/types'
 import Colors from '../Config/ColorScheme';
-import WAAClock from "waaclock";
 import * as Tone from 'tone'
 
 export const setCTX = async (context) => {
@@ -40,9 +39,6 @@ export const updateSources = (context, file) => {
 
 
 export const handlePadTrigger = (context, padId, velocity = 127) => {
-
-    const clock = new WAAClock(context.ctx);
-    clock.start();
 
     let selectedSource =  context.sources[padId];
     let selectedPad = padId
