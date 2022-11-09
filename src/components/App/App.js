@@ -7,6 +7,7 @@ import StartScreen from '../StartScreen/StartScreen';
 import './App.css';
 import Register from "../../pages/Register/register"
 import Login from "../../pages/Login/Login"
+import Profile from "../../pages/Profile/Profile"
 import Create from "../../pages/Create/Create"
 import Session from "../../pages/Session/Session"
 import Modal from "../Modal/Modal"
@@ -33,6 +34,7 @@ export default function App () {
                         <Route path="/" element={<SamplerGrid />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/profile" element={<Profile />} />
                         <Route path="/create" element={<Create />} />
                         <Route path="/session" element={<Session />} />
                     </Routes>

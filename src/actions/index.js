@@ -40,16 +40,8 @@ export const updateSources = (context, file) => {
 
 export const handlePadTrigger = (context, padId, velocity = 127) => {
 
-    const selectedPad = padId;
-    const selectedSource =  context.sources[selectedPad];
-    let gridPadsArr = context.gridPadsArr;
-    // console.log(selectedSource)
-    // if(selectedSource.isPlaying){
-        
-    //     Tone.Transport.stop();
-    //     gridPadsArr[padId].isPlaying = false;        
-        
-    // }
+    let selectedSource =  context.sources[padId];
+    let selectedPad = padId
     if(selectedSource && selectedSource.buffer){
 
         if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
