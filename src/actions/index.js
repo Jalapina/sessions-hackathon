@@ -1,6 +1,5 @@
 import * as types from '../reducers/types'
 import Colors from '../Config/ColorScheme';
-import WAAClock from "waaclock";
 import * as Tone from 'tone'
 
 export const setCTX = async (context) => {
@@ -41,20 +40,28 @@ export const updateSources = (context, file) => {
 
 export const handlePadTrigger = (context, padId, velocity = 127) => {
 
-    const clock = new WAAClock(context.ctx);
-    clock.start();
-
-    let selectedSource =  context.sources[padId];
-    let selectedPad = padId
+    const selectedPad = padId;
+    const selectedSource =  context.sources[selectedPad];
+    let gridPadsArr = context.gridPadsArr;
+    // console.log(selectedSource)
+    // if(selectedSource.isPlaying){
+        
+    //     Tone.Transport.stop();
+    //     gridPadsArr[padId].isPlaying = false;        
+        
+    // }
     if(selectedSource && selectedSource.buffer){
+
         if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
-            context.gridPadsArr[padId].source.stop();
+            Tone.Players.player(gridPadsArr[padId].name).stop();
         }
-        let gridPadsArr = context.gridPadsArr;
+        
         let newSource = context.ctx.createBufferSource();
+
         newSource.buffer = context.sources[padId].buffer;
         gridPadsArr[padId].source = newSource;
         gridPadsArr[padId].isPlaying = true;
+        let length = gridPadsArr[padId].source.buffer.duration;    
         if(context.selectedPad !== padId){
             context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
         }
@@ -62,22 +69,17 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
         newSource.detune.value = context.gridPadsArr[padId].detune;
 
         let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
-        let length = gridPadsArr[padId].source.buffer.duration;
 
-        // console.log(context.ctx.decodeAudioData(gridPadsArr[padId].source.buffer));
-        // console.log(gridPadsArr[padId].source);
-        
         context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
         context.gridPadsArr[padId].source.loop = true
         context.gridPadsArr[padId].source.loopStart = context.gridPadsArr[padId].sampleStart
         context.gridPadsArr[padId].source.loopEnd = context.gridPadsArr[padId].sampleEnd
-        
-        console.log(gridPadsArr[padId]);
-
 
         let Players = new Tone.Players({
             [gridPadsArr[padId].name]:gridPadsArr[padId].source.buffer
         }).toDestination();
+
+        console.log(Players)
 
         let notation = Tone.Time(length).toNotation()
 
@@ -90,38 +92,6 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
 
         Tone.Transport.start();
 
-
-
-
-
-
-        // const event = clock.setTimeout(function() { 
-        // context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart);
-        
-        // const time = Tone.Time(length).toSeconds();
-        // const time = Tone.Time(length).toTicks();
-        // const time = Tone.Time(length).toNotation();
-        // let time = Tone.Time(length).toSamples();
-        // let time = Tone.Time(length).toBarsBeatsSixteenths();
-        // const node = new Tone.Gain();
-        // console.log(node.numberOfInputs);
-
-        // console.log(time);
-
-        // const loop = new Tone.Loop((time) => {
-        //     // triggered every eighth note.
-        //     const player = new Tone.Player(newSource.buffer).toDestination();
-        //     Tone.loaded().then(() => {
-                
-        //         player.start();
-    
-        //     });
-
-        // }, "0n").start(0);
-        
-        // Tone.Transport.start();
-        // }, 2)
-        // context.gridPadsArr[padId].source.stop(context.ctx.currentTime + context.gridPadsArr[padId].sampleEnd);
     } else {
         if(context.selectedPad !== padId){
             context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {selectedPad}});
