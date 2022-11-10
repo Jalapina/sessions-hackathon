@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom';
 import Modal from "../Modal/Modal.js";
 import Register from "../../pages/Register/Register";
 import Login from "../../pages/Login/Login";
+import Create from "../../pages/Create/Create";
+import { useAuthState } from "../../components/Auth/auth-context";
 
 export default ({title,button}) => {
     const modalRef = useRef
     const [isOpen, setIsOpen] = useState(false);
     const [loginOrSignIn, setLoginOrSignIn]=useState(false);
+    const { user: loggedUser, status, error } = useAuthState();
 
     return (
     <div className="header">
@@ -25,17 +28,24 @@ export default ({title,button}) => {
             <Modal
                 isOpen={isOpen}
                 onHide={() => setIsOpen(!isOpen)}
-                headerCaption={loginOrSignIn? "Register":"Login"}
+                headerCaption={loggedUser? "Create Session":"Sing In"}
             >
-                {!loginOrSignIn ? (
+            {loggedUser != null ?(
+                    <div>
+                        <Create/>
+                    </div>
+                ):(
+                    <div>
+                        {!loginOrSignIn ? (
                         <Login/>
                     ):(
                         <Register/>
-                    )
-                }
-                <button onClick={() => setLoginOrSignIn(!loginOrSignIn)}>
-                    new
-                </button>
+                        )
+                        }
+                    </div>
+                )
+            }
+                
             </Modal>
         </div>:
         <div className="buttonWrapepr">

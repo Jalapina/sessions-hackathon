@@ -1,4 +1,4 @@
-import React, { SFC, createContext } from "react";
+import React, { SFC } from "react";
 import { useTransition, config, animated } from "react-spring";
 
 import { DialogOverlay, DialogContent } from "@reach/dialog";

@@ -12,24 +12,18 @@ import Create from "../../pages/Create/Create"
 import Session from "../../pages/Session/Session"
 import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from "../Auth/auth-context";
 
-export const AppContext = React.createContext();
 
 export default function App () {
-
     const [accountAddress, setAccountAddress] = useState();
     const [contractState, setContractState] = useState(undefined);
     const context = useContext(Context);
     
-  const value = {
-    accountAddress, 
-    contractState
-  }
-
     const renderAppContent = () => {
         if(!context.ctx) return <StartScreen />
         return (
-            <AppContext.Provider value={value}>
+            <AuthProvider>
             <BrowserRouter>
                 
                 <div className="app-wrapper">
@@ -38,17 +32,14 @@ export default function App () {
                     {/* </Modal> */}
                     <Routes>
                         <Route path="/" element={<SamplerGrid />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/login" element={<Login />} />
                         <Route path="/profile" element={<Profile />} />
-                        <Route path="/create" element={<Create />} />
                         <Route path="/session" element={<Session />} />
                     </Routes>
 
                 </div>
 
             </BrowserRouter>
-        </AppContext.Provider>
+        </AuthProvider>
         )
     }
 

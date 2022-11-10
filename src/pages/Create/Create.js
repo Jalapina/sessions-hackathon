@@ -2,10 +2,9 @@ import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import "../Register/register.css"
 
-const Login = () =>{
+const Create = () =>{
     return(
-        <div className="login">
-        <Header title={"CREATE"}/>
+        <div className="Create">
         <div className="container">
             <form action="">
               <input type="text" className="ghost-input" placeholder="Name" required/> 
@@ -21,4 +20,4 @@ const Login = () =>{
 }
     
 
-export default Login
+export default Create

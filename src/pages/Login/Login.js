@@ -1,4 +1,4 @@
-import React, {useState,useEffect,useRef,Fragment} from 'react';
+import React, {useState,useEffect,useContext,useRef,Fragment} from 'react';
 import Header from '../../components/Header/Header';
 import "../Register/register.css"
 
@@ -9,25 +9,24 @@ import { httpsCallable } from '@firebase/functions';
 import { auth, functions, moralisAuth } from '../../functions/firebase.js';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { Web3Provider } from '@ethersproject/providers';
+import { useAuthState, useAuthDispatch, doLogin } from "../../components/Auth/auth-context";
 
 const Login = () =>{
-    const [currentUser, setCurrentUser] = useState(null);    
-
+    const { user: loggedUser, status, error } = useAuthState();
+    const [user, setUser] = useState("");
+    const dispatch = useAuthDispatch();
+    console.log(loggedUser);
     const signInWithMetamask = async () => {
-
-        const result = await signInWithMoralisByEvm(moralisAuth);
-        console.log("currentUser",result);
-        
-        setCurrentUser(result.credentials.user);
+        doLogin(dispatch);
       }
       
     return(
           <div className="loginContainer">
 
             <div>
-            {currentUser ? (
+            {loggedUser ? (
               <div>
-                address: {currentUser.displayName}, uid: {currentUser.uid}
+                address: {loggedUser.displayName}, uid: {loggedUser.uid}
               </div>
             ) : (
               <div className="signInContainer">
