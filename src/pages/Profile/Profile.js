@@ -2,6 +2,7 @@ import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import "./profile.css"
 import ProfileSettings from '../../components/ProfileSettings/ProfileSettings'
+import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'
 
 
 
@@ -9,7 +10,7 @@ import ProfileSettings from '../../components/ProfileSettings/ProfileSettings'
 
 const profile = () =>{
     const profileComponents = ["sessions", "collabs", "comments", "settings"];
-    const [profileComponentDisplay, setProfileComponentDisplay] = useState("");
+    const [profileComponentDisplay, setProfileComponentDisplay] = useState("sessions");
     
     return(
         <div className="profile">
@@ -50,7 +51,7 @@ const profile = () =>{
                     </div>
                     <div className='componentArea'>
                     {profileComponentDisplay === "settings" && <ProfileSettings />}
-                    
+                    {profileComponentDisplay === "sessions" && <SessionsFeed />}
 
                     </div>
 

@@ -1,0 +1,6 @@
+.settingsContainer {
+    display: flex;
+    justify-content: space-between;
+    background-color: #72757e;
+    width: 100%;
+}

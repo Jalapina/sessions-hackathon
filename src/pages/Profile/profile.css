@@ -36,8 +36,8 @@
   }
 
   .profileButton {
-    margin-left: 60px;
-    margin-right: 60px;
+    margin-left: 50px;
+    margin-right: 50px;
     margin-top: 30px;
     margin-bottom: 30px;
     padding-left: 40px;
@@ -46,8 +46,6 @@
     color: white;
   }
 
-  .editProfileArea {
+  .componentArea {
     width: 100%;
-    background-color: #72757e;
-    display: flex;
   }

@@ -1,10 +1,10 @@
 import React from 'react';
-// import "./profile.css"
+import "./ProfileSettings.css"
 
 
 const ProfileSettings = () => {
     return (
-        <div className='container'>
+        <div className='settingsContainer'>
             <div className='leftSide'>
                 <h4>Change Password</h4>
                 <h4>Change Email</h4>
