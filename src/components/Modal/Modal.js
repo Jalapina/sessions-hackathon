@@ -2,7 +2,6 @@ import React, { SFC, createContext } from "react";
 import { useTransition, config, animated } from "react-spring";
 
 import { DialogOverlay, DialogContent } from "@reach/dialog";
-
 import "../../assets/css/reach-modal-overrides.scss";
 
 export const StandardModalHeader = props => {
@@ -50,9 +49,8 @@ const Modal: SFC<any> = props => {
         >
             <AnimatedDialogContent
             style={{
-                border: "4px solid hsla(0, 0%, 0%, 0.5)",
-                borderRadius: 10,
                 maxWidth: "400px",
+                background: "#000000",
                 ...styles
             }}
             >

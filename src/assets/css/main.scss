@@ -293,7 +293,7 @@ body {
   --neutral-background: var(--neutral-5);
   --neutral-dark-background: var(--neutral-9);
 
-  --info-button-color: white;
+  --info-button-color: rgb(0, 0, 0);
 }
 
 #main-content {
@@ -339,13 +339,6 @@ a {
 }
 a.no-underline {
   text-decoration: none;
-}
-
-button,
-input,
-select,
-a {
-  outline: 0;
 }
 
 input[disabled]{
@@ -452,7 +445,7 @@ select.form-control {
   padding: 6px 12px;
   border-radius: var(--default-border-radius);
   height: 34px;
-  background-color: white;
+  background-color: rgb(0, 0, 0);
   width: 100%;
 
   &.error {
@@ -535,18 +528,6 @@ div.toast-notification h4 {
     grid-column-end: 2;
   }
 }
-
-
-.btn-group input:focus,
-.btn-group button:focus {
-  z-index: 999999999;
-}
-
-.btn-group input {
-  -webkit-appearance: none;
-  box-shadow: none;
-}
-
 div.radio input {
   border-radius: 6px;
 }

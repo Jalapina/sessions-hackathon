@@ -4,25 +4,38 @@ import "./header.css";
 import createButton from "./plus-sign.png";
 import { Link } from 'react-router-dom';
 import Modal from "../Modal/Modal.js";
+import Register from "../../pages/Register/Register";
+import Login from "../../pages/Login/Login";
 
 export default ({title,button}) => {
     const modalRef = useRef
     const [isOpen, setIsOpen] = useState(false);
-    
+    const [loginOrSignIn, setLoginOrSignIn]=useState(false);
+
     return (
     <div className="header">
         <div className="logoWrapper">
             <h1>{title}</h1>
         </div>
         {button ?
-         <div  onClick={() => setIsOpen(!isOpen)}className="buttonWrapepr">
-            <img className="createButton" src={createButton}/>
+         <div  className="buttonWrapepr">
+            <div  onClick={() => setIsOpen(!isOpen)}>
+                <img className="createButton" src={createButton}/>
+            </div>
             <Modal
                 isOpen={isOpen}
                 onHide={() => setIsOpen(!isOpen)}
-                headerCaption={"Search"}
+                headerCaption={loginOrSignIn? "Register":"Login"}
             >
-                <h1>Hello World Hello World Hello World</h1>
+                {!loginOrSignIn ? (
+                        <Login/>
+                    ):(
+                        <Register/>
+                    )
+                }
+                <button onClick={() => setLoginOrSignIn(!loginOrSignIn)}>
+                    new
+                </button>
             </Modal>
         </div>:
         <div className="buttonWrapepr">

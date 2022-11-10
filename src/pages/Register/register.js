@@ -1,11 +1,9 @@
 import React, {useState,useEffect,useRef} from 'react';
-import Header from '../../components/Header/Header';
 import "./register.css"
 
 const Register = () =>{
     return(
         <div className="register">
-        <Header title={"Register"}/>
         <div className="container">
             <form action="">
               <input type="text" className="ghost-input" placeholder="Email" required/> 

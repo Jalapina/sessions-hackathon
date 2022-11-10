@@ -1,11 +1,11 @@
-import React, {useContext,useRef} from 'react';
+import React, {useContext,useState,useRef} from 'react';
 import {Context} from '../../contexts/SamplerContext';
 import {handlePadTrigger} from '../../actions'
 import keyCTRL from '../../Config/keyboardControls';
 import SamplerGrid from '../SamplerGrid/SamplerGrid';
 import StartScreen from '../StartScreen/StartScreen';
 import './App.css';
-import Register from "../../pages/Register/register"
+import Register from "../../pages/Register/Register"
 import Login from "../../pages/Login/Login"
 import Profile from "../../pages/Profile/Profile"
 import Create from "../../pages/Create/Create"
@@ -13,17 +13,23 @@ import Session from "../../pages/Session/Session"
 import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-
 export const AppContext = React.createContext();
 
 export default function App () {
-    
+
+    const [accountAddress, setAccountAddress] = useState();
+    const [contractState, setContractState] = useState(undefined);
     const context = useContext(Context);
-    const modalRef = useRef
     
+  const value = {
+    accountAddress, 
+    contractState
+  }
+
     const renderAppContent = () => {
         if(!context.ctx) return <StartScreen />
         return (
+            <AppContext.Provider value={value}>
             <BrowserRouter>
                 
                 <div className="app-wrapper">
@@ -42,6 +48,7 @@ export default function App () {
                 </div>
 
             </BrowserRouter>
+        </AppContext.Provider>
         )
     }
 

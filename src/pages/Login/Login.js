@@ -14,7 +14,7 @@ const Login = () =>{
     const [currentUser, setCurrentUser] = useState(null);    
 
     const signInWithMetamask = async () => {
-      console.log("CLICKED!!!!")
+
         const result = await signInWithMoralisByEvm(moralisAuth);
         console.log("currentUser",result);
         
@@ -22,25 +22,29 @@ const Login = () =>{
       }
       
     return(
-        <div className="login">
-        <Header title={"Login"}/>
-        <div className="container">
-            <form action="">
-              <input type="text" className="ghost-input" placeholder="username" required/> 
-              <input type="password" className="ghost-input" placeholder="Password" required/>
-              <input type="submit" className="ghost-button"/>
-            </form>
-        <strong>
-          {currentUser ? (
-            <Fragment>
-              address: {currentUser.displayName}, uid: {currentUser.uid}
-            </Fragment>
-          ) : (
-            'unknown'
-          )}
-        </strong>
-            <button onClick={signInWithMetamask}>Sign in with MetaMask</button>
-        </div>
+          <div className="loginContainer">
+
+            <div>
+            {currentUser ? (
+              <div>
+                address: {currentUser.displayName}, uid: {currentUser.uid}
+              </div>
+            ) : (
+              <div className="signInContainer">
+                <form>
+                  <input type="text" className="ghost-input" placeholder="username" required/> 
+                  <input type="password" className="ghost-input" placeholder="Password" required/>
+                  <input type="submit" value="SIGN IN" className="ghost-button"/>
+         
+                </form>
+              <div className="metamaskSignIn">
+                <button onClick={signInWithMetamask}>MetaMask</button>
+              </div>
+                
+              </div>
+            )}
+          </div>
+        
         </div>
 
     )

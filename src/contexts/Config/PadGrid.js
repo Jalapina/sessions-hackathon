@@ -9,6 +9,7 @@ export default class GridPad {
         this.source = null;
         this.color = Colors.purple;
         this.isPlaying = false;
+        this.isLooping = null;
         this.selfMuted = true;
         this.sampleStart = 0;
         this.currentGain = 1;

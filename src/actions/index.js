@@ -39,50 +39,63 @@ export const updateSources = (context, file) => {
 
 
 export const handlePadTrigger = (context, padId, velocity = 127) => {
-
+    console.log("context",context)
+    const selectedPad = padId
     let selectedSource =  context.sources[padId];
-    let selectedPad = padId
-    if(selectedSource && selectedSource.buffer){
+    let gridPadsArr = context.gridPadsArr;    
+    // const osc = new Tone.Oscillator().toDestination();
 
-        if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
-            Tone.Players.player(gridPadsArr[padId].name).stop();
+    if(selectedSource && selectedSource.buffer){
+        
+        if(context.gridPadsArr[padId].source && context.Players && context[padId].isPlaying){
+            context.Players.player(gridPadsArr[selectedPad].name).stop()
+            gridPadsArr[padId].isPlaying = true;
         }
         
         let newSource = context.ctx.createBufferSource();
+        let length = gridPadsArr[selectedPad].source.buffer.duration;    
 
         newSource.buffer = context.sources[padId].buffer;
-        gridPadsArr[padId].source = newSource;
         gridPadsArr[padId].isPlaying = true;
-        let length = gridPadsArr[padId].source.buffer.duration;    
+        gridPadsArr[padId].source = newSource;
         if(context.selectedPad !== padId){
             context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
         }
         newSource.connect(context.gridPadsArr[padId].gainNode);
         newSource.detune.value = context.gridPadsArr[padId].detune;
-
+        
         let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
-
+        
         context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
         context.gridPadsArr[padId].source.loop = true
-        context.gridPadsArr[padId].source.loopStart = context.gridPadsArr[padId].sampleStart
-        context.gridPadsArr[padId].source.loopEnd = context.gridPadsArr[padId].sampleEnd
-
+        
         let Players = new Tone.Players({
             [gridPadsArr[padId].name]:gridPadsArr[padId].source.buffer
         }).toDestination();
-
-        console.log(Players)
-
-        let notation = Tone.Time(length).toNotation()
-
-        var loop = new Tone.Loop(function(length){
-            //triggered every eighth note. 
-            Players.player(gridPadsArr[padId].name).start();
+        
+        if(Players){
+            context.gridPadsArr[padId].source = Players.player(gridPadsArr[padId].name);
+        }
+        
+        console.log("context____",context)        
+        
+        
+        // Tone.Transport.scheduleRepeat((time) => {
+            // use the callback time to schedule events
+            let player = Players.player(gridPadsArr[padId].name);
+            console.log(player)        
+            // player.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart )
+            // }, length);
+            // transport must be started before it starts invoking events
+            var loop = new Tone.Loop(function(length){
+                //triggered every eighth note. 
+                player.loop = true;            
+                Players.player(gridPadsArr[padId].name).start();
+                
+            }, length).start(0);
             
-        }, length).start(0);
-
-
-        Tone.Transport.start();
+            context.gridPadsArr[padId].isLooping = loop
+            Tone.Transport.start();
 
     } else {
         if(context.selectedPad !== padId){
@@ -92,11 +105,14 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
 }
 
 export const handlePadStop = (padId, gridPadsArr,context) => {
-    
+    console.log(context)
     if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
-        context.gridPadsArr[padId].source.stop();
-        context.gridPadsArr[padId].isPlaying = false
-        context.dispatch({type: types.HANDLE_PAD_STOP, payload: {gridPadsArr}});
+        let Player = context.gridPadsArr[padId].source
+        let Loop = context.gridPadsArr[padId].isLooping
+        console.log(Loop)
+        Player.stop()
+        Loop.stop()
+        gridPadsArr[padId].isPlaying = false;
     }
 }
 
