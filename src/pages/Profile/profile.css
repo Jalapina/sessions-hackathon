@@ -36,7 +36,10 @@
   }
 
   .profileButton {
-    margin: 20px;
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     padding-left: 40px;
     padding-right: 40px;
     background-color: black;
