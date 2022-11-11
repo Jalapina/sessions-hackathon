@@ -9,12 +9,21 @@ const profile = () =>{
 
     const getUserData = async() => {
 
-        const response=db.collection('session');
-        const data= await response.get();        
-        console.log(data)
+        const response = db.collection('session')
+        .onSnapshot(snapshot => {
+              const sessions = snapshot.docs.map(doc => ({
+                  id: doc.id,
+                ...doc.data(),
+              }));
+              
+              setUsers(sessions)
+            });
+            return () => unsubscribe();
 
-      };
-
+        console.log(users)
+    };
+    
+    console.log(users)
       useEffect(()=>{
         getUserData();
       },[])
