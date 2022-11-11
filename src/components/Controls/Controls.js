@@ -8,6 +8,7 @@ import MidiControls from '../MidiControls/MidiControls';
 const Controls = (props) => {
     const context = useContext(Context);
     let currentPad = context.gridPadsArr[context.selectedPad];
+
     const validateSelectedFile = (file) => {
         if(!file) return console.log("No file...")
         let ext = file.name.split('.')[1]
@@ -15,10 +16,10 @@ const Controls = (props) => {
         if(!validExt) return console.error("Unable to load selected file")
         return updateSources(context, file)
     }
-    const toggleRecMode = () => {
-        let recMode = !context.recMode
-        context.dispatch({type: TOGGLE_REC_MODE, payload: {recMode}})
-    }
+    // const toggleRecMode = () => {
+    //     let recMode = !context.recMode
+    //     context.dispatch({type: TOGGLE_REC_MODE, payload: {recMode}})
+    // }
     const toggleEditMode = () => {
         let editMode = !context.editMode;
         let recMode = false;
@@ -31,30 +32,30 @@ const Controls = (props) => {
         gridPadsArr[context.selectedPad].source = null
         context.dispatch({type: CLEAR_SELECTED_PAD, payload: {sources, gridPadsArr}})
     }
-    const renderRecButton = () => {
-        if(context.editMode && currentPad && !currentPad.source){
-            if(!context.recMode){
-                return(
-                    <div className="file-selector-wrapper">
-                        <button
-                        onClick={() => { toggleRecMode() }}
-                        className="ctl-btn"
-                        >REC</button>
-                    </div>
-                )
-            } else {
-                return(
-                    <div className="file-selector-wrapper">
-                        <button
-                        onClick={() => { toggleRecMode() }}
-                        className="ctl-btn"
-                        >EDIT</button>
-                    </div>
-                )
-            }
+    // const renderRecButton = () => {
+    //     if(context.editMode && currentPad && !currentPad.source){
+    //         if(!context.recMode){
+    //             return(
+    //                 <div className="file-selector-wrapper">
+    //                     <button
+    //                     onClick={() => { toggleRecMode() }}
+    //                     className="ctl-btn"
+    //                     >REC</button>
+    //                 </div>
+    //             )
+    //         } else {
+    //             return(
+    //                 <div className="file-selector-wrapper">
+    //                     <button
+    //                     onClick={() => { toggleRecMode() }}
+    //                     className="ctl-btn"
+    //                     >EDIT</button>
+    //                 </div>
+    //             )
+    //         }
             
-        }
-    }
+    //     }
+    // }
     const renderFileUpload = () => {
         const openFileSelector = (e) => {
             e.preventDefault();
@@ -78,23 +79,24 @@ const Controls = (props) => {
     const renderSourceLoadUnload = () => {
         if(context.editMode && currentPad && !currentPad.source) return renderFileUpload();
         if(context.editMode && currentPad && currentPad.source) {
-            return <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD</button>
+            return <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD A LOOP</button>
         }
         if(context.editMode && currentPad && !currentPad.source) return renderFileUpload()
     }
-    const renderMidiControls = () => {
-        if(!context.midiEnabled) return
-        return <MidiControls />
-    }
+    // const renderMidiControls = () => {
+    //     if(!context.midiEnabled) return
+    //     return <MidiControls />
+    // }
     
     return (
         <div className="controls-wrapper">
-            <button 
-            className="ctl-btn" 
-            onClick={() => toggleEditMode()}>{props.editToggleText}</button>
+            <div 
+            onClick={() => toggleEditMode()}>{props.editToggleText}</div>
+
+            <p style={{fontFamily: 'Beary', fontSize:"2em"}}>
+                loop {currentPad? currentPad.id+1:""}
+            </p>
             {renderSourceLoadUnload()}
-            {renderRecButton()}
-            {renderMidiControls()}
         </div>
     )
 }

@@ -24,6 +24,7 @@ const Session = () =>{
         const midiNote = midiMap[item.id + 36].note;
         if(!context.editMode && source && source.buffer) backgroundColor = context.gridPadsArr[context.selectedPad].color;
         if(context.editMode && source && source.buffer) backgroundColor = Colors.green;
+
         return <Pad 
         midiNote={midiNote}
         key={item.id} 
@@ -31,10 +32,11 @@ const Session = () =>{
         name={item.name}
         backgroundColor={backgroundColor}
         />
+        
     }   
     
     const rendercontent = () => {
-        if(!context.editMode) return <div>{gridArr.map((item) => { return renderPad(item) })}</div>
+        if(!context.editMode) return <div style={{maxWidth: "700px",margin: "auto"}}>{gridArr.map((item) => { return renderPad(item) })}</div>
         return <PadEditor />
     }
     const testForTouchDevice = () => {
@@ -64,53 +66,32 @@ const Session = () =>{
             <Header title={"Session"} button={false}/>
 
             <div className="sessionContentTop">
+
                 <div className="sessionArt">
                     <img src={Placeholder} />
                 </div>
 
-                <div className="grid">
-                    <Hud />
-                    {rendercontent()}
-                </div>
-
-            </div>
-
-
-            <div className="sessionContentCenter">
-
-                <div className="sessionSpecs">
-                    <h3>
-                        Specs
-                    </h3>
-                    <p>
-                        version: 1.0.0
-                    </p>
-                    <p>
-                        tempo: 125bpm
-                    </p>
-                </div>
-
-            </div>
-                
-
-            <div className="sessionContentBottom">
                 <div className="sessionOptions">
-                    <div className="optionsWrapper">
-                        <h3>
-                            Options
+
+                    <div className="sessionSpecs">
+                        <h3 className="sessionTitle">
+                            ROCK ON
                         </h3>
                         <p>
-                            public
+                            version: 1.0.0
                         </p>
                         <p>
-                            allow commenting
+                            tempo: 125bpm
                         </p>
-                        <p>
-                            allow stem download
-                        </p>
+
                     </div>
 
-                    <div className="needsWrapper">
+                    <div className="optionsWrapper">
+                        <p>
+                        A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs.
+                        </p>
+                    </div>
+                    <div className="sessionNeedsWrapper">
                         <h3>
                             Needs
                         </h3>
@@ -124,8 +105,21 @@ const Session = () =>{
                             vocals
                         </p>
                     </div>
-                </div>
+
             </div>
+
+
+
+
+
+
+            </div>
+
+            <div className="grid">
+                <Hud />
+                {rendercontent()}
+            </div>
+           
 
         </div>
     )

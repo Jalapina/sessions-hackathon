@@ -34,7 +34,7 @@ export default (props) => {
             <select 
             onChange={(e) => {updatePadColor(e.currentTarget.selectedOptions[0].id)}}
             style={{backgroundColor: context.gridPadsArr[context.selectedPad].color, textAlign: "center"}}>
-                <option id="current" key="current" style={{backgroundColor: context.gridPadsArr[context.selectedPad].color}}>Current</option>
+                <option id="current" key="current" style={{backgroundColor: context.gridPadsArr[context.selectedPad].color}}>PICK A COLOR</option>
                 {renderColorItem()}
             </select>
         </div>

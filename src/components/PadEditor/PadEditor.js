@@ -29,8 +29,8 @@ export default () => {
     } else {
         return(
             <div className="editor-wrapper">
-                <EditorItemButtons cmd1="stop" value={context.gridPadsArr[context.selectedPad]} content="#"/>
-                <EditorItemButton cmd="play" content="►" />
+                <EditorItemButtons cmd1="stop" value={context.gridPadsArr[context.selectedPad]} content="STOP"/>
+                <EditorItemButton cmd="play" content="PLAY" />
                 <EditorItemRange label="start" value={selectedPad.sampleStart} max={max} step={0.001} />
                 <EditorItemRange label="end" value={selectedPad.sampleEnd} max={max} step={0.001} />
                 <EditorItemRange label="gain" value={context.gridPadsArr[context.selectedPad].currentGain} max={1} step={0.01} />

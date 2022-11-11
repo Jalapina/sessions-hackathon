@@ -1,62 +1,83 @@
-.sessionContentTop{
-    align-items: flex-start;
-}
-.sessionContentCenter{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
-.grid, .sessionSpecs{
+.sessionTitle{
+    font-size: 3em;
+    margin: initial;
+    padding: 0px 0px 20px 0px;
+}
+.optionsWrapper, .sessionSpecs{
+    width: 100%;
+    align-self: end;
+}
+.optionsWrapper p{
+    max-width: 850px;
+}
+.sessionSpecs p{
+    display: inline-block;
+    text-align: left;
+    width: 20%;
+    padding: 10px 0px 10px 0px;
+    margin: 2px;
+}   
+.grid{
     display: inline-block;
 }
-.sessionSpecs{
-    order: 1;
-    width: 25%;
-    height: 510px;
-    padding-left: 25px;
-}
 .grid{
-    width: 60%;
+    width: 100%;
     order: 2;
     text-align: right;
     padding-right: 25px;    
 }
-.sessionContentBottom{
-    flex-direction: row;
-    align-items: flex-end;
-}
-
-.sessionContentTop, .sessionContentBottom{
+.sessionContentTop{
+    /* align-items: center;     */
     padding: 20px;
     display: flex;
+    flex-flow: flex-start;
+    height: 450px;
 }
 .sessionArt img{
-    width: 40%;
+    width: 250px;
     min-width: 150px;
 }
-.sessionArt{
-    /* background: purple; */
+.sessionOptions{
     order: 2;
-    width: 45%;
+    width: 75%;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+/* .sessionArt img{
+    width: 250px;
+    min-width: 150px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+} */
+.sessionArt{
+    order: 1;
+    width: 25%;
 }
 .sessionAddLoop{
-    /* background: red; */
     order: 2;
     width: 50%;
     position: relative;
     text-align: center;
 }
-.sessionOptions{
-    /* background: forestgreen; */
-    order: 2;
-    width: 100%;
-    display: flex;
-    justify-items: center;
+.sessionNeedsWrapper p{
+    display: inline-block;
+    text-align: center;
+    width: 20%;
+    background: rgb(4, 3, 3);
+    padding: 8px;
+    margin: 2px;
 }
-
-.needsWrapper,.optionsWrapper{
-    width: 49%;
+.sessionNeedsWrapper{
+    order: 3;
+    align-self: center;
+    flex-grow: 4;
+    width: 100%;
 }
 
 .sessinoButtonWrapepr{
@@ -70,7 +91,7 @@
     .sessionSpecs{
         height: auto;
     }    
-    .sessionContentBottom,.sessionContentCenter{
+    .sessionOptions,.sessionSpecs{
         flex-direction: column;
     }
     .grid, .sessionSpecs{

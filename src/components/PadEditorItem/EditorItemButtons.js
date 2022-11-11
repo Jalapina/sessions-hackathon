@@ -12,7 +12,6 @@ let style = {
     border: `1px solid ${Colors.white}`,
     display: "grid",
     gridTemplateRows: "1fr",
-    gridTemplateColumns: "1fr 1fr",
     justifyContent: "center",
     margin: "1vh auto"
 }

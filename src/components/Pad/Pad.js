@@ -37,12 +37,13 @@ export default (props) => {
         background: currentPad.source ? currentPad.color: Colors.black ,
         color: Colors.white, 
         transition: "0.5s linear", 
+        width: ""
     }}
     onClick={() => {handleMouseClick(props.id)}}
     onDoubleClick={(e) => e.preventDefault()}
     onTouchStart={(e) => {handleTouchStart(props.id, e)}}
     onTouchEnd={(e) => {handleTouchEnd(props.id, e)}}
     >
-    <span className="pad-text">{props.midiNote}</span>
+        <span className="pad-text">{props.midiNote}</span>
     </div>
 }

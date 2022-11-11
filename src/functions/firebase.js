@@ -1,9 +1,11 @@
+import firebase from 'firebase/compat/app';
 import { initializeApp } from '@firebase/app';
 import { getAuth, browserSessionPersistence } from '@firebase/auth';
 import { connectFunctionsEmulator, getFunctions } from '@firebase/functions';
+import { getFirestore } from "@firebase/firestore";
 import { getMoralisAuth } from '@moralisweb3/client-firebase-auth-utils';
 
-export const app = initializeApp({
+const app = initializeApp({
   apiKey: "AIzaSyDmwhMPoJvTS99CCGtRw7x7LWovb9XxQs4",
   authDomain: "sessions-e4f78.firebaseapp.com",
   databaseURL: "https://sessions-e4f78-default-rtdb.firebaseio.com",
@@ -16,9 +18,8 @@ export const app = initializeApp({
 
 export const auth = getAuth(app);
 
-export const functions = getFunctions(app);
-
 export const moralisAuth = getMoralisAuth(app);
+export const database = getFirestore(app);
 
 export async function initFirebase() {
   // eslint-disable-next-line no-undef

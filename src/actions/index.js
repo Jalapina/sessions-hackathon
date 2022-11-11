@@ -56,11 +56,12 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
         let length = gridPadsArr[selectedPad].source.buffer.duration;    
 
         newSource.buffer = context.sources[padId].buffer;
-        gridPadsArr[padId].isPlaying = true;
         gridPadsArr[padId].source = newSource;
+
         if(context.selectedPad !== padId){
             context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
         }
+
         newSource.connect(context.gridPadsArr[padId].gainNode);
         newSource.detune.value = context.gridPadsArr[padId].detune;
         
@@ -77,9 +78,6 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
             context.gridPadsArr[padId].source = Players.player(gridPadsArr[padId].name);
         }
         
-        console.log("context____",context)        
-        
-        
         // Tone.Transport.scheduleRepeat((time) => {
             // use the callback time to schedule events
             let player = Players.player(gridPadsArr[padId].name);
@@ -94,7 +92,8 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
                 
             }, length).start(0);
             
-            context.gridPadsArr[padId].isLooping = loop
+            context.gridPadsArr[padId].isLooping = loop;
+            context.gridPadsArr[padId].isLoaded = true;
             Tone.Transport.start();
 
     } else {

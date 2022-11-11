@@ -4,14 +4,28 @@ import './Hud.css';
 import Colors from '../../Config/ColorScheme';
 import WaveformDisplay from '../WaveformDisplay/WaveformDisplay';
 import Controls from '../Controls/Controls';
+import icon from "./settingsIcon.png";
 
 export default () => {
     const context = useContext(Context);
-    let editToggleText = context.editMode ? '◀️' : '⚙️';
+    const currentPadId = context.selectedPad;
+    let isLoaded = false
+
+    if(context.gridPadsArr.length>0){
+        console.log(context)
+        isLoaded = context.gridPadsArr[currentPadId].source ? true : false;
+    }
+    console.log(context.gridPadsArr[currentPadId])
+    let editToggleMode = context.editMode ? '◀️' : <img style={{width:"65px"}} src={icon}/>;
+
     return(
         <div className="hud-wrapper" style={{textAlign:"left", color: Colors.white}}>
-            <WaveformDisplay />
-            <Controls editToggleText={editToggleText}/>
+
+            {isLoaded?(
+                <WaveformDisplay />     
+            ):""
+            }
+            <Controls editToggleText={editToggleMode}/>
             
         </div>
     )

@@ -15,7 +15,7 @@ const Login = () =>{
     const { user: loggedUser, status, error } = useAuthState();
     const [user, setUser] = useState("");
     const dispatch = useAuthDispatch();
-    console.log(loggedUser);
+
     const signInWithMetamask = async () => {
         doLogin(dispatch);
       }
@@ -23,26 +23,18 @@ const Login = () =>{
     return(
           <div className="loginContainer">
 
-            <div>
-            {loggedUser ? (
-              <div>
-                address: {loggedUser.displayName}, uid: {loggedUser.uid}
-              </div>
-            ) : (
               <div className="signInContainer">
-                <form>
+                {/* <form>
                   <input type="text" className="ghost-input" placeholder="username" required/> 
                   <input type="password" className="ghost-input" placeholder="Password" required/>
                   <input type="submit" value="SIGN IN" className="ghost-button"/>
          
-                </form>
-              <div className="metamaskSignIn">
-                <button onClick={signInWithMetamask}>MetaMask</button>
-              </div>
+                </form> */}
+                <div className="metamaskSignIn">
+                  <button onClick={signInWithMetamask}>MetaMask</button>
+                </div>
                 
               </div>
-            )}
-          </div>
         
         </div>
 
