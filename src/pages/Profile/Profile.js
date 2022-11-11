@@ -1,7 +1,6 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import "./profile.css"
-import ProfileSettings from '../../components/ProfileSettings/ProfileSettings'
 import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'
 
 
@@ -50,7 +49,6 @@ const profile = () =>{
                         </div>
                     </div>
                     <div className='componentArea'>
-                    {profileComponentDisplay === "settings" && <ProfileSettings />}
                     {profileComponentDisplay === "sessions" && <SessionsFeed />}
 
                     </div>
