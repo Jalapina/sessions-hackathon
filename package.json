@@ -23,6 +23,8 @@
     "moralis": "^2.7.1",
     "next-auth": "^4.16.4",
     "os-browserify": "^0.3.0",
+    "primeicons": "^6.0.1",
+    "primereact": "^8.7.2",
     "react": "^16.8.6",
     "react-app-rewired": "^2.2.1",
     "react-dom": "^16.8.6",

@@ -36,15 +36,16 @@
   }
 
   .profileButton {
-    margin: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     padding-left: 40px;
     padding-right: 40px;
     background-color: black;
     color: white;
   }
 
-  .editProfileArea {
+  .componentArea {
     width: 100%;
-    background-color: #72757e;
-    display: flex;
   }

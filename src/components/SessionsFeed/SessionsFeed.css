@@ -1,0 +1,10 @@
+.sessionsContainer {
+    position: relative;
+}
+
+.session {
+    width: 100%;
+    background-color: #72757e;
+    display: inline-block;
+    margin-bottom: 40px;
+}

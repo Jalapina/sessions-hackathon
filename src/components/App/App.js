@@ -14,6 +14,9 @@ import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from "../Auth/auth-context";
 
+import "primereact/resources/themes/md-dark-deeppurple/theme.css";
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 export default function App () {
     const [accountAddress, setAccountAddress] = useState();
