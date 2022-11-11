@@ -12,6 +12,9 @@ import Create from "../../pages/Create/Create"
 import Session from "../../pages/Session/Session"
 import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import "primereact/resources/themes/md-dark-deeppurple/theme.css";
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 export default function App () {
     

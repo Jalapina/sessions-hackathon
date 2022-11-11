@@ -10,7 +10,7 @@ import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'
 
 const profile = () =>{
     const profileComponents = ["sessions", "collabs", "comments", "settings"];
-    const [profileComponentDisplay, setProfileComponentDisplay] = useState("sessions");
+    const [profileComponentDisplay, setProfileComponentDisplay] = useState("sessions"); //setting sessions to be the deault component
     
     return(
         <div className="profile">

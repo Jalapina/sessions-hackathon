@@ -4,3 +4,11 @@
     background-color: #72757e;
     width: 100%;
 }
+
+.imageStyling {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid green;
+}
