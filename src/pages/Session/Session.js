@@ -6,6 +6,8 @@ import Colors from '../../Config/ColorScheme';
 import Hud from '../../components/Hud/Hud';
 import PadEditor from '../../components/PadEditor/PadEditor';
 import Pad from '../../components/Pad/Pad';
+import {updateSources} from '../../actions'
+import db from '../../functions/firebase';
 
 import Header from '../../components/Header/Header';
 import Placeholder from "./placeholder.png";
@@ -14,9 +16,51 @@ import createButton from "../../components/Header/plus-sign.png";
 import midiMap from '../../Config/midiMap';
 
 const Session = () =>{
-
+    const [session, setSession] = useState([]); //useState() hook, sets initial state to an empty array    
+    const [loops, setLoops] = useState(null); //useState() hook, sets initial state to an empty array    
     const context = useContext(Context);
     const gridArr = context.gridPadsArr;
+    let getLoops = loops ? true:false;
+
+        const getSessionData = async() => {
+    
+            const response = db.collection('session')
+            .onSnapshot(snapshot => {
+                  const sessions = snapshot.docs.map(doc => ({
+                      id: doc.id,
+                    ...doc.data(),
+                  }));
+
+                  const loop = sessions[0].stems[0].get().then(res => { 
+                    let data = res.data() 
+                    setLoops(data);
+        
+                })
+                .catch(err => console.error(err));
+   
+                    setSession(sessions[1]);
+                });
+
+                  
+
+                return () => unsubscribe();
+    
+        };
+
+    const setPads = () =>{
+
+        const padId = loops.padId
+        context.gridPadsArr[padId].source = loops.loop
+        updateSources(context,loops.loop);
+    }
+
+    useEffect(()=>{
+        if(getLoops && loops != null) setPads();
+    },[getLoops,loops]);
+
+    useEffect(()=>{
+    getSessionData();
+    },[])
 
     const renderPad = (item) => {
         let backgroundColor = Colors.black
@@ -63,7 +107,7 @@ const Session = () =>{
     
     return(
         <div className="sessionComponent">
-            <Header title={"Session"} button={false}/>
+            <Header title={session? session.artist:"Loading..."} button={false}/>
 
             <div className="sessionContentTop">
 
@@ -75,21 +119,27 @@ const Session = () =>{
 
                     <div className="sessionSpecs">
                         <h3 className="sessionTitle">
-                            ROCK ON
+                            {session? session.name:"Loading..."}
                         </h3>
                         <p>
                             version: 1.0.0
                         </p>
                         <p>
-                            tempo: 125bpm
+                            tempo: {session? session.tempo:"loading..."}bpm
                         </p>
 
                     </div>
 
                     <div className="optionsWrapper">
+                    {session.description?(
+                        <p>
+                            {session.description}
+                        </p>
+                    ):
                         <p>
                         A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs.
                         </p>
+                    }
                     </div>
                     <div className="sessionNeedsWrapper">
                         <h3>

@@ -10,7 +10,6 @@ let style = {
     color: Colors.red, 
     width: "90%", 
     textAlign: "center",
-    border: `1px solid ${Colors.white}`,
     display: "grid",
     gridTemplateRows: "1fr",
     gridTemplateColumns: "1fr",

@@ -4,10 +4,34 @@ import {updateSources} from '../../actions'
 import './Controls.css';
 import {Context} from '../../contexts/SamplerContext';
 import MidiControls from '../MidiControls/MidiControls';
+import db from '../../functions/firebase';
 
 const Controls = (props) => {
     const context = useContext(Context);
     let currentPad = context.gridPadsArr[context.selectedPad];
+    // const [session, setSession] = useState(); 
+    
+    // const CreateCollab = () => {
+        
+    //     const response = db.collection('collaboration')
+    //     .add({
+    //         name:  sessionState.sessionName,
+    //         address: sessionState.sessionArtistName,
+    //         address:  userAddress,
+    //         description: sessionState.sessionDescription,
+    //         needs: sessionNeed,
+    //         genre: sessionState.sessionGenre
+    //         })
+    //         .then(() =>
+    //             setSessionState(initialState)
+
+    //         );
+
+    // };
+        
+    // useEffect(()=>{
+    // getSessionData();
+    // },[])
 
     const validateSelectedFile = (file) => {
         if(!file) return console.log("No file...")
@@ -62,11 +86,12 @@ const Controls = (props) => {
             let fileSelector = document.getElementById("fileSelector");
             fileSelector.click();
         }
+
         return (
             <div className="file-selector-wrapper">
                 <button 
                 className="ctl-btn" 
-                onClick={(e) => openFileSelector(e)}>LOAD</button>
+                onClick={(e) => openFileSelector(e)}>LOAD A LOOP</button>
                 <input 
                 type="file" 
                 style={{display:"none"}}
@@ -77,9 +102,9 @@ const Controls = (props) => {
         )
     }
     const renderSourceLoadUnload = () => {
-        if(context.editMode && currentPad && !currentPad.source) return renderFileUpload();
-        if(context.editMode && currentPad && currentPad.source) {
-            return <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD A LOOP</button>
+        if(currentPad && !currentPad.source) return renderFileUpload();
+        if(currentPad && currentPad.source) {
+            return <div><div onClick={() => toggleEditMode()}>{props.editToggleText}</div> <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD LOOP</button></div>
         }
         if(context.editMode && currentPad && !currentPad.source) return renderFileUpload()
     }
@@ -90,13 +115,13 @@ const Controls = (props) => {
     
     return (
         <div className="controls-wrapper">
-            <div 
-            onClick={() => toggleEditMode()}>{props.editToggleText}</div>
 
             <p style={{fontFamily: 'Beary', fontSize:"2em"}}>
                 loop {currentPad? currentPad.id+1:""}
             </p>
+
             {renderSourceLoadUnload()}
+
         </div>
     )
 }

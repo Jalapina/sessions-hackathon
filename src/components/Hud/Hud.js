@@ -12,12 +12,11 @@ export default () => {
     let isLoaded = false
 
     if(context.gridPadsArr.length>0){
-        console.log(context)
         isLoaded = context.gridPadsArr[currentPadId].source ? true : false;
     }
-    console.log(context.gridPadsArr[currentPadId])
-    let editToggleMode = context.editMode ? '◀️' : <img style={{width:"65px"}} src={icon}/>;
 
+    let editToggleMode = context.editMode ? '◀️' : <img style={{width:"65px"}} src={icon}/>;
+    
     return(
         <div className="hud-wrapper" style={{textAlign:"left", color: Colors.white}}>
 

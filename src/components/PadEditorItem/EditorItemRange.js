@@ -9,7 +9,6 @@ let style = {
     color: Colors.white, 
     width: "90%", 
     textAlign: "center",
-    border: `1px solid ${Colors.white}`,
     display: "grid",
     gridTemplateRows: "1fr 1fr",
     gridTemplateColumns: "90%",
