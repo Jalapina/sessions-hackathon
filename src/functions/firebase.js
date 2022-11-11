@@ -1,11 +1,12 @@
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 import { initializeApp } from '@firebase/app';
 import { getAuth, browserSessionPersistence } from '@firebase/auth';
 import { connectFunctionsEmulator, getFunctions } from '@firebase/functions';
-import { getFirestore } from "@firebase/firestore";
 import { getMoralisAuth } from '@moralisweb3/client-firebase-auth-utils';
 
-const app = initializeApp({
+
+const firebaseConfig = {
   apiKey: "AIzaSyDmwhMPoJvTS99CCGtRw7x7LWovb9XxQs4",
   authDomain: "sessions-e4f78.firebaseapp.com",
   databaseURL: "https://sessions-e4f78-default-rtdb.firebaseio.com",
@@ -14,18 +15,17 @@ const app = initializeApp({
   messagingSenderId: "1078318421930",
   appId: "1:1078318421930:web:df1e929ed176d4c5a77dd3",
   measurementId: "G-LRS6NK8TER"
-});
+};
 
-export const auth = getAuth(app);
-
-export const moralisAuth = getMoralisAuth(app);
-export const database = getFirestore(app);
-
-export async function initFirebase() {
-  // eslint-disable-next-line no-undef
-  if (window.location.hostname === 'localhost') {
-    connectFunctionsEmulator(functions, 'localhost', 3000);
-  }
-
-  await auth.setPersistence(browserSessionPersistence);
+let firebaseApp = null;
+if (typeof window !== `undefined`) {
+  firebaseApp = firebase.initializeApp(firebaseConfig);
 }
+
+const db = firebase.firestore();
+
+export default db;
+
+export const auth = getAuth(firebaseApp);
+
+export const moralisAuth = getMoralisAuth(firebaseApp);

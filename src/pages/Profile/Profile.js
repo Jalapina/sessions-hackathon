@@ -1,37 +1,23 @@
-// import { db } from '../../functions/firebase.js';
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
+import db from '../../functions/firebase';
 
 import "./profile.css"
 
 const profile = () =>{
     const [users, setUsers] = useState([]); //useState() hook, sets initial state to an empty array    
 
-    // const getUserData = () => {
-    //     console.log(database)
-    //     // console.log(collection)
+    const getUserData = async() => {
 
-    //     const unsubscribe = database.firestore.collection("users")
-    //     .onSnapshot(snapshot => {
+        const response=db.collection('session');
+        const data= await response.get();        
+        console.log(data)
 
-    //           const listItems = snapshot.docs.map(doc => ({
-    //               id: doc.id,
-    //             ...doc.data(),
-    //           }));
+      };
 
-    //           setUsers(listItems);
-
-    //         });
-    //         console.log(users)
-    //         return () => unsubscribe();
-
-    //     return setUsers;
-
-    //   };
-
-    //   useEffect(()=>{
-    //     getUserData();
-    //   },[])
+      useEffect(()=>{
+        getUserData();
+      },[])
     
     return(
         <div className="profile">
