@@ -8,9 +8,12 @@ import Register from "../../pages/Register/Register";
 import Login from "../../pages/Login/Login";
 import Create from "../../pages/Create/Create";
 import { useAuthState } from "../../components/Auth/auth-context";
+import { useCookies } from 'react-cookie';
 
 export default ({title,button}) => {
+    
     const modalRef = useRef
+    const [cookies, setCookie] = useCookies(['user']);    
     const [isOpen, setIsOpen] = useState(false);
     const [loginOrSignIn, setLoginOrSignIn]=useState(false);
     const { user: loggedUser, status, error } = useAuthState();
@@ -28,21 +31,13 @@ export default ({title,button}) => {
             <Modal
                 isOpen={isOpen}
                 onHide={() => setIsOpen(!isOpen)}
-                headerCaption={loggedUser? "Create Session":"Sing In"}
+                headerCaption={cookies["user"]== undefined? "Sing In":"Create Session"}
             >
-            {loggedUser != null ?(
-                    <div>
-                        <Create/>
-                    </div>
-                ):(
-                    <div>
-                        {!loginOrSignIn ? (
-                        <Login/>
-                    ):(
-                        <Register/>
-                        )
-                        }
-                    </div>
+
+            {cookies["user"] == undefined?(
+                <Login/>
+            ):(
+                <Create/>
                 )
             }
                 

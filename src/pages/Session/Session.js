@@ -51,7 +51,7 @@ const Session = () =>{
 
         const padId = loops.padId
         context.gridPadsArr[padId].source = loops.loop
-        updateSources(context,loops.loop);
+        // updateSources(context,loops.loop);
     }
 
     useEffect(()=>{

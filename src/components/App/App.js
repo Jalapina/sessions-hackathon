@@ -11,6 +11,7 @@ import Session from "../../pages/Session/Session"
 import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from "../Auth/auth-context";
+import { CookiesProvider } from 'react-cookie';
 
 import "primereact/resources/themes/md-dark-deeppurple/theme.css";
 import 'primereact/resources/primereact.min.css';
@@ -24,20 +25,24 @@ export default function App () {
     const renderAppContent = () => {
         if(!context.ctx) return <StartScreen />
         return (
-            <AuthProvider>
-            <BrowserRouter>
+            <CookiesProvider>
                 
-                <div className="app-wrapper">
-                    <Routes>
-                        <Route path="/" element={<SamplerGrid />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/session" element={<Session />} />
-                    </Routes>
+                <AuthProvider>
+                
+                <BrowserRouter>
+                    
+                    <div className="app-wrapper">
+                        <Routes>
+                            <Route path="/" element={<SamplerGrid />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/session/:sessionId" element={<Session />} />
+                        </Routes>
 
-                </div>
+                    </div>
 
-            </BrowserRouter>
-        </AuthProvider>
+                    </BrowserRouter>
+                </AuthProvider>
+            </CookiesProvider>
         )
     }
 

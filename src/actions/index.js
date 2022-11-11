@@ -1,6 +1,5 @@
 import * as types from '../reducers/types'
 import Colors from '../Config/ColorScheme';
-import *  as createBuffer from 'audio-buffer-from';
 import * as Tone from 'tone'
 
 export const setCTX = async (context) => {
@@ -14,14 +13,13 @@ export const createAnalyser = (context, ctx) =>{
     context.dispatch({type: types.CREATE_ANALYSER, payload: {ctx, analyser}})
 }
 
-export const updateSources = (context, file) => {
+
+  export const updateSources = (context, file) => {
     let reader = new FileReader();
-    const buffer = file;
-    
     reader.onload = e => {
         context.ctx.decodeAudioData(e.target.result, (buffer) => {
             let sources = {...context.sources}
-            // let name = file.name.split('.')[0]
+            let name = file.name.split('.')[0]
             let waveformData = buffer.getChannelData(0)
             sources[context.selectedPad] = {buffer: buffer, name, isPlaying: false, waveformData}
             let gridPadsArr = context.gridPadsArr;
@@ -35,78 +33,194 @@ export const updateSources = (context, file) => {
             context.dispatch({type: types.UPDATE_SOURCES, payload: {sources, gridPadsArr}});
         })
     }
-    reader.readAsArrayBuffer(buffer);
+    reader.readAsArrayBuffer(file);
 }
 
 
 
+// export const updateSources = (context, file) => {
+//     if (file) return 
+//     // let fileSource = GetURI(file)
+//     console.log(file)
+//     let reader = new FileReader();
+//     const buffer = file;
+//     reader.onload = e => {
+//         context.ctx.decodeAudioData(e.target.result, (buffer) => {
+//             let sources = {...context.sources}
+//             // let name = file.name.split('.')[0]
+//             let waveformData = buffer.getChannelData(0)
+//             sources[context.selectedPad] = {buffer: buffer, name, isPlaying: false, waveformData}
+//             let gridPadsArr = context.gridPadsArr;
+//             let newSource = context.ctx.createBufferSource();
+//             newSource.buffer = buffer;
+//             gridPadsArr[context.selectedPad].source = newSource;
+//             gridPadsArr[context.selectedPad].source.start()
+//             gridPadsArr[context.selectedPad].sampleEnd = buffer.duration;
+//             gridPadsArr[context.selectedPad].gainNode = context.ctx.createGain();
+//             gridPadsArr[context.selectedPad].gainNode.connect(context.ctx.destination);
+//             context.dispatch({type: types.UPDATE_SOURCES, payload: {sources, gridPadsArr}});
+//         })
+//     }
+//     reader.readAsArrayBuffer(buffer);
+// }
 
 export const handlePadTrigger = (context, padId, velocity = 127) => {
-
-    const selectedPad = padId
-    let selectedSource =  context.sources[padId];
-    let gridPadsArr = context.gridPadsArr;    
-    // const osc = new Tone.Oscillator().toDestination();
-
-    if(gridPadsArr[selectedPad]){
-        
-        // if(context.gridPadsArr[padId].source && context.Players && context[padId].isPlaying){
-        //     context.Players.player(gridPadsArr[selectedPad].name).stop()
-        //     gridPadsArr[padId].isPlaying = true;
-        // }
-        
-        // let newSource = createBuffer( gridPadsArr[selectedPad].source, 'uint8');
-        // const buffer = new Tone.ToneAudioBuffer("https://tonejs.github.io/audio/casio/A1.mp3", () => {
-            // console.log("loaded");
-        // });
-        // let length = gridPadsArr[selectedPad].source.buffer.duration;    
-
-        // gridPadsArr[padId].source = newSource;
-
-        // if(context.selectedPad !== padId){
-        //     context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
-        // }
-
-        // newSource.connect(context.gridPadsArr[padId].gainNode);
-        // newSource.detune.value = context.gridPadsArr[padId].detune;
-        
-        // let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
-        
-        // context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
-        // context.gridPadsArr[padId].source.loop = true
-        let Players = new Tone.Players({
-            [gridPadsArr[padId].name]:newSource
-        }).toDestination();
-        
-        if(Players){
-            context.gridPadsArr[padId].source = Players.player(gridPadsArr[padId].name);
-        }
-        
-        // Tone.Transport.scheduleRepeat((time) => {
-            // use the callback time to schedule events
-            // let player = Players.player(gridPadsArr[padId].name);
-            // player.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart )
-            // }, length);
-            // transport must be started before it starts invoking events
-            // var loop = new Tone.Loop(function(length){
-            //     //triggered every eighth note. 
-            let player = Players.player(gridPadsArr[padId].name).start();
-            player.loop = true;            
-            player.autostart = true;
-            player.chain(Tone.Destination);
-            // },"4n").start(0);
-
+    
+        const clock = new WAAClock(context.ctx);
+        clock.start();
+    
+        let selectedSource =  context.sources[padId];
+        let selectedPad = padId
+        if(selectedSource && selectedSource.buffer){
+            if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
+                context.gridPadsArr[padId].source.stop();
+            }
+            let gridPadsArr = context.gridPadsArr;
+            let newSource = context.ctx.createBufferSource();
+            newSource.buffer = context.sources[padId].buffer;
+            gridPadsArr[padId].source = newSource;
+            gridPadsArr[padId].isPlaying = true;
+            if(context.selectedPad !== padId){
+                context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
+            }
+            newSource.connect(context.gridPadsArr[padId].gainNode);
+            newSource.detune.value = context.gridPadsArr[padId].detune;
+    
+            let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
+            let length = gridPadsArr[padId].source.buffer.duration;
+    
+            // console.log(context.ctx.decodeAudioData(gridPadsArr[padId].source.buffer));
+            // console.log(gridPadsArr[padId].source);
             
-            context.gridPadsArr[padId].isLooping = true;
-            context.gridPadsArr[padId].isLoaded = true;
+            context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
+            context.gridPadsArr[padId].source.loop = true
+            context.gridPadsArr[padId].source.loopStart = context.gridPadsArr[padId].sampleStart
+            context.gridPadsArr[padId].source.loopEnd = context.gridPadsArr[padId].sampleEnd
+            
+            console.log(gridPadsArr[padId]);
+    
+    
+            let Players = new Tone.Players({
+                [gridPadsArr[padId].name]:gridPadsArr[padId].source.buffer
+            }).toDestination();
+    
+            let notation = Tone.Time(length).toNotation()
+    
+            var loop = new Tone.Loop(function(length){
+                //triggered every eighth note. 
+                Players.player(gridPadsArr[padId].name).start();
+                
+            }, length).start(0);
+    
+    
+            Tone.Transport.start();
+    
+    
+    
+    
+    
+    
+            // const event = clock.setTimeout(function() { 
+            // context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart);
+            
+            // const time = Tone.Time(length).toSeconds();
+            // const time = Tone.Time(length).toTicks();
+            // const time = Tone.Time(length).toNotation();
+            // let time = Tone.Time(length).toSamples();
+            // let time = Tone.Time(length).toBarsBeatsSixteenths();
+            // const node = new Tone.Gain();
+            // console.log(node.numberOfInputs);
+    
+            // console.log(time);
+    
+            // const loop = new Tone.Loop((time) => {
+            //     // triggered every eighth note.
+            //     const player = new Tone.Player(newSource.buffer).toDestination();
+            //     Tone.loaded().then(() => {
+                    
+            //         player.start();
+        
+            //     });
+    
+            // }, "0n").start(0);
+            
             // Tone.Transport.start();
-            
+            // }, 2)
+            // context.gridPadsArr[padId].source.stop(context.ctx.currentTime + context.gridPadsArr[padId].sampleEnd);
     } else {
         if(context.selectedPad !== padId){
             context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {selectedPad}});
         }
     }
 }
+
+
+
+// export const handlePadTrigger = (context, padId, velocity = 127) => {
+
+//     const selectedPad = padId
+//     let selectedSource =  context.sources[padId];
+//     let gridPadsArr = context.gridPadsArr;    
+//     // const osc = new Tone.Oscillator().toDestination();
+
+//     if(gridPadsArr[selectedPad]){
+        
+//         // if(context.gridPadsArr[padId].source && context.Players && context[padId].isPlaying){
+//         //     context.Players.player(gridPadsArr[selectedPad].name).stop()
+//         //     gridPadsArr[padId].isPlaying = true;
+//         // }
+        
+//         // const buffer = new Tone.ToneAudioBuffer("https://tonejs.github.io/audio/casio/A1.mp3", () => {
+//             // console.log("loaded");
+//         // });
+//         // let length = gridPadsArr[selectedPad].source.buffer.duration;    
+
+//         // gridPadsArr[padId].source = newSource;
+
+//         // if(context.selectedPad !== padId){
+//         //     context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
+//         // }
+
+//         // newSource.connect(context.gridPadsArr[padId].gainNode);
+//         // newSource.detune.value = context.gridPadsArr[padId].detune;
+        
+//         // let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
+        
+//         // context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
+//         // context.gridPadsArr[padId].source.loop = true
+//         let Players = new Tone.Players({
+//             [gridPadsArr[padId].name]:newSource
+//         }).toDestination();
+        
+//         if(Players){
+//             context.gridPadsArr[padId].source = Players.player(gridPadsArr[padId].name);
+//         }
+        
+//         // Tone.Transport.scheduleRepeat((time) => {
+//             // use the callback time to schedule events
+//             // let player = Players.player(gridPadsArr[padId].name);
+//             // player.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart )
+//             // }, length);
+//             // transport must be started before it starts invoking events
+//             // var loop = new Tone.Loop(function(length){
+//             //     //triggered every eighth note. 
+//             let player = Players.player(gridPadsArr[padId].name).start();
+//             player.loop = true;            
+//             player.autostart = true;
+//             player.chain(Tone.Destination);
+//             // },"4n").start(0);
+
+            
+//             context.gridPadsArr[padId].isLooping = true;
+//             context.gridPadsArr[padId].isLoaded = true;
+//             // Tone.Transport.start();
+            
+//     } else {
+//         if(context.selectedPad !== padId){
+//             context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {selectedPad}});
+//         }
+//     }
+// }
 
 export const handlePadStop = (padId, gridPadsArr,context) => {
     console.log(context)

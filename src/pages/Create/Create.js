@@ -1,18 +1,18 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
+import { useNavigate } from "react-router-dom";
 import db from '../../functions/firebase';
 
 import "../Register/register.css"
 
 const Create = () =>{
+    let navigate = useNavigate();    
     let initialState = {sessionName:"", sessionArtistName:"", sessionNeeds:[{instrument:""}], sessionDescription:"", sessionGenre:""};
     let sessionNeedsIndex = 0;
     const [sessionState, setSessionState] = useState(initialState);
     const [sessionNeed, setSessionNeed] = useState('');
     
     const userAddress = null;
-    console.log(sessionState)
-
     const CreateSession = e => {
 
         e.preventDefault();   
@@ -25,9 +25,22 @@ const Create = () =>{
             needs: sessionNeed,
             genre: sessionState.sessionGenre
             })
-            .then(() =>
-             setSessionState(initialState)
+            .then(data =>{
+                console.log(data.id)
+                // const id = sessions[0].stems[0].get().then(res => { 
+                //     let data = res.data()
+                //     setLoops(data);
+        
+                // })
+                // .catch(err => console.error(err));
+   
+                //     setSession(sessions[1]);
+                // });
 
+                setSessionState(initialState);
+                // navigate.push(`/session/${newInvoice.id}`);
+                navigate(`/session/${data.id}`);
+                }
             );
 
     };

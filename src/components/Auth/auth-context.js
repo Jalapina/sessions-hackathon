@@ -70,11 +70,12 @@ async function handler(req, res) {
     }
 }
 
-async function doLogin(dispatch) {
+async function doLogin(dispatch,setCookie) {
+  let result
   try {
     dispatch({ status: "pending" });
 
-    const result = await signInWithMoralisByEvm(moralisAuth);
+    result = await signInWithMoralisByEvm(moralisAuth);
     dispatch({
       status: "resolved",
       user: result.credentials.user,
@@ -83,6 +84,8 @@ async function doLogin(dispatch) {
   } catch (error) {
     dispatch({ status: "rejected", error });
   }
+
+
 }
 
 function doLogout(dispatch) {

@@ -5,10 +5,6 @@ import db from '../../functions/firebase';
 import "./profile.css"
 import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'
 
-
-
-
-
 const profile = () =>{
     const [users, setUsers] = useState([]); //useState() hook, sets initial state to an empty array    
 
@@ -52,29 +48,6 @@ const profile = () =>{
                     <div className='bio'>
                         Welcome to the website. If you're here, you're likely looking to find random words. Random Word Generator is the perfect tool to help you do this. While this tool isn't a word creator, it is a word generator that will generate random words for a variety of activities or uses. 
                     </div>
-                    <div className='profileOptions'>
-                        <div 
-                            className='btn-group'
-                            role="group"
-                        >
-                            {profileComponents.map(profileComponent => (
-                            <button
-                                    type="button"
-                                    key={profileComponent}
-                                    className={"btn profileButton"}
-                                    onClick={() => setProfileComponentDisplay(profileComponent)}
-                                >
-                                    {profileComponent}
-                            </button> 
-                            ))}
-                            
-                        </div>
-                    </div>
-                    <div className='componentArea'>
-                    {profileComponentDisplay === "sessions" && <SessionsFeed />}
-
-                    </div>
-
                     
                 </div>
             </div>
