@@ -1,0 +1,104 @@
+.label {
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-weight: bold;
+  white-space: nowrap;
+  display: inline;
+}
+
+.label.label-default {
+  background-color: var(--neutral-background);
+  color: white;
+}
+
+.label.label-editable-expandable a.toggle {
+  cursor: pointer;
+  margin-right: 5px;
+  padding-right: 5px;
+}
+
+.label.label-editable-expandable a.toggle.expanded i {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.label.label-info {
+  background-color: var(--info-5);
+  color: var(--info-10);
+}
+
+.label.label-success {
+  background-color: var(--success-5);
+  color: var(--success-10);
+}
+
+.label.label-danger {
+  color: var(--danger-10);
+  background-color: var(--danger-5);
+}
+
+.card {
+  padding: 15px;
+  border-radius: 3px;
+}
+
+.alert {
+  padding: 15px;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.alert.slidable, .card.slidable {
+  padding: 0 !important;
+}
+
+.alert.slidable > *, .card.slidable > * {
+  padding: 15px;
+}
+
+.alert.slidable > *.card-slim, .alert.slidable > *.alert-slim, .card.slidable > *.card-slim, .card.slidable > *.alert-slim {
+  padding: 10px;
+}
+
+.alert.slidable > *.card-slimmer, .alert.slidable > *.alert-slimmer, .card.slidable > *.card-slimmer, .card.slidable > *.alert-slimmer {
+  padding: 5px;
+}
+
+.alert.alert-warning, .alert.card-warning, .card.alert-warning, .card.card-warning {
+  background-color: var(--warning-9);
+  border: 1px solid var(--warning-8);
+  color: var(--warning-1);
+}
+
+.alert.alert-info, .alert.card-info, .card.alert-info, .card.card-info {
+  background-color: var(--info-9);
+  border: 1px solid var(--info-8);
+  color: var(--info-1);
+}
+
+.alert.alert-danger, .alert.card-danger, .card.alert-danger, .card.card-danger {
+  background-color: var(--danger-9);
+  border: 1px solid var(--danger-8);
+  color: var(--danger-1);
+}
+
+.alert.alert-success, .alert.card-success, .card.alert-success, .card.card-success {
+  background-color: var(--success-9);
+  border: 1px solid var(--success-8);
+  color: var(--success-1);
+}
+
+.alert.alert-slim, .alert.card-slim, .card.alert-slim, .card.card-slim {
+  padding: 10px;
+}
+
+.alert.alert-slimmer, .alert.card-slimmer, .card.alert-slimmer, .card.card-slimmer {
+  padding: 5px;
+}
+/*# sourceMappingURL=alert-label.css.map */

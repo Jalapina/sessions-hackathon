@@ -5,7 +5,7 @@ import keyCTRL from '../../Config/keyboardControls';
 import SamplerGrid from '../SamplerGrid/SamplerGrid';
 import StartScreen from '../StartScreen/StartScreen';
 import './App.css';
-import Profile from "../../pages/Profile/Profile"
+import ProfileEditor from "../../pages/ProfileEditor/ProfileEditor"
 import Create from "../../pages/Create/Create"
 import Session from "../../pages/Session/Session"
 import Modal from "../Modal/Modal"
@@ -34,7 +34,7 @@ export default function App () {
                     <div className="app-wrapper">
                         <Routes>
                             <Route path="/" element={<SamplerGrid />} />
-                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/profile" element={<ProfileEditor />} />
                             <Route path="/session/:sessionId" element={<Session />} />
                         </Routes>
 

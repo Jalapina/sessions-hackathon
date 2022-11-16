@@ -2,7 +2,7 @@ import React, {useState,useEffect,useContext,useRef,Fragment} from 'react';
 import { signInWithMoralis as signInWithMoralisByEvm } from '@moralisweb3/client-firebase-evm-auth';
 import Header from '../../components/Header/Header';
 import "../Register/register.css"
-import { httpsCallable } from '@firebase/functions';
+// import { httpsCallable } from '@firebase/functions';
 // import { User } from '@firebase/auth';
 import { auth, functions, moralisAuth } from '../../functions/firebase.js';
 import WalletConnectProvider from '@walletconnect/web3-provider';

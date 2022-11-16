@@ -5,7 +5,7 @@ import db from '../../functions/firebase';
 import "./profile.css"
 import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'
 
-const profile = () =>{
+const ProfileEditor = () =>{
     const [users, setUsers] = useState([]); //useState() hook, sets initial state to an empty array    
 
     const getUserData = async() => {
@@ -17,14 +17,14 @@ const profile = () =>{
                 ...doc.data(),
               }));
               
-              setUsers(sessions)
+              setUsers(sessions);
+
             });
             return () => unsubscribe();
 
         console.log(users)
     };
     
-    console.log(users)
       useEffect(()=>{
         getUserData();
       },[])
@@ -57,4 +57,4 @@ const profile = () =>{
 }
     
 
-export default profile
+export default ProfileEditor

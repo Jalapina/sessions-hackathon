@@ -21,10 +21,10 @@ export default () => {
             <div>
                 <div className="start-info">
                     <p><strong>LOAD:</strong> WAV/MP3 files</p>
-                    <p><strong>RECORD:</strong> from default input</p>
                 </div>
                 <button 
                 className="btn"
+                style={{color:"#fff"}}
                 onClick={() => { setCTX(context)}}
                 >START</button>
             </div>
@@ -37,11 +37,10 @@ export default () => {
         return null
     }
     return (
-        <div className="start-wrapper" style={{backgroundColor: Colors.blue, color: Colors.black}}>
+        <div className="start-wrapper" style={{backgroundColor: "#fff", color: Colors.black,position:"absolute", width:"250px", height:"250px",left:"0",top:"0",bottom:"0",right:"0",margin:"auto"}}>
         <div className="content-container">
-            <div style={{backgroundColor: Colors.white, padding: "1vh 2vw"}}>
-            <h1>REACT SAMPLER <br/> with Web Audio API</h1>
-            {renderInstallButton()}
+            <div>
+            <h1>SESSIONS</h1>
             {displayContent()}
             </div>
         </div>            

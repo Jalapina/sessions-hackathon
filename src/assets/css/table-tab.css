@@ -1,0 +1,82 @@
+.table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+.table.striped tr:nth-child(even) {
+  background-color: var(--primary-10);
+}
+
+.table tr:hover {
+  background-color: var(--primary-10);
+}
+
+.table td {
+  font-size: 14px;
+  vertical-align: top;
+  padding: 5px;
+  border-top: 1px solid var(--neutral-border);
+}
+
+.table th {
+  font-size: 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--primary-8);
+}
+
+.table td.min-wdith {
+  width: 1px;
+  white-space: nowrap;
+}
+
+.table.no-padding-top > thead > tr > th {
+  padding-top: 0;
+}
+
+/* ----------------------------------------------------------------------------- */
+.tab-headers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid var(--primary-9);
+}
+
+.tab-header {
+  padding: 5px 10px 5px 10px;
+}
+
+.tab-header.active {
+  font-weight: bold;
+  border-bottom: 1px solid var(--primary-9);
+  background-color: var(--primary-10);
+}
+
+.tab-header.active a, .tab-header.disabled a {
+  cursor: default;
+}
+
+.tab-header.disabled a {
+  color: var(--neutral-lighter-text);
+}
+
+.tab-header:not(.active):not(.disabled):hover {
+  cursor: pointer;
+  background-color: var(--neutral-10);
+}
+
+.tab-content .tab-pane:not(.active) {
+  display: none;
+}
+
+.tab-content .tab-pane > * {
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+@media (max-width: 800px) {
+  .tab-content .tab-pane > * {
+    margin-left: 0;
+  }
+}
+/*# sourceMappingURL=table-tab.css.map */

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import Header from '../Header/Header';
 
-import Home from '../../pages/Home';
+import Home from '../../pages/Home/Home';
 import midiMap from '../../Config/midiMap';
 import './SamplerGrid.css';
 import cryptoLogosPolygon from "./cryptoLogosPolygon.png"

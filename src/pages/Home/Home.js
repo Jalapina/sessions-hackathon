@@ -1,12 +1,35 @@
 import React, {useState,useEffect,useRef} from 'react';
-import "./home.css";
-import record from "./record.svg";
+import TextTransition, { presets } from "react-text-transition";
+import "./Home.css";
+import record from "../record.svg";
+import padIntro from "../padIntro.png";
+import soundwave from "../sound-wave.png";
+import pad from "../pad.png";
 import PurpleArrow from "./purple-arrow.png";
 import PinkArrow from "./pink-arrow.png";
 import GreenArrow from "./green-arrow.png";
 
 
 const Home = () =>{
+
+    const TEXTS = [
+        "Collaborate",
+        "CREATE",
+        "INOVATE",
+        "LISTEN"
+      ];
+
+    const [index, setIndex] = useState(0);
+      
+    useEffect(() => {
+        const intervalId = setInterval(() =>
+          setIndex(index => index + 1),
+          3000 // every 3 seconds
+        );
+        return () => clearTimeout(intervalId);
+      }, []);
+    
+      
     // const elts = {
     //     text1: document.getElementById("text1"),
     //     text2: document.getElementById("text2")
@@ -125,32 +148,56 @@ const Home = () =>{
                         </div>
                         <img className="arrow purple" src={PurpleArrow}/>
 
-                        <img className="record" src={record}/>
+                    </div>
+                    
+                    <div className="padIntroContainer">
+                        <img className="record" src={padIntro}/>
                     </div>
 
                 </div>
 
                 <div className="element right">
+                    <div className="textAnimation">
                     <h1>
-                        Collaborate
+                        <TextTransition springConfig={presets.wobbly}>
+                            
+                            {TEXTS[index % TEXTS.length]}
+
+                        </TextTransition>
                     </h1>
-                    {/* <div id="container">
-                        <div ref={text1} className="text1"></div>
-                        <div ref={text2} className="text2"></div>
-                    </div> */}
+                    </div>
+
 
                 </div>
 
             </div>
 
-            <div className="about">]
-                <h2>WELCOME TO SESSIONS</h2>
-                <p>
-                    Looking for free music loops, acapellas and vocals, want to hook up with like minded musicians from around the world or just looking to get some feedback on your music.
-                    Well, you came to the right place. We have 1000s of free loops and other audio resources to keep you making music.
-                </p>
+            <div className="about">
+                <div className="aboutTextHomeContainer">
+                    <h2>Find that sound in your head</h2>
+                    <p>
+                        Looking for free music loops, acapellas and vocals, want to hook up with like minded musicians from around the world or just looking to get some feedback on your music.
+                        Well, you came to the right place. We have 1000s of free loops and other audio resources to keep you making music.
+                    </p>
+                </div>
 
-                WAV/MP3
+                <div className="imageHomeContainer">
+                    <img src={soundwave}/>
+                </div>
+            </div>
+            <div className="about">
+            <div className="imageHomeContainer">
+                    <img src={pad}/>
+                </div>
+                <div style={{padding:"0px 0px 0px 20px"}} className="aboutTextHomeContainer">
+                    <h2>Find that sound in your head</h2>
+                    <p>
+                        Looking for free music loops, acapellas and vocals, want to hook up with like minded musicians from around the world or just looking to get some feedback on your music.
+                        Well, you came to the right place. We have 1000s of free loops and other audio resources to keep you making music.
+                    </p>
+                </div>
+
+         
             </div>
 
         </div>  
