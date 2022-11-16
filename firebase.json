@@ -1,7 +1,7 @@
 {
   "functions": [
     {
-      "source": "functions",
+      "source": "build",
       "codebase": "default",
       "ignore": [
         "node_modules",
@@ -15,7 +15,7 @@
     }
   ],
   "hosting": {
-    "public": "clear",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -27,8 +27,6 @@
         "destination": "/index.html"
       }
     ]
-  },
-  "extensions": {
-    "moralis-auth": "moralis/moralis-auth@0.1.4"
   }
 }
+
