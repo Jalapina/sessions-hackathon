@@ -89,7 +89,9 @@ async function doLogin(dispatch,setCookie) {
 }
 
 function doLogout(dispatch) {
+  const [removeCookie] = useCookies(['user']);
   dispatch(initialState);
+  removeCookie("user")
   history.push("/");
 }
 

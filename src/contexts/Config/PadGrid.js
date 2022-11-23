@@ -10,6 +10,8 @@ export default class GridPad {
         this.color = Colors.purple;
         this.isPlaying = false;
         this.isLooping = null;
+        this.loop = null;
+        this.player = null;
         this.selfMuted = true;
         this.sampleStart = 0;
         this.currentGain = 1;
@@ -18,4 +20,4 @@ export default class GridPad {
         this.midiCC = null;
         this.midiNote = null;
     }
-}
+}``

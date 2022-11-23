@@ -8,11 +8,13 @@ import PadEditor from '../../components/PadEditor/PadEditor';
 import Pad from '../../components/Pad/Pad';
 import {updateSources} from '../../actions'
 import db from '../../functions/firebase';
+import {
+    useLocation
+  } from "react-router-dom";
 
 import Header from '../../components/Header/Header';
-import Placeholder from "./placeholder.png";
+import placeholder from "./placeholder.png";
 import "./session.css";
-import createButton from "../../components/Header/plus-sign.png";
 import midiMap from '../../Config/midiMap';
 
 const Session = () =>{
@@ -21,42 +23,42 @@ const Session = () =>{
     const context = useContext(Context);
     const gridArr = context.gridPadsArr;
     let getLoops = loops ? true:false;
+    let location =  useLocation();
+    location = location.pathname.split("/").pop()
 
-        const getSessionData = async() => {
-    
-            const response = db.collection('session')
-            .onSnapshot(snapshot => {
-                  const sessions = snapshot.docs.map(doc => ({
-                      id: doc.id,
-                    ...doc.data(),
-                  }));
+    const getSessionData = async() => {
 
-                  const loop = sessions[0].stems[0].get().then(res => { 
-                    let data = res.data() 
-                    setLoops(data);
-        
-                })
-                .catch(err => console.error(err));
-   
-                    setSession(sessions[1]);
-                });
+        const response = db.collection('session').doc(location).get()
+        .then(snapshot =>{
+            setSession(snapshot.data());
+            setPads();
+        });
 
-                  
-
-                return () => unsubscribe();
-    
-        };
+    };
 
     const setPads = () =>{
 
-        const padId = loops.padId
-        context.gridPadsArr[padId].source = loops.loop
-        // updateSources(context,loops.loop);
+        if(session.stems.length>0){
+            const loopID = session.stems[0].id
+            const stems = db.collection('collaboration').doc(loopID).get()
+            .then(snapshot => {
+
+                let stem = snapshot.data()
+
+                const padId = stem.padId
+                context.gridPadsArr[padId].source = stem.loop
+                context.gridPadsArr[padId].isLoaded = true
+                // updateSources(context.gridPadsArr[padId]);
+
+            })
+            .catch(err => console.error(err));
+        }
     }
 
+
     useEffect(()=>{
-        if(getLoops && loops != null) setPads();
-    },[getLoops,loops]);
+        if(session.stems) setPads();
+    },[session]);
 
     useEffect(()=>{
     getSessionData();
@@ -112,7 +114,7 @@ const Session = () =>{
             <div className="sessionContentTop">
 
                 <div className="sessionArt">
-                    <img src={Placeholder} />
+                    <img src={placeholder} />
                 </div>
 
                 <div className="sessionOptions">

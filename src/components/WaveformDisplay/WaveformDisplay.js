@@ -37,7 +37,7 @@ export default () => {
             <canvas 
             id="waveformDisplay" 
             ref={canvasRef} 
-            style={{width: "100%", height: "20vh"}}
+            style={{width: "75%", height: "20vh", margin:"auto", display:"inherit"}}
             />
             <h4 draggable={false} style={{position: "relative", top: 0, margin: "1vh 0vw"}} className="pad-name disable-text-select">{selectedSource.name}</h4>
         </div>

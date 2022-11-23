@@ -176,8 +176,7 @@ const Home = () =>{
                 <div className="aboutTextHomeContainer">
                     <h2>Find that sound in your head</h2>
                     <p>
-                        Looking for free music loops, acapellas and vocals, want to hook up with like minded musicians from around the world or just looking to get some feedback on your music.
-                        Well, you came to the right place. We have 1000s of free loops and other audio resources to keep you making music.
+                        Collaborate with others online, looking for some vocals | a bass or some cool drums for your track? start a session, upload your stems (mp3/wav) , and share with others to help you finish your track or create whatever!
                     </p>
                 </div>
 
@@ -190,10 +189,9 @@ const Home = () =>{
                     <img src={pad}/>
                 </div>
                 <div style={{padding:"0px 0px 0px 20px"}} className="aboutTextHomeContainer">
-                    <h2>Find that sound in your head</h2>
+                    <h2>MINT YOUR COLLABS</h2>
                     <p>
-                        Looking for free music loops, acapellas and vocals, want to hook up with like minded musicians from around the world or just looking to get some feedback on your music.
-                        Well, you came to the right place. We have 1000s of free loops and other audio resources to keep you making music.
+                        When your track is finished you have the option of write royalties on the blockchain. Hit mint and anyone who collaborated on the final session will have solidified part on the track.
                     </p>
                 </div>
 

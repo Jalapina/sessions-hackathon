@@ -30,7 +30,7 @@ export default (props) => {
             handlePadTrigger(context, padId)
         }
     }
-    return <div 
+    return <button 
     className="pad" 
     id={props.id}
     style={{
@@ -45,5 +45,5 @@ export default (props) => {
     onTouchEnd={(e) => {handleTouchEnd(props.id, e)}}
     >
         <span className="pad-text">{props.midiNote}</span>
-    </div>
+    </button>
 }

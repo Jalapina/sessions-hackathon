@@ -9,12 +9,16 @@ import icon from "./settingsIcon.png";
 export default () => {
     const context = useContext(Context);
     const currentPadId = context.selectedPad;
+    console.log("context.selectedPad",currentPadId);
+
     let isLoaded = false
 
     if(context.gridPadsArr.length>0){
+        console.log("load")
         isLoaded = context.gridPadsArr[currentPadId].source ? true : false;
     }
-
+    
+    console.log("isLoaded",isLoaded)
     let editToggleMode = context.editMode ? '◀️' : <img style={{width:"65px"}} src={icon}/>;
     
     return(

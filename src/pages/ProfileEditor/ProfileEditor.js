@@ -10,7 +10,7 @@ const ProfileEditor = () =>{
 
     const getUserData = async() => {
 
-        const response = db.collection('session')
+        const response = db.collection('user')
         .onSnapshot(snapshot => {
               const sessions = snapshot.docs.map(doc => ({
                   id: doc.id,

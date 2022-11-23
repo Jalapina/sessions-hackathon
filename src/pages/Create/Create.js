@@ -2,7 +2,7 @@ import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import { useNavigate } from "react-router-dom";
 import db from '../../functions/firebase';
-
+import { useCookies } from 'react-cookie';
 import "../Register/register.css"
 
 const Create = () =>{
@@ -11,6 +11,7 @@ const Create = () =>{
     let sessionNeedsIndex = 0;
     const [sessionState, setSessionState] = useState(initialState);
     const [sessionNeed, setSessionNeed] = useState('');
+    const [cookies, setCookie] = useCookies(['user']);    
     
     const userAddress = null;
     const CreateSession = e => {
@@ -20,10 +21,12 @@ const Create = () =>{
         .add({
             name:  sessionState.sessionName,
             artist: sessionState.sessionArtistName,
-            address:  userAddress,
+            address:  cookies["user"].displayName,
             description: sessionState.sessionDescription,
             needs: sessionNeed,
-            genre: sessionState.sessionGenre
+            genre: sessionState.sessionGenre,
+            stems: [],
+            public:true
             })
             .then(data =>{
                 console.log(data.id)

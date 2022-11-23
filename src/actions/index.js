@@ -14,40 +14,12 @@ export const createAnalyser = (context, ctx) =>{
 }
 
 
-  export const updateSources = (context, file) => {
-    let reader = new FileReader();
-    reader.onload = e => {
-        context.ctx.decodeAudioData(e.target.result, (buffer) => {
-            let sources = {...context.sources}
-            let name = file.name.split('.')[0]
-            let waveformData = buffer.getChannelData(0)
-            sources[context.selectedPad] = {buffer: buffer, name, isPlaying: false, waveformData}
-            let gridPadsArr = context.gridPadsArr;
-            let newSource = context.ctx.createBufferSource();
-            newSource.buffer = buffer;
-            gridPadsArr[context.selectedPad].source = newSource;
-            gridPadsArr[context.selectedPad].source.start()
-            gridPadsArr[context.selectedPad].sampleEnd = buffer.duration;
-            gridPadsArr[context.selectedPad].gainNode = context.ctx.createGain();
-            gridPadsArr[context.selectedPad].gainNode.connect(context.ctx.destination);
-            context.dispatch({type: types.UPDATE_SOURCES, payload: {sources, gridPadsArr}});
-        })
-    }
-    reader.readAsArrayBuffer(file);
-}
-
-
-
-// export const updateSources = (context, file) => {
-//     if (file) return 
-//     // let fileSource = GetURI(file)
-//     console.log(file)
+//   export const updateSources = (context, file) => {
 //     let reader = new FileReader();
-//     const buffer = file;
 //     reader.onload = e => {
 //         context.ctx.decodeAudioData(e.target.result, (buffer) => {
 //             let sources = {...context.sources}
-//             // let name = file.name.split('.')[0]
+//             let name = file.name.split('.')[0]
 //             let waveformData = buffer.getChannelData(0)
 //             sources[context.selectedPad] = {buffer: buffer, name, isPlaying: false, waveformData}
 //             let gridPadsArr = context.gridPadsArr;
@@ -61,65 +33,98 @@ export const createAnalyser = (context, ctx) =>{
 //             context.dispatch({type: types.UPDATE_SOURCES, payload: {sources, gridPadsArr}});
 //         })
 //     }
-//     reader.readAsArrayBuffer(buffer);
+//     reader.readAsArrayBuffer(file);
 // }
 
-export const handlePadTrigger = (context, padId, velocity = 127) => {
-    
-        const clock = new WAAClock(context.ctx);
-        clock.start();
-    
-        let selectedSource =  context.sources[padId];
-        let selectedPad = padId
-        if(selectedSource && selectedSource.buffer){
-            if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
-                context.gridPadsArr[padId].source.stop();
-            }
+
+
+export const updateSources = (context, file) => {
+    // let fileSource = GetURI(file)
+    // console.log(file)
+    // let reader = new FileReader();
+    // const buffer = file;
+    // reader.onload = e => {
+    //     context.ctx.decodeAudioData(e.target.result, (buffer) => {
+    //         let sources = {...context.sources}
+    //         // let name = file.name.split('.')[0]
+    //         let waveformData = buffer.getChannelData(0)
+    //         sources[context.selectedPad] = {buffer: buffer, name, isPlaying: false, waveformData}
+    //         let gridPadsArr = context.gridPadsArr;
+    //         let newSource = context.ctx.createBufferSource();
+    //         newSource.buffer = buffer;
+    //         gridPadsArr[context.selectedPad].source = newSource;
+    //         gridPadsArr[context.selectedPad].source.start()
+    //         gridPadsArr[context.selectedPad].sampleEnd = buffer.duration;
+    //         gridPadsArr[context.selectedPad].gainNode = context.ctx.createGain();
+    //         gridPadsArr[context.selectedPad].gainNode.connect(context.ctx.destination);
+    //         context.dispatch({type: types.UPDATE_SOURCES, payload: {sources, gridPadsArr}});
+    //     })
+    // }
+    // reader.readAsArrayBuffer(buffer);
+}
+
+export const handlePadTrigger = async(context, padId, velocity = 127) => {
+        let selectedSource =  context.gridPadsArr[padId].source;
+        console.log(context.gridPadsArr[padId]);
+
+        let selectedPad = padId;
+        if(selectedSource && !context.gridPadsArr[padId].isPlaying){
+            // if(context.gridPadsArr[padId].player && context.gridPadsArr[padId].selfMuted){
+                //     let Player = context.gridPadsArr[padId].player
+                //     // let Loop = context.gridPadsArr[padId].loop;
+
+                
+                //     Player.stop();
+                //     // Loop.stop();
+                // }
+            console.log("click")
             let gridPadsArr = context.gridPadsArr;
-            let newSource = context.ctx.createBufferSource();
-            newSource.buffer = context.sources[padId].buffer;
-            gridPadsArr[padId].source = newSource;
-            gridPadsArr[padId].isPlaying = true;
-            if(context.selectedPad !== padId){
-                context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
-            }
-            newSource.connect(context.gridPadsArr[padId].gainNode);
-            newSource.detune.value = context.gridPadsArr[padId].detune;
+            // let newSource = context.ctx.createBufferSource();
+            // newSource.buffer = context.sources[padId].buffer;
+            // gridPadsArr[padId].source = newSource;
+            context.gridPadsArr[padId].isPlaying = true;
+            context.gridPadsArr[padId].isLooping = true;
+            // if(context.selectedPad !== padId){
+                // context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
+            // }
+            // newSource.connect(context.gridPadsArr[padId].gainNode);
+            // newSource.detune.value = context.gridPadsArr[padId].detune;
     
-            let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
-            let length = gridPadsArr[padId].source.buffer.duration;
+            // let currentGain = velocity !== 127 ? Math.pow(velocity, 2) / Math.pow(127, 2) : context.gridPadsArr[padId].currentGain;
+            let length = null;
+            let loop = null;
+            // let length = gridPadsArr[padId].source.buffer.duration;
     
             // console.log(context.ctx.decodeAudioData(gridPadsArr[padId].source.buffer));
             // console.log(gridPadsArr[padId].source);
             
-            context.gridPadsArr[padId].gainNode.gain.setValueAtTime(currentGain, context.ctx.currentTime)
-            context.gridPadsArr[padId].source.loop = true
-            context.gridPadsArr[padId].source.loopStart = context.gridPadsArr[padId].sampleStart
-            context.gridPadsArr[padId].source.loopEnd = context.gridPadsArr[padId].sampleEnd
-            
-            console.log(gridPadsArr[padId]);
-    
-    
+
             let Players = new Tone.Players({
-                [gridPadsArr[padId].name]:gridPadsArr[padId].source.buffer
+                [gridPadsArr[padId].name]:gridPadsArr[padId].source
             }).toDestination();
-    
-            let notation = Tone.Time(length).toNotation()
-    
-            var loop = new Tone.Loop(function(length){
-                //triggered every eighth note. 
-                Players.player(gridPadsArr[padId].name).start();
+            
+            let Player = Players.player(gridPadsArr[padId].name);
+
+            const getDuration = async() => {
+                const buff0 = new Tone.ToneAudioBuffer(Player.buffer);
+                await Tone.ToneAudioBuffer.loaded();
+                length = buff0.duration;
+            }
+
+            const dur = await getDuration();
+            console.log(length,dur,"***")
+            loop = new Tone.Loop(function(){
+                //triggered every eighth note.
+                Player.start();
                 
-            }, length).start(0);
-    
-    
+            },length).start(0);
+            
             Tone.Transport.start();
-    
-    
-    
-    
-    
-    
+
+            context.gridPadsArr[padId].loop = loop;
+            context.gridPadsArr[padId].player = Player;
+            context.gridPadsArr[padId].isPlaying = true;
+            context.gridPadsArr[padId].isLooping = true;
             // const event = clock.setTimeout(function() { 
             // context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart);
             
@@ -223,14 +228,15 @@ export const handlePadTrigger = (context, padId, velocity = 127) => {
 // }
 
 export const handlePadStop = (padId, gridPadsArr,context) => {
-    console.log(context)
-    if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].selfMuted){
-        let Player = context.gridPadsArr[padId].source
-        let Loop = context.gridPadsArr[padId].isLooping
-        console.log(Loop)
-        Player.stop()
-        Loop.stop()
-        gridPadsArr[padId].isPlaying = false;
+    if(context.gridPadsArr[padId].source && context.gridPadsArr[padId].isPlaying){
+
+        let Player = context.gridPadsArr[padId].player;
+        let Loop = context.gridPadsArr[padId].loop;
+        context.gridPadsArr[padId].isPlaying = false;
+        context.gridPadsArr[padId].isLooping = true;
+
+        Player.stop();
+        Loop.stop();
     }
 }
 

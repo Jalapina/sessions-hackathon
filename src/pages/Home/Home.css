@@ -15,7 +15,7 @@
     color: #ffffff;
     align-items: center;
     height: 375px;
-    min-width: 700px;
+    overflow: hidden;
     background: #16161a;
 }
 .textAnimation{
@@ -29,8 +29,8 @@
     position: relative;
     left: 0;
     right: 0;
-    width: 20%;
-    max-width: 100px;
+    width: 100%;
+    width: 170px;
     margin: auto;
     top: 45%;
 }
@@ -125,12 +125,16 @@
     .pink{      
         left: 80px;
     }
+    .right{
+        width: 100%;
+    }
+    
 }    
 /* #spin {
     color:red;
   }
 
-  #spin:after {
+\  #spin:after {
     content:"";
     animation: spin 5s linear infinite;
   }
