@@ -1,7 +1,7 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import { useNavigate } from "react-router-dom";
-import db from '../../functions/firebase';
+import {db} from '../../functions/firebase';
 import { useCookies } from 'react-cookie';
 import "../Register/register.css"
 

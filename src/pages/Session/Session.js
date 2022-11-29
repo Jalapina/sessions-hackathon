@@ -7,7 +7,7 @@ import Hud from '../../components/Hud/Hud';
 import PadEditor from '../../components/PadEditor/PadEditor';
 import Pad from '../../components/Pad/Pad';
 import {updateSources} from '../../actions'
-import db from '../../functions/firebase';
+import {db} from '../../functions/firebase';
 import {
     useLocation
   } from "react-router-dom";
@@ -24,45 +24,57 @@ const Session = () =>{
     const gridArr = context.gridPadsArr;
     let getLoops = loops ? true:false;
     let location =  useLocation();
-    location = location.pathname.split("/").pop()
+    let sessionID = location.pathname.split("/").pop()
 
     const getSessionData = async() => {
 
-        const response = db.collection('session').doc(location).get()
+        const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
-            setSession(snapshot.data());
-            setPads();
+            let data = snapshot.data()
+            setSession(data);
+            if(data.stems.length>0){
+                data.stems.map((stemId)=>{
+                    console.log(stemId)
+                    setPad(stemId);
+                });
+            }
+
+            console.log(context.gridPadsArr);
         });
 
     };
 
-    const setPads = () =>{
+    const setPad = (stemId) =>{
 
-        if(session.stems.length>0){
-            const loopID = session.stems[0].id
-            const stems = db.collection('collaboration').doc(loopID).get()
-            .then(snapshot => {
+        const stems = db.firestore().collection('collaboration').doc(stemId.id).get()
+        .then(snapshot => {
+            
+            let stem = snapshot.data()
+            console.log(stem)
+            
+            const padId = stem.padId
+            console.log(padId)
 
-                let stem = snapshot.data()
-
-                const padId = stem.padId
-                context.gridPadsArr[padId].source = stem.loop
-                context.gridPadsArr[padId].isLoaded = true
-                // updateSources(context.gridPadsArr[padId]);
-
+            let gridPadsArr = context.gridPadsArr;
+            console.log(gridPadsArr)
+            gridPadsArr[padId].source = stem.loop
+            gridPadsArr[padId].isLoaded = true
+            gridPadsArr[padId].isLooping = false
+            console.log(gridPadsArr)
+            context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
+            
             })
             .catch(err => console.error(err));
-        }
     }
 
 
-    useEffect(()=>{
-        if(session.stems) setPads();
-    },[session]);
+    // useEffect(()=>{
+    //     if(session.stems) setPads();
+    // },[session]);
 
     useEffect(()=>{
     getSessionData();
-    },[])
+    },[context.gridPadsArr])
 
     const renderPad = (item) => {
         let backgroundColor = Colors.black

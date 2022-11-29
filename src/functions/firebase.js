@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 import { initializeApp } from '@firebase/app';
 import { getAuth, browserSessionPersistence } from '@firebase/auth';
 import { connectFunctionsEmulator, getFunctions } from '@firebase/functions';
@@ -22,10 +23,9 @@ if (typeof window !== `undefined`) {
   firebaseApp = firebase.initializeApp(firebaseConfig);
 }
 
-const db = firebase.firestore();
-
-export default db;
+const db = firebaseApp;
 
 export const auth = getAuth(firebaseApp);
-
 export const moralisAuth = getMoralisAuth(firebaseApp);
+
+export {db};

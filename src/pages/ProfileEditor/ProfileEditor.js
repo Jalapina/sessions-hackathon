@@ -1,6 +1,6 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
-import db from '../../functions/firebase';
+import {db} from '../../functions/firebase';
 
 import "./profile.css"
 import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'

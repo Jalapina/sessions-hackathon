@@ -1,16 +1,20 @@
 import React, {useContext} from 'react';
 import {TOGGLE_REC_MODE, CLEAR_SELECTED_PAD, TOGGLE_EDIT_MODE} from '../../reducers/types';
-import {updateSources} from '../../actions'
+import {uploadLoop} from '../../actions'
 import './Controls.css';
 import {Context} from '../../contexts/SamplerContext';
 import MidiControls from '../MidiControls/MidiControls';
-import db from '../../functions/firebase';
+import {db} from '../../functions/firebase';
+import {
+    useLocation
+  } from "react-router-dom";
 
 const Controls = (props) => {
     const context = useContext(Context);
     let currentPad = context.gridPadsArr[context.selectedPad];
+    let location =  useLocation();
+    let sessionID = location.pathname.split("/").pop()
     // const [session, setSession] = useState(); 
-    
     // const CreateCollab = () => {
         
     //     const response = db.collection('collaboration')
@@ -38,7 +42,7 @@ const Controls = (props) => {
         let ext = file.name.split('.')[1]
         let validExt = /mp3|wav|m4a/.test(ext)
         if(!validExt) return console.error("Unable to load selected file")
-        return updateSources(context, file)
+        return uploadLoop(context,currentPad,sessionID, file)
     }
     // const toggleRecMode = () => {
     //     let recMode = !context.recMode
@@ -81,6 +85,7 @@ const Controls = (props) => {
     //     }
     // }
     const renderFileUpload = () => {
+
         const openFileSelector = (e) => {
             e.preventDefault();
             let fileSelector = document.getElementById("fileSelector");
