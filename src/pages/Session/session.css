@@ -25,13 +25,12 @@
     width: 100%;
     order: 2;
     text-align: right;
-    padding-right: 25px;    
 }
 .sessionContentTop{
     /* align-items: center;     */
     padding: 20px;
     display: flex;
-    flex-flow: flex-start;
+    flex-wrap: wrap;
     height: 450px;
 }
 .sessionArt img{
@@ -94,9 +93,9 @@
     .sessionOptions,.sessionSpecs{
         flex-direction: column;
     }
-    .grid, .sessionSpecs{
-        width: 95%;
-        padding: 20px !important;
+    .sessionArt{
+        width: 100%;
     }
+    
     
 }    

@@ -60,6 +60,7 @@ export const createAnalyser = (context, ctx) =>{
 
             gridPadsArr[currentPad].source = stemURL
             gridPadsArr[currentPad].isLoaded = true
+            gridPadsArr[currentPad].name = currentPad.id
             gridPadsArr[currentPad].isLooping = false
             context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
         }).catch(e=>{console.log(e)})
@@ -147,8 +148,8 @@ export const updateSources = (context, file) => {
 export const handlePadTrigger = async(context, padId, velocity = 127) => {
         let selectedSource =  context.gridPadsArr[padId].source;
         console.log(context.gridPadsArr[padId].isPlaying);
-        console.log(selectedSource);
-
+        
+        Tone.context.resume();
         let selectedPad = padId;
         if(selectedSource && !context.gridPadsArr[padId].isPlaying){
             // if(context.gridPadsArr[padId].player && context.gridPadsArr[padId].selfMuted){
@@ -164,8 +165,6 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
             // let newSource = context.ctx.createBufferSource();
             // newSource.buffer = context.sources[padId].buffer;
             // gridPadsArr[padId].source = newSource;
-            context.gridPadsArr[padId].isPlaying = true;
-            context.gridPadsArr[padId].isLooping = true;
             // if(context.selectedPad !== padId){
                 // context.dispatch({type: types.HANDLE_PAD_TRIGGER, payload: {gridPadsArr, selectedPad}});
             // }
@@ -180,13 +179,12 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
             // console.log(context.ctx.decodeAudioData(gridPadsArr[padId].source.buffer));
             // console.log(gridPadsArr[padId].source);
             
-
             let Players = new Tone.Players({
-                [gridPadsArr[padId].name]:gridPadsArr[padId].source
+                [gridPadsArr[selectedPad].name]:selectedSource
             }).toDestination();
             
-            let Player = Players.player(gridPadsArr[padId].name);
-
+            let Player = Players.player(gridPadsArr[selectedPad].name);
+            
             const getDuration = async() => {
                 const buff0 = new Tone.ToneAudioBuffer(Player.buffer);
                 await Tone.ToneAudioBuffer.loaded();
@@ -195,18 +193,19 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
 
             const dur = await getDuration();
             console.log(length,dur,"***")
+
             loop = new Tone.Loop(function(){
                 //triggered every eighth note.
                 Player.start();
-                
             },length).start(0);
-            
-            Tone.Transport.start();
+            Tone.context.resume().then(() => {
+                Tone.Transport.start();
+            })
 
-            context.gridPadsArr[padId].loop = loop;
-            context.gridPadsArr[padId].player = Player;
-            context.gridPadsArr[padId].isPlaying = true;
-            context.gridPadsArr[padId].isLooping = true;
+            context.gridPadsArr[selectedPad].loop = loop;
+            context.gridPadsArr[selectedPad].player = Player;
+            context.gridPadsArr[selectedPad].isPlaying = true;
+            context.gridPadsArr[selectedPad].isLooping = true;
             // const event = clock.setTimeout(function() { 
             // context.gridPadsArr[padId].source.start(context.ctx.currentTime, context.gridPadsArr[padId].sampleStart);
             

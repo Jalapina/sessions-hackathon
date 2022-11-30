@@ -8,7 +8,7 @@ export default class GridPad {
         this.gainNode = null;
         this.source = null;
         this.color = Colors.purple;
-        this.isPlaying = false;
+        this.isPlaying = null;
         this.isLooping = null;
         this.loop = null;
         this.player = null;
@@ -20,4 +20,4 @@ export default class GridPad {
         this.midiCC = null;
         this.midiNote = null;
     }
-}``
+}
