@@ -10,7 +10,7 @@ const ProfileEditor = () =>{
 
     const getUserData = async() => {
 
-        const response = db.collection('user')
+        const response = db.firestore().collection('user')
         .onSnapshot(snapshot => {
               const sessions = snapshot.docs.map(doc => ({
                   id: doc.id,

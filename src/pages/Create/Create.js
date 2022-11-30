@@ -17,7 +17,7 @@ const Create = () =>{
     const CreateSession = e => {
 
         e.preventDefault();   
-        const response = db.collection('session')
+        const response = db.firestore().collection('session')
         .add({
             name:  sessionState.sessionName,
             artist: sessionState.sessionArtistName,

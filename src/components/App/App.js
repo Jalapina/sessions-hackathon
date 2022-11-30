@@ -26,25 +26,22 @@ export default function App () {
         if(!context.ctx) return <StartScreen />
         return (
             <CookiesProvider>
-                
                 <AuthProvider>
-                
-                <BrowserRouter>
+                    <BrowserRouter>
                     
-                    <div className="app-wrapper">
-                        <Routes>
-                            <Route path="/" element={<SamplerGrid />} />
-                            <Route path="/profile" element={<ProfileEditor />} />
-                            <Route path="/session/:sessionId" element={<Session />} />
-                        </Routes>
-
-                    </div>
+                        <div className="app-wrapper">
+                            <Routes>
+                                <Route path="/" element={<SamplerGrid />} />
+                                <Route path="/profile" element={<ProfileEditor />} />
+                                <Route path="/session/:sessionId" element={<Session />} />
+                            </Routes>
+                        </div>
 
                     </BrowserRouter>
                 </AuthProvider>
             </CookiesProvider>
         )
-    }
+    };
 
     return(
         <div className="app-wrapper" 
