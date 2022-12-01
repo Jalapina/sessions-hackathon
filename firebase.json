@@ -6,10 +6,34 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "headers": [ {
+      "source": "https://sessions-e4f78.web.app",
+      "headers": [ {
+        "key": "Access-Control-Allow-Origin",
+        "value": "*"
+      }]
+    },{
+        "source" : "index.html",
+        "headers" : [ {
+          "key" : "Access-Control-Allow-Origin",
+          "value" : "*"
+        } ]
+      }, {
+        "source" : "**",
+        "headers" : [ {
+          "key" : "Access-Control-Allow-Origin",
+          "value" : "*"
+        } ]
+      } ],
+    "trailingSlash": false,
+    "appAssociation": "AUTO",    
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
+      },{
+        "source": "/session/:sessionId**",  // the Dynamic Links start with "https://CUSTOM_DOMAIN/promos/"
+        "dynamicLinks": true
       }
     ]
   }

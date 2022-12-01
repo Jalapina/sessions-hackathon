@@ -147,11 +147,15 @@ export const updateSources = (context, file) => {
 
 export const handlePadTrigger = async(context, padId, velocity = 127) => {
         let selectedSource =  context.gridPadsArr[padId].source;
-        console.log(context.gridPadsArr[padId].isPlaying);
         
         Tone.context.resume();
+        
+        
         let selectedPad = padId;
         if(selectedSource && !context.gridPadsArr[padId].isPlaying){
+            console.log(context.gridPadsArr[padId].isPlaying);
+            console.log("Tone",Tone);
+            console.log("selectedSource",selectedSource);
             // if(context.gridPadsArr[padId].player && context.gridPadsArr[padId].selfMuted){
                 //     let Player = context.gridPadsArr[padId].player
                 //     // let Loop = context.gridPadsArr[padId].loop;
@@ -184,23 +188,24 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
             }).toDestination();
             
             let Player = Players.player(gridPadsArr[selectedPad].name);
-            
+            console.log(Player)
             const getDuration = async() => {
                 const buff0 = new Tone.ToneAudioBuffer(Player.buffer);
                 await Tone.ToneAudioBuffer.loaded();
                 length = buff0.duration;
             }
-
+            
             const dur = await getDuration();
-            console.log(length,dur,"***")
-
+            console.log(length,"***")
+            
             loop = new Tone.Loop(function(){
                 //triggered every eighth note.
                 Player.start();
             },length).start(0);
-            Tone.context.resume().then(() => {
-                Tone.Transport.start();
-            })
+            
+            console.log(loop);
+            Tone.Transport.start();
+            console.log(Tone);
 
             context.gridPadsArr[selectedPad].loop = loop;
             context.gridPadsArr[selectedPad].player = Player;

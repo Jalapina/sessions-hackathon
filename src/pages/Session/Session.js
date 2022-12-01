@@ -27,21 +27,16 @@ const Session = () =>{
     let sessionID = location.pathname.split("/").pop()
 
     const getSessionData = async() => {
-
         const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
             let data = snapshot.data()
             setSession(data);
             if(data.stems.length>0){
                 data.stems.map((stemId)=>{
-                    console.log(stemId)
                     setPad(stemId);
                 });
             }
-
-            console.log(context.gridPadsArr);
         });
-
     };
 
     const setPad = (stemId) =>{
@@ -50,31 +45,24 @@ const Session = () =>{
         .then(snapshot => {
             
             let stem = snapshot.data()
-            console.log(stem)
             
             const padId = stem.padId
-            console.log(padId)
 
             let gridPadsArr = context.gridPadsArr;
-            console.log(gridPadsArr)
             gridPadsArr[padId].source = stem.loop
             gridPadsArr[padId].isLoaded = true
             gridPadsArr[padId].isLooping = false
-            console.log(gridPadsArr)
             context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
             
             })
             .catch(err => console.error(err));
     }
 
-
-    // useEffect(()=>{
-    //     if(session.stems) setPads();
-    // },[session]);
-
     useEffect(()=>{
-    getSessionData();
-    },[context.gridPadsArr])
+        if(db != undefined){
+            getSessionData();
+        }
+    },[context.gridPadsArr,sessionID])
 
     const renderPad = (item) => {
         let backgroundColor = Colors.black
@@ -100,18 +88,18 @@ const Session = () =>{
     const testForTouchDevice = () => {
         return 'ontouchstart' in window;
     }
-    const testForMidiAPI = () => {
-        return "requestMIDIAccess" in navigator;
-    }
+    // const testForMidiAPI = () => {
+        // return "requestMIDIAccess" in navigator;
+    // }
     const generateGrid = () => {
-        let midiEnabled = testForMidiAPI();
+        // let midiEnabled = testForMidiAPI();
         let touchEnabled = testForTouchDevice();
         let gridPadsArr = [];
         for(let i = 0; i < context.numPads; i++){
             let newPad = new GridPad({id: i})
             gridPadsArr.push(newPad)
         }
-        let payload = {gridPadsArr, touchEnabled, midiEnabled}
+        let payload = {gridPadsArr, touchEnabled}
         context.dispatch({ type: types.GENERATE_GRID, payload })
     }
     useEffect(() => { 
@@ -145,7 +133,7 @@ const Session = () =>{
                     </div>
 
                     <div className="optionsWrapper">
-                    {session.description?(
+                    {session?(
                         <p>
                             {session.description}
                         </p>
@@ -171,11 +159,6 @@ const Session = () =>{
                     </div>
 
             </div>
-
-
-
-
-
 
             </div>
 

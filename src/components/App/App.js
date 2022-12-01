@@ -5,6 +5,7 @@ import keyCTRL from '../../Config/keyboardControls';
 import SamplerGrid from '../SamplerGrid/SamplerGrid';
 import StartScreen from '../StartScreen/StartScreen';
 import './App.css';
+import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import ProfileEditor from "../../pages/ProfileEditor/ProfileEditor"
 import Create from "../../pages/Create/Create"
 import Session from "../../pages/Session/Session"
@@ -25,21 +26,22 @@ export default function App () {
     const renderAppContent = () => {
         if(!context.ctx) return <StartScreen />
         return (
+        <BrowserRouter>
             <CookiesProvider>
                 <AuthProvider>
-                    <BrowserRouter>
                     
                         <div className="app-wrapper">
                             <Routes>
-                                <Route path="/" element={<SamplerGrid />} />
-                                <Route path="/profile" element={<ProfileEditor />} />
-                                <Route path="/session/:sessionId" element={<Session />} />
+                                <Route path="/" element={<SamplerGrid />} exact />
+                                <Route path="profile" element={<ProfileEditor />} />
+                                <Route path="session/:id" element={<Session />} />
+                                <Route path="*" element={<NotFoundPage />} />
                             </Routes>
                         </div>
 
-                    </BrowserRouter>
                 </AuthProvider>
             </CookiesProvider>
+        </BrowserRouter>
         )
     };
 

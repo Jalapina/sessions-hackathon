@@ -19,7 +19,7 @@ const firebaseConfig = {
 };
 
 let firebaseApp = null;
-if (typeof window !== `undefined`) {
+if (typeof window !== undefined) {
   firebaseApp = firebase.initializeApp(firebaseConfig);
 }
 

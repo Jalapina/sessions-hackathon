@@ -16,7 +16,7 @@ const ProfileEditor = () =>{
                   id: doc.id,
                 ...doc.data(),
               }));
-              
+            console.log(sessions)
               setUsers(sessions);
 
             });
