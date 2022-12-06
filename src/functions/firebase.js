@@ -25,7 +25,7 @@ if (typeof window !== undefined) {
 
 const db = firebaseApp;
 
-export const auth = getAuth(firebaseApp);
-export const moralisAuth = getMoralisAuth(firebaseApp);
+export const auth = getAuth(db);
+export const moralisAuth = getMoralisAuth(db);
 
 export {db};

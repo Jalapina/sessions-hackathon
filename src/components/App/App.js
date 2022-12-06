@@ -33,7 +33,7 @@ export default function App () {
                         <div className="app-wrapper">
                             <Routes>
                                 <Route path="/" element={<SamplerGrid />} exact />
-                                <Route path="profile" element={<ProfileEditor />} />
+                                <Route path="profile/:id" element={<ProfileEditor />} />
                                 <Route path="session/:id" element={<Session />} />
                                 <Route path="*" element={<NotFoundPage />} />
                             </Routes>

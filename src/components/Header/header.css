@@ -24,3 +24,13 @@
 .buttonWrapepr{
     text-align: right;
 }
+
+@media (max-width: 600px) {
+    .logoWrapper, .buttonWrapepr{
+        flex-grow: unset;
+    }
+    .header{
+        flex-direction: column;
+    }
+    
+}    

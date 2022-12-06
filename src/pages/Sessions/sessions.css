@@ -1,13 +1,14 @@
 .sessionsComponent{
     text-align: center;
     background: black;
+    padding: 5px;
 }
 .sessionsItemArt{
     width: 40%;
 }
 .sessionHomeContainer{
     display: inline-block;
-    margin: 10px;
-    width: 100%;
+    margin: 10px auto;
+    width: 90%;
     display: flex;
 }

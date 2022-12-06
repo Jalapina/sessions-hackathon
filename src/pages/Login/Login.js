@@ -11,26 +11,27 @@ import { useAuthState, useAuthDispatch } from "../../components/Auth/auth-contex
 import { useCookies } from 'react-cookie';
 
 const Login = () =>{
+
   const { user: loggedUser, status, error } = useAuthState();
   const [cookies, setCookie] = useCookies(['user']);    
-  
-    const [user, setUser] = useState("");
-    const dispatch = useAuthDispatch();
+  const dispatch = useAuthDispatch();
 
-    const signInWithMetamask = async() =>{
-      let result = null
-      try {
-        dispatch({ status: "pending" });
-        result = await signInWithMoralisByEvm(moralisAuth);
-        dispatch({
-          status: "resolved",
-          user: result.credentials.user,
-          error: null
-        });
-      } catch (error) {
-      }
-      dispatch({ status: "rejected", error });
-      setCookie('user',result.credentials.user)
+  const signInWithMetamask = async() =>{
+        
+        let result = null
+        try {
+          dispatch({ status: "pending" });
+          result = await signInWithMoralisByEvm(moralisAuth);
+          dispatch({
+            status: "resolved",
+            user: result.credentials.user,
+            error: null
+          });
+        } catch (error) {
+        }
+        dispatch({ status: "rejected", error });
+        setCookie('user',result.credentials.user);
+
     }
     
     return(

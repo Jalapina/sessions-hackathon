@@ -26,7 +26,7 @@ const Create = () =>{
 
         try {
             
-            const fileRef = await storageRef.child(sessionArt.name).put(sessionArt)
+            const fileRef = await storageRef.child(sessionArt.file.name).put(sessionArt.file)
             sessionArtURL = await fileRef.ref.getDownloadURL();
 
             const response = db.firestore().collection('session')
@@ -54,13 +54,16 @@ const Create = () =>{
 
     };
 
-    const onFileHomeImageChange = async(e,id) => {
+    const onFileHomeImageChange = async(e) => {
 
         const file = e.target.files[0]
-        console.log(file)
-        setSessionArt(file)
+        setSessionArt({
+            url:URL.createObjectURL(file),
+            file:file
+        })
         
     }        
+    console.log(sessionArt)
 
     const addSessionNeeds = e => {
         
@@ -85,7 +88,11 @@ const Create = () =>{
         <div className="Create">
         <div className="container">
             <form onSubmit={CreateSession}>
-                <input type="file" onChange={e => onFileHomeImageChange(e)} />
+                {sessionArt?(
+                    <img style={{width:"120px"}} src={sessionArt.url}/>
+                ):
+                    <input type="file" onChange={e => onFileHomeImageChange(e)} />
+                }
                 <input type="text" className="ghost-input" value={sessionState.sessionName} placeholder="Session Name" onChange={(e)=> setSessionState({...sessionState, sessionName:e.currentTarget.value})} required/> 
                 <input type="text" className="ghost-input" value={sessionState.sessionArtistName} placeholder="Artist Name" onChange={(e)=> setSessionState({...sessionState, sessionArtistName:e.currentTarget.value})} required/> 
                 <input type="text" className="ghost-input" value={sessionState.sessionGenre} placeholder="Genre" onChange={(e)=> setSessionState({...sessionState,sessionGenre:e.currentTarget.value})} required/> 

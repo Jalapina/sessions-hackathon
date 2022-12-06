@@ -2,6 +2,7 @@ import React,{useState,useRef} from 'react';
 import logo from "../../pages/record.svg";
 import "./header.css";
 import createButton from "./plus-sign.png";
+import profileButton from "./user.png";
 import { Link } from 'react-router-dom';
 import Modal from "../Modal/Modal.js";
 import Register from "../../pages/Register/Register";
@@ -20,33 +21,58 @@ export default ({title,button}) => {
 
     return (
     <div className="header">
+        
         <div className="logoWrapper">
             <h1>{title}</h1>
         </div>
-        {button ?
-         <div  className="buttonWrapepr">
-            <div  onClick={() => setIsOpen(!isOpen)}>
-                <img className="createButton" src={createButton}/>
-            </div>
-            <Modal
-                isOpen={isOpen}
-                onHide={() => setIsOpen(!isOpen)}
-                headerCaption={cookies["user"]== undefined? "Sing In":"Create Session"}
-            >
 
-            {cookies["user"] == undefined?(
-                <Login/>
-            ):(
-                <Create/>
-                )
-            }
-                
-            </Modal>
-        </div>:
-        <div className="buttonWrapepr">
-            <Link to="/">
-                <img style={{width:"150px"}} src={logo}/>
-            </Link></div>}
+
+        {button ?
+            <div  className="buttonWrapepr">
+            
+                <div>
+                    {cookies["user"] != undefined?(
+                    <div>
+                        <Link to={"/profile/"+cookies.user.displayName}>
+                            <img style={{width:"3em", marginRight:"50px"}} src={profileButton}/>
+                        </Link>
+                        <div style={{display:"inline-block"}}  onClick={() => setIsOpen(!isOpen)}>
+                            <img className="createButton" src={createButton}/>
+                        </div>
+                    </div>
+         
+                    ):
+                    <div style={{display:"inline-block"}}  onClick={() => setIsOpen(!isOpen)}>
+                        <img style={{width:"3em"}} src={profileButton}/>
+                    </div>
+                    }
+                </div>
+
+
+                <Modal
+                    isOpen={isOpen}
+                    onHide={() => setIsOpen(!isOpen)}
+                    headerCaption={cookies["user"]== undefined? "Sing In":"Create Session"}
+                >
+
+                    {cookies["user"] == undefined?(
+
+                        <Login/>
+                        
+                    ):(
+                        <Create/>
+                        )
+                    }
+                    
+                </Modal>
+            </div>
+            :
+            <div className="buttonWrapepr">
+                <Link to="/">
+                    <img style={{width:"150px"}} src={logo}/>
+                </Link>
+            </div>
+        }
         </div>
     );
 
