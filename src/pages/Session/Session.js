@@ -8,14 +8,15 @@ import PadEditor from '../../components/PadEditor/PadEditor';
 import Pad from '../../components/Pad/Pad';
 import {updateSources} from '../../actions'
 import {db} from '../../functions/firebase';
-import {
-    useLocation
-  } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
+import sessionContract from "../../contracts/Sessions.json"
 import Header from '../../components/Header/Header';
-import placeholder from "./placeholder.png";
+import placeholder from "../placeholder.png";
 import "./session.css";
 import midiMap from '../../Config/midiMap';
+import { ethers } from 'ethers';
+import { Web3Provider } from '@ethersproject/providers';
+import { useCookies } from 'react-cookie';
 
 const Session = () =>{
     const [session, setSession] = useState([]); //useState() hook, sets initial state to an empty array    
@@ -25,8 +26,10 @@ const Session = () =>{
     let getLoops = loops ? true:false;
     let location =  useLocation();
     let sessionID = location.pathname.split("/").pop()
-
+    const [cookies, setCookie] = useCookies(['user']);    
+    
     const getSessionData = async() => {
+
         const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
             let data = snapshot.data()
@@ -37,6 +40,7 @@ const Session = () =>{
                 });
             }
         });
+
     };
 
     const setPad = (stemId) =>{
@@ -54,8 +58,9 @@ const Session = () =>{
             gridPadsArr[padId].isLooping = false
             context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
             
-            })
-            .catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
+        
     }
 
     useEffect(()=>{
@@ -102,6 +107,40 @@ const Session = () =>{
         let payload = {gridPadsArr, touchEnabled}
         context.dispatch({ type: types.GENERATE_GRID, payload })
     }
+
+    const handleMint = async () =>{
+
+        if(window.ethereum){
+            let tokenPrice = ethers.BigNumber.from('10000000000000000');
+            
+            const provider = new ethers.providers.Web3Provider(window.ethereum)
+            await provider.send('eth_requestAccounts', []); 
+            const signer = provider.getSigner();
+            
+            
+            let feeData = await signer.getFeeData();
+            const contract = new ethers.Contract(
+                    "0x24426a17f5DFCb9c65329776465Cf8c5e6D9DD80", //polygon smart contract address
+                    sessionContract.abi,
+                    signer,
+            )
+            try{
+                const response = await contract.createNFT("https://sessions-e4f78.web.app/session/"+sessionID,tokenPrice,{value: ethers.utils.parseEther("0.01"),gasLimit: 5000000});
+
+                db.firestore()
+                .collection("events")
+                .add({
+                  eventName:eventName,
+                  date:eventDate,
+                  where:eventLocation,
+                  additionalComment: eventAdditionalComments
+                })
+
+                console.log(response);
+            }catch(e){console.log(e)}
+        }
+    }
+
     useEffect(() => { 
         if(context.gridPadsArr.length < 1) generateGrid();
     }, []);
@@ -114,7 +153,7 @@ const Session = () =>{
             <div className="sessionContentTop">
 
                 <div className="sessionArt">
-                    <img src={placeholder} />
+                    <img src={session.sessionArt? session.sessionArt:placeholder} />
                 </div>
 
                 <div className="sessionOptions">
@@ -164,6 +203,9 @@ const Session = () =>{
 
             <div className="grid">
                 <Hud />
+                <button onClick={handleMint}>
+                    mint
+                </button>
                 {rendercontent()}
             </div>
            

@@ -1,52 +1,66 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import { useNavigate } from "react-router-dom";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import {db} from '../../functions/firebase';
 import { useCookies } from 'react-cookie';
 import "../Register/register.css"
 
 const Create = () =>{
+
     let navigate = useNavigate();    
     let initialState = {sessionName:"", sessionArtistName:"", sessionNeeds:[{instrument:""}], sessionDescription:"", sessionGenre:""};
     let sessionNeedsIndex = 0;
     const [sessionState, setSessionState] = useState(initialState);
     const [sessionNeed, setSessionNeed] = useState('');
+    const [sessionArt, setSessionArt] = useState();
     const [cookies, setCookie] = useCookies(['user']);    
-    
     const userAddress = null;
-    const CreateSession = e => {
 
-        e.preventDefault();   
-        const response = db.firestore().collection('session')
-        .add({
-            name:  sessionState.sessionName,
-            artist: sessionState.sessionArtistName,
-            address:  cookies["user"].displayName,
-            description: sessionState.sessionDescription,
-            needs: sessionNeed,
-            genre: sessionState.sessionGenre,
-            stems: [],
-            public:true
-            })
-            .then(data =>{
-                console.log(data.id)
-                // const id = sessions[0].stems[0].get().then(res => { 
-                //     let data = res.data()
-                //     setLoops(data);
-        
-                // })
-                // .catch(err => console.error(err));
-   
-                //     setSession(sessions[1]);
-                // });
+    const CreateSession = async(e) => {
 
-                setSessionState(initialState);
-                // navigate.push(`/session/${newInvoice.id}`);
-                navigate(`/session/${data.id}`);
-                }
-            );
+        e.preventDefault();    
+        const storage = db.storage();
+        const storageRef = storage.ref();
+        let sessionArtURL = null;
+
+        try {
+            
+            const fileRef = await storageRef.child(sessionArt.name).put(sessionArt)
+            sessionArtURL = await fileRef.ref.getDownloadURL();
+
+            const response = db.firestore().collection('session')
+            .add({
+                name:  sessionState.sessionName,
+                sessionArt: sessionArtURL,
+                artist: sessionState.sessionArtistName,
+                address:  cookies["user"].displayName,
+                description: sessionState.sessionDescription,
+                needs: sessionNeed,
+                genre: sessionState.sessionGenre,
+                stems: [],
+                public:true
+                })
+                .then(data =>{
+                    setSessionState(initialState);
+                    navigate(`/session/${data.id}`);
+                    }
+                );
+
+        }catch(e){console.log(e)}
+
+
+
 
     };
+
+    const onFileHomeImageChange = async(e,id) => {
+
+        const file = e.target.files[0]
+        console.log(file)
+        setSessionArt(file)
+        
+    }        
 
     const addSessionNeeds = e => {
         
@@ -71,7 +85,8 @@ const Create = () =>{
         <div className="Create">
         <div className="container">
             <form onSubmit={CreateSession}>
-                <input type="text" className="ghost-input" value={sessionState.sessionName} placeholder="Name" onChange={(e)=> setSessionState({...sessionState, sessionName:e.currentTarget.value})} required/> 
+                <input type="file" onChange={e => onFileHomeImageChange(e)} />
+                <input type="text" className="ghost-input" value={sessionState.sessionName} placeholder="Session Name" onChange={(e)=> setSessionState({...sessionState, sessionName:e.currentTarget.value})} required/> 
                 <input type="text" className="ghost-input" value={sessionState.sessionArtistName} placeholder="Artist Name" onChange={(e)=> setSessionState({...sessionState, sessionArtistName:e.currentTarget.value})} required/> 
                 <input type="text" className="ghost-input" value={sessionState.sessionGenre} placeholder="Genre" onChange={(e)=> setSessionState({...sessionState,sessionGenre:e.currentTarget.value})} required/> 
                 <input type="text" className="ghost-input" value={sessionState.sessionDescription} placeholder="Description" onChange={(e)=> setSessionState({...sessionState, sessionDescription: e.currentTarget.value})} required/> 

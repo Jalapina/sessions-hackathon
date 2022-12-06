@@ -1,5 +1,6 @@
 import React, {useState,useEffect,useRef} from 'react';
 import TextTransition, { presets } from "react-text-transition";
+import Sessions from "../Sessions/Sessions"
 import "./Home.css";
 import record from "../record.svg";
 import padIntro from "../padIntro.png";
@@ -8,7 +9,6 @@ import pad from "../pad.png";
 import PurpleArrow from "./purple-arrow.png";
 import PinkArrow from "./pink-arrow.png";
 import GreenArrow from "./green-arrow.png";
-
 
 const Home = () =>{
 
@@ -171,7 +171,7 @@ const Home = () =>{
                 </div>
 
             </div>
-
+            <Sessions/>
             <div className="about">
                 <div className="aboutTextHomeContainer">
                     <h2>Find that sound in your head</h2>

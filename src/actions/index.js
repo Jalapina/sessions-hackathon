@@ -35,6 +35,9 @@ export const createAnalyser = (context, ctx) =>{
             stemURL = await loopURL.ref.getDownloadURL()
             alert("Successfully uploaded loop!");
 
+
+            
+
         } catch (error) {
           console.log("error", error);
         }
@@ -45,18 +48,16 @@ export const createAnalyser = (context, ctx) =>{
             instrument:"placeholder",
             loop: stemURL,
             padId: currentPad.id,
+            padColor: "#F2EDEA",
             sampledOn: sessionDocRef
         }).then((data)=>{
-            console.log(data,"data")
+
             let collabDocRef = db.firestore().doc("/collaboration/"+data.id+"/")
             
             const arrayToUpdate = arrayUnion(collabDocRef);
-            console.log("arrayToUpdate",arrayToUpdate)
             const session = db.firestore().collection("session").doc(sessionDocRef.id).update({
                 stems: arrayToUpdate
             });
-
-            console.log(session)
 
             gridPadsArr[currentPad].source = stemURL
             gridPadsArr[currentPad].isLoaded = true
@@ -205,6 +206,7 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
             
             console.log(loop);
             Tone.Transport.start();
+            Tone.start();
             console.log(Tone);
 
             context.gridPadsArr[selectedPad].loop = loop;
@@ -235,7 +237,6 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
     
             // }, "0n").start(0);
             
-            // Tone.Transport.start();
             // }, 2)
             // context.gridPadsArr[padId].source.stop(context.ctx.currentTime + context.gridPadsArr[padId].sampleEnd);
     } else {

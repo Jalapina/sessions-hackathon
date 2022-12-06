@@ -1,0 +1,13 @@
+.sessionsComponent{
+    text-align: center;
+    background: black;
+}
+.sessionsItemArt{
+    width: 40%;
+}
+.sessionHomeContainer{
+    display: inline-block;
+    margin: 10px;
+    width: 100%;
+    display: flex;
+}
