@@ -2,6 +2,7 @@
     text-align: center;
     background: black;
     padding: 5px;
+    overflow: hidden;
 }
 .sessionsItemArt{
     width: 175px;
@@ -13,11 +14,12 @@
 .sessionSpecInfo{
     display: flex;
     width: 62%;
-    background: #ff08ff;
+    background: #c2ed00;
+    filter: invert(1);
     flex-direction: column-reverse;
     position: relative;
     align-items: flex-start;
-    left: 70px;
+    left: 50px;
     bottom: -15px;
     padding: 10px;
 }

@@ -1,17 +1,20 @@
 .header{
-    background: #300085;
+    background: url("./art.jpeg");
+    overflow: hidden;
     color: #ffffff;
     padding: 20px 15px 50px 15px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    font-family: Beary;    
+    font-family: Beary; 
+    filter: invert(1);
 }
 .logoWrapper h1{
-    font-size: 5em;
+    font-size: 4.5em;
+    font-family: 'Zombie';
     display: inline-block;
-    /* width: 20em; */
+    max-width: 600px;
 }
 .logoWrapper, .buttonWrapepr{
     flex-grow: 2;

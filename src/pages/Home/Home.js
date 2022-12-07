@@ -172,6 +172,7 @@ const Home = () =>{
 
             </div>
             <Sessions/>
+            
             <div className="about">
                 <div className="aboutTextHomeContainer">
                     <h2>Find that sound in your head</h2>

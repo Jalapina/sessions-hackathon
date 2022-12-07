@@ -33,6 +33,8 @@
     width: 170px;
     margin: auto;
     top: 45%;
+    font-family: "Zombie";
+    letter-spacing: 15px;
 }
 .left{
     min-width: 400px;

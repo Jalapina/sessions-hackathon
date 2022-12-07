@@ -34,6 +34,8 @@ export default (props) => {
     className="pad" 
     id={props.id}
     style={{
+        background: Colors.black,
+        color: Colors.white, 
         transition: "0.5s linear", 
         width: ""
     }}

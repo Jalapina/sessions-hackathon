@@ -23,7 +23,7 @@ export default ({title,button}) => {
     <div className="header">
         
         <div className="logoWrapper">
-            <h1>{title}</h1>
+            <h1 style={{fontFamily:"Zombie !important"}} >{title}</h1>
         </div>
 
 

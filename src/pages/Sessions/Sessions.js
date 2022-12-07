@@ -6,6 +6,7 @@ import "./sessions.css"
 import placeholder from "../placeholder.png";
 import {Context} from '../../contexts/SamplerContext';
 import { useCookies } from 'react-cookie';
+import { useLocation } from "react-router-dom";
 import {db} from '../../functions/firebase';
 import Header from '../../components/Header/Header';
 import { Link } from 'react-router-dom';
@@ -15,10 +16,14 @@ const Sessions = () =>{
     const [Sessions, setSessions] = useState()
     const array = ["",""]
     const context = useContext(Context);
-    
-    const getSessions = async() => {
+    let location =  useLocation();
+    let locationPath = location.pathname.split("/").pop();
 
-        const response = db.firestore().collection('session').onSnapshot(snapshot => {
+    const getSessions = async() => {
+        
+        const count = locationPath == "sessions" ? 10 : 6;
+
+        const response = db.firestore().collection('session').limit(count).onSnapshot(snapshot => {
             const sessions = snapshot.docs.map(doc => ({
                 id: doc.id,
               ...doc.data(),
@@ -80,8 +85,8 @@ const Sessions = () =>{
 
     return(
         <div className="sessionsComponent">
-            <h1>
-                TOP SESSIONS
+            <h1 style={{fontFamily:"Zombie",fontSize:"5em",transform: "rotate(7deg)",padding:"50px 0px 50px 0px"}}>
+                JUMP IN
             </h1>
 
             <div className="sessionsContainer">
@@ -109,13 +114,22 @@ const Sessions = () =>{
                             ):
                                 <div style={{maxWidth: "400px",margin: "auto"}}></div>
                             } */}
-                            
 
                         </div>
                     ))
                     ):"Loading..."
                 }
             </div>
+
+            <Link to="/sessions" style={{
+                padding: "25px",
+                fontFamily: "Zombie",
+                margin: "40px",
+                fontSize: "3em",
+                display:"inline-block"
+            }}>
+                SEE MORE
+            </Link>
         </div>
     )
 }

@@ -3,6 +3,7 @@ import React from "react";
 import history from "./history";
 import { signInWithMoralis as signInWithMoralisByEvm } from '@moralisweb3/client-firebase-evm-auth';
 import { auth, functions, moralisAuth } from '../../functions/firebase.js';
+import { useCookies } from 'react-cookie';
 
 const config = {
     domain: process.env.APP_DOMAIN,
@@ -88,12 +89,11 @@ async function doLogin(dispatch,setCookie) {
 
 }
 
-function doLogout(dispatch) {
-  const [removeCookie] = useCookies(['user']);
+function DoLogout(dispatch) {
   dispatch(initialState);
   removeCookie("user")
   history.push("/");
 }
 
-export { AuthProvider, useAuthState, useAuthDispatch, doLogin, doLogout, handler };
+export { AuthProvider, useAuthState, useAuthDispatch, doLogin, DoLogout, handler };
 
