@@ -43,7 +43,14 @@
     display: flex;
     flex-flow: column wrap;
 }
-
+.mintButton{
+    margin: auto;
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    font-size: 2em;
+    font-family: 'Orbitron';
+}
 /* .sessionArt img{
     width: 250px;
     min-width: 150px;

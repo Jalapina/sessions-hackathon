@@ -19,20 +19,21 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useCookies } from 'react-cookie';
 
 const Session = () =>{
-    const [session, setSession] = useState([]); //useState() hook, sets initial state to an empty array    
-    const [loops, setLoops] = useState(null); //useState() hook, sets initial state to an empty array    
+
+    const [session, setSession] = useState([]); //useState() hook, sets initial state to an empty array
+    const [loops, setLoops] = useState(null); //useState() hook, sets initial state to an empty array
     const context = useContext(Context);
     const gridArr = context.gridPadsArr;
     let getLoops = loops ? true:false;
     let location =  useLocation();
-    let sessionID = location.pathname.split("/").pop()
-    const [cookies, setCookie] = useCookies(['user']);    
+    let sessionID = location.pathname.split("/").pop();
+    const [user, setUser] = useCookies(['user']);
     
     const getSessionData = async() => {
 
         const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
-            let data = snapshot.data()
+            const data = snapshot.data();
             setSession(data);
             if(data.stems.length>0){
                 data.stems.map((stemId)=>{
@@ -40,7 +41,7 @@ const Session = () =>{
                 });
             }
         });
-
+        
     };
 
     const setPad = (stemId) =>{
@@ -111,41 +112,37 @@ const Session = () =>{
     const handleMint = async () =>{
 
         if(window.ethereum){
-            let tokenPrice = ethers.BigNumber.from('10000000000000000');
             
+            let tokenPrice = ethers.BigNumber.from('10000000000000000');
             const provider = new ethers.providers.Web3Provider(window.ethereum)
-            await provider.send('eth_requestAccounts', []); 
             const signer = provider.getSigner();
             
-            
             let feeData = await signer.getFeeData();
+
+            await provider.send('eth_requestAccounts', []); 
+
             const contract = new ethers.Contract(
-                    "0x24426a17f5DFCb9c65329776465Cf8c5e6D9DD80", //polygon smart contract address
-                    sessionContract.abi,
-                    signer,
-            )
+                "0x24426a17f5DFCb9c65329776465Cf8c5e6D9DD80", //polygon smart contract address
+                sessionContract.abi,
+                signer,
+            );
+
             try{
                 const response = await contract.createNFT("https://sessions-e4f78.web.app/session/"+sessionID,tokenPrice,{value: ethers.utils.parseEther("0.01"),gasLimit: 5000000});
 
-                db.firestore()
-                .collection("events")
-                .add({
-                  eventName:eventName,
-                  date:eventDate,
-                  where:eventLocation,
-                  additionalComment: eventAdditionalComments
-                })
+                const sessionResponse = db.firestore().collection("session").doc(sessionID).update({minted:true});
 
-                console.log(response);
+                setSession({...session,minted:true});
+
             }catch(e){console.log(e)}
         }
+
     }
 
     useEffect(() => { 
         if(context.gridPadsArr.length < 1) generateGrid();
     }, []);
 
-    
     return(
         <div className="sessionComponent">
             <Header title={session? session.artist:"Loading..."} button={false}/>
@@ -203,9 +200,12 @@ const Session = () =>{
 
             <div className="grid">
                 <Hud />
-                <button onClick={handleMint}>
-                    mint
-                </button>
+
+                {user.user && session ?(
+                    user.user.displayName == session.address && !session.minted ? <button className="mintButton"  onClick={handleMint}>mint</button>:""
+                ):""
+                }
+                
                 {rendercontent()}
             </div>
            

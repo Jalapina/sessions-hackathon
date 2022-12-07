@@ -1,13 +1,15 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import {db} from '../../functions/firebase';
+import { useCookies } from 'react-cookie';
 
 import "./profile.css"
 import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'
 
 const ProfileEditor = () =>{
     const [users, setUsers] = useState([]); //useState() hook, sets initial state to an empty array    
-
+    const [user, setUser] = useCookies(['user']);    
+    
     const getUserData = async() => {
 
         const response = db.firestore().collection('user')
@@ -31,7 +33,7 @@ const ProfileEditor = () =>{
     
     return(
         <div className="profile">
-        <Header title={"profile"}/>
+        <Header title={user.user.displayName}/>
             <div className="container">
                 <div className="leftSideBar">
                         <div className="profilePicture">

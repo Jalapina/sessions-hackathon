@@ -8,8 +8,8 @@ import './Pad.css';
 export default (props) => {
     const context = useContext(Context);
     let currentPad = context.gridPadsArr[props.id]
-    let borderColor = currentPad.source ? currentPad.color : Colors.gray;
-    let color = props.id === context.selectedPad ? currentPad.color : Colors.black;
+    // let borderColor = currentPad.source ? currentPad.color : Colors.gray;
+    // let color = props.id === context.selectedPad ? currentPad.color : Colors.black;
     
 
     const handleTouchStart = (padId) => {
@@ -34,8 +34,6 @@ export default (props) => {
     className="pad" 
     id={props.id}
     style={{
-        background: currentPad.source ? currentPad.color: Colors.black ,
-        color: Colors.white, 
         transition: "0.5s linear", 
         width: ""
     }}

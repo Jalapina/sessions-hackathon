@@ -4,6 +4,7 @@ import * as Tone from 'tone'
 import {db} from '../functions/firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import {arrayUnion} from "firebase/firestore"
+import { useCookies } from 'react-cookie';
 
 export const setCTX = async (context) => {
     let ctx = !context.ctx ? new (window.AudioContext || window.webkitAudioContext)() : null;
@@ -18,7 +19,9 @@ export const createAnalyser = (context, ctx) =>{
 
 
   export const uploadLoop = async (context,currentPad,sessionId, file) => {
-        if (!db) return;
+
+        const [cookies, setCookie] = useCookies(['user']);    
+        if (!db && !cookies.name) return;
         
         const uploadedFile = file;
         if (!uploadedFile) return;
@@ -48,6 +51,7 @@ export const createAnalyser = (context, ctx) =>{
             instrument:"placeholder",
             loop: stemURL,
             padId: currentPad.id,
+            artist: cookies["user"].displayName,
             padColor: "#F2EDEA",
             sampledOn: sessionDocRef
         }).then((data)=>{
@@ -64,7 +68,7 @@ export const createAnalyser = (context, ctx) =>{
             gridPadsArr[currentPad].name = currentPad.id
             gridPadsArr[currentPad].isLooping = false
             context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
-        }).catch(e=>{console.log(e)})
+        }).catch(e=>{console.log(e)});
 
         //     console.log(context,currentPad,sessionId, file,db)
         //     const stemFile = file
@@ -154,18 +158,20 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
         
         let selectedPad = padId;
         if(selectedSource && !context.gridPadsArr[padId].isPlaying){
-            console.log(context.gridPadsArr[padId].isPlaying);
-            console.log("Tone",Tone);
-            console.log("selectedSource",selectedSource);
-            // if(context.gridPadsArr[padId].player && context.gridPadsArr[padId].selfMuted){
-                //     let Player = context.gridPadsArr[padId].player
-                //     // let Loop = context.gridPadsArr[padId].loop;
-
+            // if(context.gridPadsArr[padId].player && context.gridPadsArr[padId].isPLaying){
+            //     //     let Player = context.gridPadsArr[padId].player
+            //     //     // let Loop = context.gridPadsArr[padId].loop;
+            //     let Player = context.gridPadsArr[padId].player;
+            //     let Loop = context.gridPadsArr[padId].loop;
+            //     context.gridPadsArr[padId].isPlaying = false;
+            //     context.gridPadsArr[padId].isLooping = true;
+        
+            //     Player.stop();
+            //     Loop.stop();
                 
-                //     Player.stop();
-                //     // Loop.stop();
-                // }
-            console.log("click")
+            //     //     Player.stop();
+            //     //     // Loop.stop();
+            // }
             let gridPadsArr = context.gridPadsArr;
             // let newSource = context.ctx.createBufferSource();
             // newSource.buffer = context.sources[padId].buffer;
@@ -189,7 +195,7 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
             }).toDestination();
             
             let Player = Players.player(gridPadsArr[selectedPad].name);
-            console.log(Player)
+
             const getDuration = async() => {
                 const buff0 = new Tone.ToneAudioBuffer(Player.buffer);
                 await Tone.ToneAudioBuffer.loaded();
@@ -197,17 +203,14 @@ export const handlePadTrigger = async(context, padId, velocity = 127) => {
             }
             
             const dur = await getDuration();
-            console.log(length,"***")
             
             loop = new Tone.Loop(function(){
                 //triggered every eighth note.
                 Player.start();
             },length).start(0);
             
-            console.log(loop);
             Tone.Transport.start();
             Tone.start();
-            console.log(Tone);
 
             context.gridPadsArr[selectedPad].loop = loop;
             context.gridPadsArr[selectedPad].player = Player;

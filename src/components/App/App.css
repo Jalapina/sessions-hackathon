@@ -2,6 +2,14 @@
     font-family: Beary;
     src: url("../../assets/fonts/Beary-K7q4y.ttf")
 }
+@font-face{
+    font-family: Zombie;
+    src: url("../../assets/fonts/Zombies.ttf")
+}
+@font-face{
+    font-family: Street;
+    src: url("../../assets/fonts/street.otf")
+}
 .app-wrapper{
     background: #2a2a2a;  /* fallback for old browsers */
 }

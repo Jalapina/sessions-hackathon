@@ -14,7 +14,7 @@ const Create = () =>{
     const [sessionState, setSessionState] = useState(initialState);
     const [sessionNeed, setSessionNeed] = useState('');
     const [sessionArt, setSessionArt] = useState();
-    const [cookies, setCookie] = useCookies(['user']);    
+    const [cookies, setCookie] = useCookies(['user']);
     const userAddress = null;
 
     const CreateSession = async(e) => {
@@ -39,6 +39,7 @@ const Create = () =>{
                 needs: sessionNeed,
                 genre: sessionState.sessionGenre,
                 stems: [],
+                minted:false,
                 public:true
                 })
                 .then(data =>{
@@ -91,7 +92,7 @@ const Create = () =>{
                 {sessionArt?(
                     <img style={{width:"120px"}} src={sessionArt.url}/>
                 ):
-                    <input type="file" onChange={e => onFileHomeImageChange(e)} />
+                    <input type="file" accept="image/*"  onChange={e => onFileHomeImageChange(e)} />
                 }
                 <input type="text" className="ghost-input" value={sessionState.sessionName} placeholder="Session Name" onChange={(e)=> setSessionState({...sessionState, sessionName:e.currentTarget.value})} required/> 
                 <input type="text" className="ghost-input" value={sessionState.sessionArtistName} placeholder="Artist Name" onChange={(e)=> setSessionState({...sessionState, sessionArtistName:e.currentTarget.value})} required/> 

@@ -8,12 +8,15 @@ import {db} from '../../functions/firebase';
 import {
     useLocation
   } from "react-router-dom";
-
+import { useCookies } from 'react-cookie';
+  
 const Controls = (props) => {
     const context = useContext(Context);
+    const [user, setUser] = useCookies(['user']);    
     let currentPad = context.gridPadsArr[context.selectedPad];
     let location =  useLocation();
-    let sessionID = location.pathname.split("/").pop()
+    let sessionID = location.pathname.split("/").pop();
+    
     // const [session, setSession] = useState(); 
     // const CreateCollab = () => {
         
@@ -107,7 +110,7 @@ const Controls = (props) => {
         )
     }
     const renderSourceLoadUnload = () => {
-        if(currentPad && !currentPad.source) return renderFileUpload();
+        if(currentPad && !currentPad.source && user.user) return renderFileUpload();
         if(currentPad && currentPad.source) {
             return <div><div onClick={() => toggleEditMode()}>{props.editToggleText}</div> <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD LOOP</button></div>
         }

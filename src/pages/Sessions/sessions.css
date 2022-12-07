@@ -4,11 +4,40 @@
     padding: 5px;
 }
 .sessionsItemArt{
-    width: 40%;
+    width: 175px;
+    position: relative;
+}
+.sessionHomeContainer a{
+    order: 1;
+}
+.sessionSpecInfo{
+    display: flex;
+    width: 62%;
+    background: #ff08ff;
+    flex-direction: column-reverse;
+    position: relative;
+    align-items: flex-start;
+    left: 70px;
+    bottom: -15px;
+    padding: 10px;
 }
 .sessionHomeContainer{
-    display: inline-block;
     margin: 10px auto;
-    width: 90%;
+    width: 35%;
     display: flex;
+    justify-content: flex-start;
+    flex-direction: column;  
 }
+.sessionsContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.previewSession{
+    /* background: tomato; */
+}
+@media (max-width: 600px) {
+    .sessionHomeContainer{
+        width: 80%;
+    }
+}    
