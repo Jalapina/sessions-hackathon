@@ -5,6 +5,7 @@ import {db} from '../functions/firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import {arrayUnion} from "firebase/firestore"
 import { useCookies } from 'react-cookie';
+import firebase from 'firebase/compat/app';
 
 export const setCTX = async (context) => {
     let ctx = !context.ctx ? new (window.AudioContext || window.webkitAudioContext)() : null;
@@ -20,7 +21,9 @@ export const createAnalyser = (context, ctx) =>{
 
   export const uploadLoop = async (context,currentPad,sessionId, file) => {
 
-        const [cookies, setCookie] = useCookies(['user']);    
+        const [cookies, setCookie] = useCookies(['user']);
+        const timeStamp = firebase.firestore.Timestamp.now();
+
         if (!db && !cookies.name) return;
         
         const uploadedFile = file;
@@ -34,12 +37,10 @@ export const createAnalyser = (context, ctx) =>{
         let stemURL = null;
 
         try {
+
             const loopURL  = await storageRef.child(uploadedFile.name).put(uploadedFile);
             stemURL = await loopURL.ref.getDownloadURL()
             alert("Successfully uploaded loop!");
-
-
-            
 
         } catch (error) {
           console.log("error", error);
@@ -60,7 +61,8 @@ export const createAnalyser = (context, ctx) =>{
             
             const arrayToUpdate = arrayUnion(collabDocRef);
             const session = db.firestore().collection("session").doc(sessionDocRef.id).update({
-                stems: arrayToUpdate
+                stems: arrayToUpdate,
+                updatedAt: timeStamp
             });
 
             gridPadsArr[currentPad].source = stemURL

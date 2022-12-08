@@ -52,22 +52,27 @@ function AuthProvider(props) {
 }
 
 async function handler(req, res) {
+  
     const { address, chain, network } = req.body;
-    console.log(address)
+
     await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
 
     try {
-        const message = await Moralis.Auth.requestMessage({
-            address,
-            chain,
-            network,
-            ...config,
-        });
+      
+      const message = await Moralis.Auth.requestMessage({
+        address,
+        chain,
+        network,
+        ...config,
+      });
 
-        res.status(200).json(message);
+      res.status(200).json(message);
+
     } catch (error) {
+
         res.status(400).json({ error });
         console.error(error);
+
     }
 }
 

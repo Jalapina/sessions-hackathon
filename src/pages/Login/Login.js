@@ -22,14 +22,17 @@ const Login = () =>{
         try {
           dispatch({ status: "pending" });
           result = await signInWithMoralisByEvm(moralisAuth);
+
           dispatch({
             status: "resolved",
             user: result.credentials.user,
             error: null
           });
         } catch (error) {
+          console.log(error)
+          dispatch({ status: "rejected", error });
         }
-        dispatch({ status: "rejected", error });
+
         setCookie('user',result.credentials.user);
 
     }

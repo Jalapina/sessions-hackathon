@@ -3,49 +3,73 @@
     display: flex;
     margin: 0 auto;
   }
+.profileNavigation p{
+  font-family: 'Beary';
+}
+.profileNavigation{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+.leftSideBar {
+  padding-top: 40px;
+}
 
-  .leftSideBar {
-    width: 30%;
-    padding-top: 40px;
+.profilePicture {
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
+}
+
+.mainContentArea {
+  padding: 40px;
+}
+
+.bio {
+  
+  padding-bottom: 40px;
+
+}
+
+.profileOptions {
+  width: 100%;
+  height: 100px;
+  background-color: #72757e;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
+}
+
+.profileButton {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: black;
+  color: white;
+}
+
+.componentArea {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
   }
-
-  .profilePicture {
-    width: 200px;
-    height: 200px;
-    margin-right: 20px;
+  .specs button{
+    margin-top: 35px;
+    border-radius: 0px;
+    padding: 10px;
+    border: 0px;
+    font-family: 'Beary';
+    color: #260f0f;
   }
-
-  .mainContentArea {
-    padding: 40px;
-    margin-right: 20px;
+  .specs{
+    text-align: center;
   }
-
-  .bio {
-    
-    padding-bottom: 40px;
-
-  }
-
-  .profileOptions {
-    width: 100%;
-    height: 100px;
-    background-color: #72757e;
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 40px;
-  }
-
-  .profileButton {
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    padding-left: 40px;
-    padding-right: 40px;
-    background-color: black;
-    color: white;
-  }
-
-  .componentArea {
-    width: 100%;
-  }
+}  

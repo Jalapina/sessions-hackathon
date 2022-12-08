@@ -44,13 +44,15 @@
   }
   .metamaskSignIn{
     color: #ffffff;
-    padding: 10px 30px;
+    padding: 20px 0px 20px 0px;
     width: 150px;
     transition: all 0.1s ease-in-out;
-    text-align: center;
+    text-align: left;
+    font-size: 2em;
   }
   .metamaskSignIn button{
     background: black;
     border: 0px;
-
+    font-family: 'Beary';
+    font-size: 1em;
 }

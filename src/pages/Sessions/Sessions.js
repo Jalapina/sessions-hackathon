@@ -4,6 +4,7 @@ import midiMap from '../../Config/midiMap';
 import Pad from '../../components/Pad/Pad';
 import "./sessions.css"
 import placeholder from "../placeholder.png";
+import firebase from 'firebase/compat/app';
 import {Context} from '../../contexts/SamplerContext';
 import { useCookies } from 'react-cookie';
 import { useLocation } from "react-router-dom";
@@ -13,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 const Sessions = () =>{
 
-    const [Sessions, setSessions] = useState()
+    const [sessions, setSessions] = useState()
     const array = ["",""]
     const context = useContext(Context);
     let location =  useLocation();
@@ -22,8 +23,11 @@ const Sessions = () =>{
     const getSessions = async() => {
         
         const count = locationPath == "sessions" ? 10 : 6;
+        const timeStamp = firebase.firestore.Timestamp.now();
 
-        const response = db.firestore().collection('session').limit(count).onSnapshot(snapshot => {
+        const snapshot = db.firestore().collection('session').limit(count).where("updatedAt","<",timeStamp).get()
+        
+        const sessionsData = snapshot.then(snapshot => {
             const sessions = snapshot.docs.map(doc => ({
                 id: doc.id,
               ...doc.data(),
@@ -31,9 +35,10 @@ const Sessions = () =>{
         setSessions(sessions);
         
         });
-  
     };
+
     const setPad = (stemId) =>{
+
         const stems = db.firestore().collection('collaboration').doc(stemId.id).get()
         .then(snapshot => {
             
@@ -84,11 +89,13 @@ const Sessions = () =>{
             </h1>
 
             <div className="sessionsContainer">
-                {Sessions?(
-                    Sessions.map((session,key)=>(
+                {sessions?(
+                    sessions.map((session,key)=>(
                         <div className="sessionHomeContainer">
                             
                             <div className="sessionSpecInfo">
+                                <div className="backgroundSpec">
+                                </div>
                                 <Link to={"/session/"+session.id} style={{textDecorationColor:"cyan",fontFamily:"Street",order:"1"}}><h3 style={{fontSize:"3em"}}>{session.name}</h3></Link>
                                 <p style={{display:"block",fontFamily:"'Beary'",order:"2"}} className="specs">ARTIST: {session.artist}</p>
                                 <p style={{display:"block",fontFamily:"'Beary'",order:"3"}} className="specs">TEMPO: 77</p>

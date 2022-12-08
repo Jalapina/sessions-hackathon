@@ -2,9 +2,11 @@ import React, {useState,useEffect,useRef} from 'react';
 import Header from '../../components/Header/Header';
 import { useNavigate } from "react-router-dom";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import firebase from 'firebase/compat/app';
 import {db} from '../../functions/firebase';
 import { useCookies } from 'react-cookie';
 import "../Register/register.css"
+import { useAuthState } from "../../components/Auth/auth-context";
 
 const Create = () =>{
 
@@ -17,9 +19,14 @@ const Create = () =>{
     const [cookies, setCookie] = useCookies(['user']);
     const userAddress = null;
 
-    const CreateSession = async(e) => {
+    const authState = useAuthState()
+    console.log(authState,cookies)
 
-        e.preventDefault();    
+    const CreateSession = async(e) => {
+        e.preventDefault();
+
+        if (cookies.user == null) return alert("Not Singed In");
+
         const storage = db.storage();
         const storageRef = storage.ref();
         let sessionArtURL = null;
@@ -41,7 +48,9 @@ const Create = () =>{
                 stems: [],
                 tempo: null,
                 minted:false,
-                public:true
+                public:true,
+                createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt : firebase.firestore.FieldValue.serverTimestamp()
                 })
                 .then(data =>{
                     setSessionState(initialState);

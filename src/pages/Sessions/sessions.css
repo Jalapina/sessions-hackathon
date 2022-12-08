@@ -18,6 +18,7 @@
 }
 .sessionSpecInfo{
     display: flex;
+    position: relative;
     align-items: flex-start;
     flex-direction: column;
     position: relative;
@@ -25,6 +26,21 @@
     left: 50px;
     bottom: -15px;
     padding: 10px;
+    background: blue;
+    z-index: 0;
+}
+.backgroundSpec{
+    background: black;
+    position: absolute;
+    width: 100%;
+    left: -22px;
+    right: 23px;
+    top: 0;
+    bottom: 0;
+    transform: rotate(97deg);
+    transform: rotate3d(1, 1, 1, 45deg);
+    z-index: -1;
+    border-radius: 38px;
 }
 .sessionHomeContainer{
     margin: 10px auto;
