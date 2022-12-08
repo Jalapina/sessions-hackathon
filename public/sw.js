@@ -2,9 +2,9 @@ var CACHE_NAME = 'samplerv1';
 var PRECACHE_URLS = [
     '/',
     'index.html',
-    'cf144.png',
-    'cf192.png',
-    'cf512.png'
+    'apple-touch-icon.png',
+    'android-chrome-192x192.png',
+    'android-chrome-512x512.png'
 ];
 if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js', {scope: './'})
