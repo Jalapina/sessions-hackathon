@@ -94,9 +94,11 @@ const Session = () =>{
     const testForTouchDevice = () => {
         return 'ontouchstart' in window;
     }
+    
     // const testForMidiAPI = () => {
         // return "requestMIDIAccess" in navigator;
     // }
+
     const generateGrid = () => {
         // let midiEnabled = testForMidiAPI();
         let touchEnabled = testForTouchDevice();

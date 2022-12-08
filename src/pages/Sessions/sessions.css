@@ -11,14 +11,17 @@
 .sessionHomeContainer a{
     order: 1;
 }
+.sessionSpecInfo h3{
+    color: #f502ff;
+    font-size: 5em;
+    text-align: left;
+}
 .sessionSpecInfo{
     display: flex;
-    width: 62%;
-    background: #c2ed00;
-    filter: invert(1);
-    flex-direction: column-reverse;
-    position: relative;
     align-items: flex-start;
+    flex-direction: column;
+    position: relative;
+    width: 62%;
     left: 50px;
     bottom: -15px;
     padding: 10px;
@@ -34,9 +37,6 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-}
-.previewSession{
-    /* background: tomato; */
 }
 @media (max-width: 600px) {
     .sessionHomeContainer{

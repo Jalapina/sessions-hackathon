@@ -3,9 +3,6 @@ import "./ProfilePreview.css"
 
 const ProfilePreview = () =>{
 
-
-    
-
     return(
         <div className="ProfilePreview">
         <div className="container">

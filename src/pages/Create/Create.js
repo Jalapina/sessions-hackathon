@@ -39,6 +39,7 @@ const Create = () =>{
                 needs: sessionNeed,
                 genre: sessionState.sessionGenre,
                 stems: [],
+                tempo: null,
                 minted:false,
                 public:true
                 })
@@ -49,9 +50,6 @@ const Create = () =>{
                 );
 
         }catch(e){console.log(e)}
-
-
-
 
     };
 
@@ -64,7 +62,6 @@ const Create = () =>{
         })
         
     }        
-    console.log(sessionArt)
 
     const addSessionNeeds = e => {
         
@@ -74,16 +71,15 @@ const Create = () =>{
         
         sessionNeedsArrayCopy.push({eitem})
         setSessionState({...sessionNeeds,sessionNeedsArrayCopy}) 
-      }
+    }
     
-      const onAddSessionNeed = () => {
+    const onAddSessionNeed = () => {
+    
+        const sessionNeedsArrayCopy = sessionState.sessionNeeds        
         
-            const sessionNeedsArrayCopy = sessionState.sessionNeeds        
-            
-            sessionNeedsArrayCopy.push("")
-            setSessionState({...sessionNeeds,sessionNeedsArrayCopy})
-        };
-        
+        sessionNeedsArrayCopy.push("")
+        setSessionState({...sessionNeeds,sessionNeedsArrayCopy})
+    };
 
     return(
         <div className="Create">

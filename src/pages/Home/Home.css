@@ -25,16 +25,25 @@
     right: 0;
     height: 100%;    
 }
-.textAnimation h1{
+.textAnimation .animationwrapper h2{
+    font-family: "Zombie";
+    font-size: 2em;
+    letter-spacing: 15px;
+}
+.textAnimation .animationwrapper{
     position: relative;
+    text-align: left;
     left: 0;
     right: 0;
-    width: 100%;
-    width: 170px;
+    font-size: 12px;
+    width: 250px;
     margin: auto;
     top: 45%;
-    font-family: "Zombie";
-    letter-spacing: 15px;
+    height: 5px;
+    background: violet;
+}
+.text-transition{
+    margin-top: -35px;
 }
 .left{
     min-width: 400px;
@@ -128,6 +137,9 @@
         left: 80px;
     }
     .right{
+        width: 100%;
+    }
+    .animationwrapper{    
         width: 100%;
     }
     

@@ -1,5 +1,4 @@
 .header{
-    background: url("./art.jpeg");
     overflow: hidden;
     color: #ffffff;
     padding: 20px 15px 50px 15px;
@@ -8,7 +7,7 @@
     align-items: center;
     justify-content: center;
     font-family: Beary; 
-    filter: invert(1);
+    position: relative;
 }
 .logoWrapper h1{
     font-size: 4.5em;
@@ -18,6 +17,7 @@
 }
 .logoWrapper, .buttonWrapepr{
     flex-grow: 2;
+    z-index: 1;
 }
 
 .createButton{
@@ -26,6 +26,18 @@
 }
 .buttonWrapepr{
     text-align: right;
+}
+
+.artBackground{
+    background: url("./art.jpeg");
+    filter: opacity(0.5);
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;    
+    z-index: 0;
 }
 
 @media (max-width: 600px) {

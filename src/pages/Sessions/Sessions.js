@@ -72,12 +72,6 @@ const Sessions = () =>{
             getSessions();
         }
     },[])
-
-    useEffect(()=>{
-        return () => {
-            console.log("unmounted")
-        }
-    },[])
         
     const rendercontent = () => {
         return <div className="previewSession">{array.map((item,key) => { return renderPad("",key) })} </div>
@@ -95,10 +89,10 @@ const Sessions = () =>{
                         <div className="sessionHomeContainer">
                             
                             <div className="sessionSpecInfo">
-                                <Link to={"/session/"+session.id} style={{textDecoration:"none",fontFamily:"Street"}}><h3 style={{fontSize:"2em"}}>{session.name}</h3></Link>
-                                <p style={{display:"block"}} className="specs">Artist: {session.artist}</p>
-                                <p style={{display:"block"}} className="specs">Tempo: 77</p>
-                                <p style={{display:"block"}} className="specs">NEEDS: {session.needs}</p>
+                                <Link to={"/session/"+session.id} style={{textDecorationColor:"cyan",fontFamily:"Street",order:"1"}}><h3 style={{fontSize:"3em"}}>{session.name}</h3></Link>
+                                <p style={{display:"block",fontFamily:"'Beary'",order:"2"}} className="specs">ARTIST: {session.artist}</p>
+                                <p style={{display:"block",fontFamily:"'Beary'",order:"3"}} className="specs">TEMPO: 77</p>
+                                <p style={{display:"block",fontFamily:"'Beary'",order:"4"}} className="specs">NEEDS: {session.needs}</p>
                             </div>
                             
                             <div className="sessionsItemArt">
@@ -107,29 +101,36 @@ const Sessions = () =>{
 
                             {rendercontent()}
 
-                            {/* {session.stems.length>1?(
-                                session.stems.map((source,key)=>{
-                                    <div style={{maxWidth: "400px",margin: "auto"}}>{renderPad(source,key)}</div>
-                                })
-                            ):
-                                <div style={{maxWidth: "400px",margin: "auto"}}></div>
-                            } */}
-
                         </div>
                     ))
                     ):"Loading..."
                 }
             </div>
+            
+            { locationPath != "sessions" ? 
 
-            <Link to="/sessions" style={{
-                padding: "25px",
-                fontFamily: "Zombie",
-                margin: "40px",
-                fontSize: "3em",
-                display:"inline-block"
-            }}>
-                SEE MORE
-            </Link>
+                <Link to="/sessions" style={{
+                    padding: "25px",
+                    fontFamily: "Zombie",
+                    margin: "40px",
+                    fontSize: "3em",
+                    display:"inline-block"
+                }}>
+                    SEE MORE
+                </Link>:
+
+                <Link to="/" style={{
+                    padding: "25px",
+                    fontFamily: "Zombie",
+                    margin: "40px",
+                    fontSize: "3em",
+                    display:"inline-block"
+                }}>
+                    GO BACK
+                </Link>
+
+            }
+
         </div>
     )
 }

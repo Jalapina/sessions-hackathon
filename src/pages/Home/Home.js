@@ -18,6 +18,12 @@ const Home = () =>{
         "INOVATE",
         "LISTEN"
       ];
+    const TEXTSPARAGRAPH = [
+        "collaborate with friends and artist around the world",
+        "create great music with anyone, anywhere",
+        "find the sound of the future",
+        "listen to others creations"
+      ];
 
     const [index, setIndex] = useState(0);
       
@@ -28,105 +34,7 @@ const Home = () =>{
         );
         return () => clearTimeout(intervalId);
       }, []);
-    
       
-    // const elts = {
-    //     text1: document.getElementById("text1"),
-    //     text2: document.getElementById("text2")
-    //     };
-
-    // const texts = [
-    //     "If",
-    //     "You",
-    //     "Like",
-    //     "It",
-    //     "Please",
-    //     "Give",
-    //     "a Love",
-    //     ":)",
-    //     "by @DotOnion"
-    // ];
-    
-    // const morphTime = 1;
-    // const cooldownTime = 0.25;
-    
-    // let textIndex = texts.length - 1;
-    // let time = new Date();
-    // let morph = 0;
-    // let cooldown = cooldownTime;
-    
-    // const text1 = useRef(null);
-    // const text2 = useRef(null);
-    // text1.current = texts[textIndex % texts.length];
-    // text2.current = texts[(textIndex + 1) % texts.length];
-
-    // const doMorph = () =>{
-    //     morph -= cooldown;
-    //     cooldown = 0;
-    
-    //     let fraction = morph / morphTime;
-    
-    //     if (fraction > 1) {
-    //         cooldown = cooldownTime;
-    //         fraction = 1;
-    //     }
-    
-    //     setMorph(fraction);
-    // }
-    
-    // const setMorph  =(fraction) =>{
-    //     text2.current.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-    //     text2.current.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
-    
-    //     fraction = 1 - fraction;
-    //     text1.current.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-    //     text1.current.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
-    
-    //     text1.current.textContent = texts[textIndex % texts.length];
-    //     text2.current.textContent = texts[(textIndex + 1) % texts.length];
-    // }
-    
-    // const doCooldown = () =>{
-    //     console.log(text1.current.style)
-        
-    //     morph = 0;
-
-    //     text1.current.style.filter = "";        
-    //     text2.current.style.opacity = "100%";
-    
-    //     text1.current.style.filter = "";
-    //     text1.current.style.opacity = "0%";
-    // }
-    
-    // const animate = () =>{
-    //     requestAnimationFrame(animate);
-    
-    //     let newTime = new Date();
-    //     let shouldIncrementIndex = cooldown > 0;
-    //     let dt = (newTime - time) / 1000;
-    //     time = newTime;
-    
-    //     cooldown -= dt;
-    
-    //     if (cooldown <= 0) {
-    //         if (shouldIncrementIndex) {
-    //             textIndex++;
-    //         }
-    
-    //         doMorph();
-    //     } else {
-    //         doCooldown();
-    //     }
-    // }
-
-    // useEffect(()=>{
-    //     if(text1.current.style.filter){
-    //         console.log("call")
-    //         animate();
-    //         console.log(text1.current.style)
-    //     }
-    // },[text1.current])
-
     return(
         <div className="home">
     
@@ -158,13 +66,16 @@ const Home = () =>{
 
                 <div className="element right">
                     <div className="textAnimation">
-                    <h1>
-                        <TextTransition springConfig={presets.wobbly}>
-                            
-                            {TEXTS[index % TEXTS.length]}
-
-                        </TextTransition>
-                    </h1>
+                        <div className="animationwrapper">
+                            <TextTransition springConfig={presets.wobbly}>
+                            <h2>
+                                {TEXTS[index % TEXTS.length]}
+                            </h2>
+                            <p>
+                                {TEXTSPARAGRAPH[index % TEXTSPARAGRAPH.length]}
+                            </p>
+                            </TextTransition>
+                        </div>
                     </div>
 
 

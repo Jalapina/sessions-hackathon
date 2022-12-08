@@ -21,7 +21,8 @@ export default ({title,button}) => {
 
     return (
     <div className="header">
-        
+        <div className="artBackground">
+        </div>
         <div className="logoWrapper">
             <h1 style={{fontFamily:"Zombie !important"}} >{title}</h1>
         </div>
