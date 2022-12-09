@@ -96,7 +96,7 @@ const Sessions = () =>{
                             <div className="sessionSpecInfo">
                                 <div className="backgroundSpec">
                                 </div>
-                                <Link to={"/session/"+session.id} style={{textDecorationColor:"cyan",fontFamily:"Street",order:"1"}}><h3 style={{fontSize:"3em"}}>{session.name}</h3></Link>
+                                <Link to={"/session/"+session.id} style={{textDecorationColor:"cyan",fontFamily:"Beary",order:"1"}}><h3 style={{fontSize:"3em"}}>{session.name}</h3></Link>
                                 <p style={{display:"block",fontFamily:"'Beary'",order:"2"}} className="specs">ARTIST: {session.artist}</p>
                                 <p style={{display:"block",fontFamily:"'Beary'",order:"3"}} className="specs">TEMPO: 77</p>
                                 <p style={{display:"block",fontFamily:"'Beary'",order:"4"}} className="specs">NEEDS: {session.needs}</p>

@@ -20,7 +20,6 @@ const Create = () =>{
     const userAddress = null;
 
     const authState = useAuthState()
-    console.log(authState,cookies)
 
     const CreateSession = async(e) => {
         e.preventDefault();

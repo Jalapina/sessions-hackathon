@@ -36,10 +36,12 @@ const ProfileEditor = () =>{
         
             response.where("address","==",user.user.displayName).get()
             .then(snapshot => {
+                
                 const sessions = snapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data(),
                 }));
+
                 setSessions(sessions);
                         
         });
@@ -60,7 +62,6 @@ const ProfileEditor = () =>{
             setIsOwner(userJSON[0].address == user.user.displayName? true:false)
                 
             setUserData(userJSON[0]);
-                // getUserSessionsData();
                 
             }).catch(err => {return console.error(err)});
             

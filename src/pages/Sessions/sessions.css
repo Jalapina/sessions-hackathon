@@ -6,48 +6,52 @@
 }
 .sessionsItemArt{
     width: 175px;
-    position: relative;
+    position: absolute;
+    right: 30px;
+    bottom: 245px;
 }
 .sessionHomeContainer a{
     order: 1;
 }
 .sessionSpecInfo h3{
-    color: #f502ff;
     font-size: 5em;
     text-align: left;
 }
 .sessionSpecInfo{
     display: flex;
+    background: rgb(0, 0, 0);
     position: relative;
     align-items: flex-start;
     flex-direction: column;
     position: relative;
-    width: 62%;
-    left: 50px;
+    /* width: 70%; */
+    min-width: 300px;
+    /* left: 90px; */
     bottom: -15px;
     padding: 10px;
-    background: blue;
     z-index: 0;
+    margin-bottom: 100px;
 }
 .backgroundSpec{
-    background: black;
+    background: rgb(124 0 255);
     position: absolute;
-    width: 100%;
+    width: 80%;
     left: -22px;
     right: 23px;
     top: 0;
-    bottom: 0;
-    transform: rotate(97deg);
-    transform: rotate3d(1, 1, 1, 45deg);
-    z-index: -1;
-    border-radius: 38px;
+    bottom: 0px;
+    z-index: -2;
+    margin: auto;
+    transform: skewX(169deg);
 }
 .sessionHomeContainer{
-    margin: 10px auto;
-    width: 35%;
+    margin: 15px auto;
+    width: 40%;
     display: flex;
+    position: relative;
     justify-content: flex-start;
     flex-direction: column;  
+    border-bottom: 2px solid;
 }
 .sessionsContainer{
     display: flex;
@@ -58,4 +62,8 @@
     .sessionHomeContainer{
         width: 80%;
     }
+    .sessionsItemArt{
+        width: 130px;
+    }
+    
 }    
