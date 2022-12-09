@@ -91,7 +91,7 @@ const ProfileEditor = () =>{
                             <h2>{userData ? userData.artistName: "Loading..."}</h2>
                             <h4>Sessions: {sessions?sessions.length:"None"}</h4>
                             <h4>collabs: 7</h4>
-                            <button onClick={signOut}>sign out</button>
+                            {isOwner? <button onClick={signOut}>sign out</button>:""}
                         </div>
                 </div>
                 <div className="mainContentArea">
