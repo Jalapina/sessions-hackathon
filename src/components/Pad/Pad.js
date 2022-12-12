@@ -7,11 +7,17 @@ import './Pad.css';
 
 export default (props) => {
     const context = useContext(Context);
-    let currentPad = context.gridPadsArr[props.id]
-    // let borderColor = currentPad.source ? currentPad.color : Colors.gray;
+    let currentPad = context.gridPadsArr[props.id];
+     let borderColor =  Colors.black;
+     let backgroundColor =  Colors.black;
+     
+
+     if(currentPad){
+        borderColor = currentPad.grey
+        backgroundColor = currentPad.color
+     }
     // let color = props.id === context.selectedPad ? currentPad.color : Colors.black;
     
-
     const handleTouchStart = (padId) => {
         if(!touchCTRL[padId].hold){
 
@@ -30,20 +36,21 @@ export default (props) => {
             handlePadTrigger(context, padId)
         }
     }
+
     return <button 
-    className="pad" 
-    id={props.id}
-    style={{
-        background: Colors.black,
-        color: Colors.white, 
-        transition: "0.5s linear", 
-        width: ""
-    }}
-    onClick={() => {handleMouseClick(props.id)}}
-    onDoubleClick={(e) => e.preventDefault()}
-    onTouchStart={(e) => {handleTouchStart(props.id, e)}}
-    onTouchEnd={(e) => {handleTouchEnd(props.id, e)}}
-    >
-        <span className="pad-text">{props.midiNote}</span>
+        className="pad" 
+        id={props.id}
+        style={{
+            background:backgroundColor,
+            color: Colors.white, 
+            transition: "0.5s linear", 
+        }}
+        onClick={() => {handleMouseClick(props.id)}}
+        onDoubleClick={(e) => e.preventDefault()}
+        onTouchStart={(e) => {handleTouchStart(props.id, e)}}
+        onTouchEnd={(e) => {handleTouchEnd(props.id, e)}}
+        >
+            <span className="pad-text">{props.midiNote}</span>
     </button>
+
 }

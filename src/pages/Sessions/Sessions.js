@@ -19,6 +19,11 @@ const Sessions = () =>{
     const context = useContext(Context);
     let location =  useLocation();
     let locationPath = location.pathname.split("/").pop();
+    const [isLoading, setIsLoading] = useState(true);
+    
+    const sliptAddressText = (address) =>{
+        return address.split("").splice(-10);
+    }
 
     const getSessions = async() => {
         
@@ -33,6 +38,7 @@ const Sessions = () =>{
               ...doc.data(),
             }));
         setSessions(sessions);
+        setIsLoading(false)
         
         });
     };
@@ -97,9 +103,25 @@ const Sessions = () =>{
                                 <div className="backgroundSpec">
                                 </div>
                                 <Link to={"/session/"+session.id} style={{textDecorationColor:"cyan",fontFamily:"Beary",order:"1"}}><h3 style={{fontSize:"3em"}}>{session.name}</h3></Link>
-                                <Link to={"/profile/"+session.address} style={{textDecoration:"none",fontSize:"1.2em"}}><p style={{display:"block",fontFamily:"'Beary'",order:"2"}} className="specs">ARTIST: {session.artist}</p></Link>
+                                <Link to={"/profile/"+session.address} style={{textDecoration:"none",fontSize:"1.2em"}}><p style={{display:"block",fontFamily:"'Beary'",order:"2"}} className="specs">ARTIST: {session.artist?session.artist:sliptAddressText(session.address)}</p></Link>
                                 <p style={{display:"block",fontFamily:"'Beary'",order:"3"}} className="specs">TEMPO: 77</p>
-                                <p style={{display:"block",fontFamily:"'Beary'",order:"4"}} className="specs">NEEDS: {session.needs}</p>
+                                
+                                {isLoading?
+            
+                                    "LOADING...":            
+                                    
+                                    <div style={{display:"inline-block",order:"4",textAlign:"left",width:"100%"}} >
+                                                                        
+                                        <p style={{fontFamily:"Beary", fontSize:"1em"}}>
+                                            Needs
+                                        </p>
+
+                                        {session.needs.length>0?(
+                                            session.needs.map(needItem =><p style={{display:"inline-block",margin:"10px"}}>{needItem}</p> )
+                                        ):""}
+                                    
+                                    </div>
+                                }
                             </div>
                             
                             <div className="sessionsItemArt">
