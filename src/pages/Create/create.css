@@ -1,0 +1,19 @@
+.image-upload {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.image-upload>input {
+    display: none;
+    font-family: 'Beary';
+  }
+  .session-needs button{
+    border: 0px;
+    padding: 10px;
+    width: 25%;
+  }
+  .session-needs{    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }

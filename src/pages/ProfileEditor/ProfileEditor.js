@@ -80,12 +80,12 @@ const ProfileEditor = () =>{
     return(
         <div className="profile">
         
-        <Header title={sliptAddressText(user.user.displayName)}/>
+        <Header title={sliptAddressText(locationPath)}/>
 
             <div className="container">
                 <div className="leftSideBar">
                         <div className="profilePicture">
-                            <img className="profilePicture" alt="profilePic" src={userData? userData.profileImage : placeholder}/>
+                            <img className="profilePicture" alt="profilePic" src={userData.profileImage? userData.profileImage : placeholder}/>
                         </div>
                         <div className='specs'>
                             <h2>{userData ? userData.artistName: "Loading..."}</h2>

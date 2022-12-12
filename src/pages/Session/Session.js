@@ -22,6 +22,7 @@ const Session = () =>{
 
     const [session, setSession] = useState([]); //useState() hook, sets initial state to an empty array
     const [loops, setLoops] = useState(null); //useState() hook, sets initial state to an empty array
+    const [isLoading, setIsLoading] = useState(true);
     const context = useContext(Context);
     const gridArr = context.gridPadsArr;
     let getLoops = loops ? true:false;
@@ -35,6 +36,7 @@ const Session = () =>{
         .then(snapshot =>{
             const data = snapshot.data();
             setSession(data);
+            setIsLoading(false);
             if(data.stems.length>0){
                 data.stems.map((stemId)=>{
                     setPad(stemId);
@@ -147,53 +149,62 @@ const Session = () =>{
 
     return(
         <div className="sessionComponent">
-            <Header title={session? session.artist:"Loading..."} button={false}/>
+
+            <Header title={isLoading? "Loading...":session.artist} button={false}/>
 
             <div className="sessionContentTop">
 
                 <div className="sessionArt">
-                    <img src={session.sessionArt? session.sessionArt:placeholder} />
+                    {session.sessionArt?
+                        <img src={session.sessionArt}/>
+                        :""
+                    }
                 </div>
 
                 <div className="sessionOptions">
 
                     <div className="sessionSpecs">
                         <h3 className="sessionTitle">
-                            {session? session.name:"Loading..."}
+                            {isLoading? "Loading...":session.name}
                         </h3>
                         <p>
                             version: 1.0.0
                         </p>
                         <p>
-                            tempo: {session? session.tempo:"loading..."}bpm
+                            tempo: {isLoading? "loading...":session.tempo}bpm
                         </p>
 
                     </div>
 
                     <div className="optionsWrapper">
-                    {session?(
+                    {isLoading?(
+                        <p>
+                            LOADING...
+                        </p>
+                        ):
                         <p>
                             {session.description}
-                        </p>
-                    ):
-                        <p>
-                        A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs.
                         </p>
                     }
                     </div>
                     <div className="sessionNeedsWrapper">
-                        <h3>
-                            Needs
-                        </h3>
-                        <p>
-                            guitar riff
-                        </p>
-                        <p>
-                            bass
-                        </p>
-                        <p>
-                            vocals
-                        </p>
+
+                    {isLoading?
+            
+                        "LOADING...":            
+                        
+                        <div className="sessionNeedsContainer">
+                                                
+                            <h3>
+                                Needs
+                            </h3>
+
+                            {session.needs.length>0?(
+                                session.needs.map(needItem =><p>{needItem}</p> )
+                            ):""}
+                            
+                        </div>
+                    }
                     </div>
 
             </div>

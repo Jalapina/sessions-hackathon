@@ -27,19 +27,20 @@
     text-align: right;
 }
 .sessionContentTop{
-    /* align-items: center;     */
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
-    height: 450px;
+    margin: 50px 0px 50px 0px
+    /* align-items: center;     */
+    /* height: 450px; */
 }
 .sessionArt img{
     width: 250px;
-    min-width: 150px;
+    /* min-width: 150px; */
 }
 .sessionOptions{
     order: 2;
-    width: 75%;
+    width: 65%;
     display: flex;
     flex-flow: column wrap;
 }
@@ -63,7 +64,11 @@
 } */
 .sessionArt{
     order: 1;
-    width: 25%;
+    width: 250px; 
+    height: 250px;
+    margin-right: 50px;   
+    background: black;
+    /* width: 25%; */
 }
 .sessionAddLoop{
     order: 2;
@@ -75,9 +80,10 @@
     display: inline-block;
     text-align: center;
     width: 20%;
-    background: rgb(4, 3, 3);
+    background: rgb(114 19 255);
     padding: 8px;
-    margin: 2px;
+    margin: 0px 5px 0px 0px;
+    font-family: 'Beary';
 }
 .sessionNeedsWrapper{
     order: 3;
@@ -100,8 +106,13 @@
     .sessionOptions,.sessionSpecs{
         flex-direction: column;
     }
+    .sessionOptions{
+        width: 100%;
+    }
     .sessionArt{
         width: 100%;
+        max-width: 250px;
+        margin: 0px 0px 35px 0px;
     }
     
     

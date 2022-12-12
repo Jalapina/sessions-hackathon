@@ -49,8 +49,9 @@ const Modal: SFC<any> = props => {
         >
             <AnimatedDialogContent
             style={{
-                maxWidth: "400px",
+                maxWidth: "900px",
                 background: "#000000",
+                fontFamilty: "Beary",                
                 ...styles
             }}
             >
