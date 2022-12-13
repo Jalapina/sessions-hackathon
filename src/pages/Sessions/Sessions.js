@@ -110,22 +110,22 @@ const Sessions = () =>{
             
                                     "LOADING...":            
                                     
-                                    <div style={{display:"inline-block",order:"4",textAlign:"left",width:"100%"}} >
+                                    <div style={{display:"inline-block",order:"4",textAlign:"left",width:"50%"}} >
                                                                         
-                                        <p style={{fontFamily:"Beary", fontSize:"1em"}}>
-                                            Needs
+                                        <p style={{fontFamily:"Beary", fontSize:"1em",display:"inline-block"}}>
+                                            NEEDS: 
                                         </p>
 
                                         {session.needs.length>0?(
-                                            session.needs.map(needItem =><p style={{display:"inline-block",margin:"10px"}}>{needItem}</p> )
-                                        ):""}
+                                            session.needs.map(needItem =><p style={{display:"inline-block",margin:"10px",padding:"10px",background:"#5b00ba"}}>{needItem}</p> )
+                                        ):" N/A"}
                                     
                                     </div>
                                 }
                             </div>
                             
                             <div className="sessionsItemArt">
-                                <img style={{width:"100%"}} src={session.sessionArt? session.sessionArt:placeholder} />
+                                <Link to={"/session/"+session.id}><img style={{width:"100%"}} src={session.sessionArt? session.sessionArt:placeholder} /></Link>
                             </div>
 
                             {rendercontent()}

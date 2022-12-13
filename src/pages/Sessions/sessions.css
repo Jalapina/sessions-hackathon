@@ -50,7 +50,7 @@
     width: 40%;
     display: flex;
     position: relative;
-    justify-content: flex-start;
+    justify-content: flex-end;
     flex-direction: column;  
     border-bottom: 2px solid;
 }

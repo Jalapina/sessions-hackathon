@@ -116,7 +116,7 @@ const Create = () =>{
 
                 }
                 <input type="text" className="ghost-input" value={sessionState.sessionName} placeholder="session title" onChange={(e)=> setSessionState({...sessionState, sessionName:e.currentTarget.value})} required/> 
-                <input type="text" className="ghost-input" value={sessionState.sessionDescription} placeholder="description" onChange={(e)=> setSessionState({...sessionState, sessionDescription: e.currentTarget.value})}/> 
+                <textarea type="text" className="ghost-input" value={sessionState.sessionDescription} placeholder="description" onChange={(e)=> setSessionState({...sessionState, sessionDescription: e.currentTarget.value})}> </textarea>
                 {/* <input type="text" className="ghost-input" value={sessionState.sessionArtistName} placeholder="Artist Name" onChange={(e)=> setSessionState({...sessionState, sessionArtistName:e.currentTarget.value})} required/>  */}
                 <select onChange={handleGenreChange} className="ghost-input" > 
                     <option value="⬇️ Select a Genre ⬇️">select a genre</option>
@@ -128,6 +128,7 @@ const Create = () =>{
                     <input type="text" style={{fontSize:"1.2em"}} className="ghost-input" placeholder="this session needs" value={need} onChange={(e)=>setNeed(e.target.value)} />
 
                     <button 
+                    disabled={need.length<1?true:false}
                     style={{
                         background: "#4c08ff"
                     }}
