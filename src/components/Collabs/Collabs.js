@@ -33,3 +33,5 @@ const Collabs = () =>{
         </div>
     )
 }
+
+export default Collabs

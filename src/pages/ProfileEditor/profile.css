@@ -1,7 +1,9 @@
 .container {
-    width: 90%;
-    display: flex;
-    margin: 0 auto;
+  width: 90%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
   }
 .profileNavigation p{
   font-family: 'Beary';
@@ -11,6 +13,10 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
+}
+.profile-route-container{
+  background: red;
+  width: 90%;
 }
 .leftSideBar {
   padding-top: 40px;
@@ -24,6 +30,7 @@
 
 .mainContentArea {
   padding: 40px;
+  max-width: 900px;
 }
 
 .bio {
@@ -56,6 +63,14 @@
   width: 100%;
 }
 
+.specs button{
+  border-radius: 0px;
+  padding: 10px;
+  border: 0px;
+  font-family: 'Beary';
+  color: #260f0f;
+}
+
 @media (max-width: 600px) {
   .container {
     flex-direction: column;
@@ -63,11 +78,6 @@
   }
   .specs button{
     margin-top: 35px;
-    border-radius: 0px;
-    padding: 10px;
-    border: 0px;
-    font-family: 'Beary';
-    color: #260f0f;
   }
   .specs{
     text-align: center;

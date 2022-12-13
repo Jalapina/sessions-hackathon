@@ -1,4 +1,5 @@
 import React, {useState,useEffect,useRef} from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { useNavigate } from "react-router-dom";
 import {db} from '../../functions/firebase';
@@ -100,25 +101,39 @@ const ProfileEditor = () =>{
                     </div>
                     <div className="profileNavigation">
                         
-                      {isOwner?  <div>
-                            <p>
-                                SETTINGS
-                            </p>
-                        </div>:""}
-                        <div>
-                            <p>
-                                SESSIONS
-                            </p>
-                        </div>
-                        <div>
-                            <p>
-                                COLLABS
-                            </p>
-                        </div>
+                        {isOwner?  
+                            <Link to={"settings/"}>
+                                <div>
+                                    <p>
+                                        SETTINGS
+                                    </p>
+                                </div>
+                            </Link>
+                            :""}
+
+                        <Link to={"sessions/"}>
+                            <div>
+                                <p>
+                                    SESSIONS
+                                </p>
+                            </div>
+                        </Link>
+
+                        <Link to={"collabs/"}>
+                            <div>
+                                <p>
+                                    COLLABS
+                                </p>
+                            </div>
+                        </Link>
   
                     </div>
                 </div>
 
+                <div className="profile-route-container">
+                    <Outlet/>
+                </div>
+                
             </div>
             {/* {newUser? <div style={{width:"100%",display:"inline-block",textAlign:"center"}}>Welcome</div>:""} */}
         </div>

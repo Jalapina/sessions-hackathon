@@ -9,7 +9,9 @@ import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import ProfileEditor from "../../pages/ProfileEditor/ProfileEditor"
 import Create from "../../pages/Create/Create"
 import Session from "../../pages/Session/Session"
+import Settings from "../Settings/Settings"
 import Sessions from "../../pages/Sessions/Sessions"
+import Collabs from "../Collabs/Collabs"
 import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from "../Auth/auth-context";
@@ -34,7 +36,12 @@ export default function App () {
                         <div className="app-wrapper">
                             <Routes>
                                 <Route path="/" element={<SamplerGrid />} exact />
-                                <Route path="profile/:id" element={<ProfileEditor />} />
+                                <Route path="profile/:id" element={<ProfileEditor />} >
+                                    <Route index element={<Settings />} />
+                                    <Route path="settings" element={<Settings/>} />
+                                    <Route path="sessions" element={<Sessions/>} />
+                                    <Route path="collabs" element={<Collabs/>} />
+                                </Route>
                                 <Route path="session/:id" element={<Session />} />
                                 <Route path="sessions" element={<Sessions />} exact/>
                                 <Route path="*" element={<NotFoundPage />} />
