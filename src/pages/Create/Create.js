@@ -94,7 +94,6 @@ const Create = () =>{
     let handleGenreChange = (e) => {
         setGenre(e.target.value)
     }
-    console.log(sessionState.sessionName.length)
     
     return(
         <div className="Create">
@@ -104,12 +103,14 @@ const Create = () =>{
                     <img style={{width:"120px"}} src={sessionArt.url}/>
                 ):
                     <div class="image-upload">
+                        
                         <label for="file-input">
                             <img style={{width:"100px"}} src={imageUpload}/>
                             <p style={{marginTop:"0px"}}>
                                 session cover art
                             </p>
                         </label>
+                        
                         <input id="file-input" accept="image/*" type="file" onChange={e=>{onFileHomeImageChange(e)}}/>
                          
                     </div>

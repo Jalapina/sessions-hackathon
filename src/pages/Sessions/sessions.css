@@ -19,7 +19,7 @@
 }
 .sessionSpecInfo{
     display: flex;
-    background: rgb(0, 0, 0);
+    background: rgb(22 22 26);
     position: relative;
     align-items: flex-start;
     flex-direction: column;

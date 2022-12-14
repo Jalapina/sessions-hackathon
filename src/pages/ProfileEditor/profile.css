@@ -4,6 +4,7 @@
   margin: 0 auto;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   }
 .profileNavigation p{
   font-family: 'Beary';
@@ -15,8 +16,7 @@
   justify-content: space-around;
 }
 .profile-route-container{
-  background: red;
-  width: 90%;
+  width: 85%;
 }
 .leftSideBar {
   padding-top: 40px;
@@ -30,7 +30,7 @@
 
 .mainContentArea {
   padding: 40px;
-  max-width: 900px;
+  max-width: 850px;
 }
 
 .bio {
@@ -70,6 +70,8 @@
   font-family: 'Beary';
   color: #260f0f;
 }
+
+
 
 @media (max-width: 600px) {
   .container {

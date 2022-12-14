@@ -11,6 +11,7 @@ import Create from "../../pages/Create/Create"
 import Session from "../../pages/Session/Session"
 import Settings from "../Settings/Settings"
 import Sessions from "../../pages/Sessions/Sessions"
+import SessionsPreview from "../SessionsPreview/SessionsPreview"
 import Collabs from "../Collabs/Collabs"
 import Modal from "../Modal/Modal"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -39,7 +40,7 @@ export default function App () {
                                 <Route path="profile/:id" element={<ProfileEditor />} >
                                     <Route index element={<Settings />} />
                                     <Route path="settings" element={<Settings/>} />
-                                    <Route path="sessions" element={<Sessions/>} />
+                                    <Route path="sessions" element={<SessionsPreview/>} />
                                     <Route path="collabs" element={<Collabs/>} />
                                 </Route>
                                 <Route path="session/:id" element={<Session />} />

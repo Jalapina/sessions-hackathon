@@ -56,3 +56,7 @@
     font-family: 'Beary';
     font-size: 1em;
 }
+
+.metamaskSignIn button:focus{
+  outline: none;
+}

@@ -5,22 +5,30 @@ import { useNavigate } from "react-router-dom";
 import {db} from '../../functions/firebase';
 import { useCookies } from 'react-cookie';
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { useLocation } from "react-router-dom";
 import { useAuthDispatch } from "../../components/Auth/auth-context";
-import SessionsFeed from '../../components/SessionsFeed/SessionsFeed'
+import SessionsFeed from '../../components/SessionsFeed/SessionsFeed';
 import placeholder from "../placeholder.png";
-import "./profile.css"
+import "./profile.css";
+import "../Create/create.css";
 
 const ProfileEditor = () =>{
     let navigate = useNavigate();    
-    const [userData, setUserData] = useState([]); //useState() hook, sets initial state to an empty array    
+    const [userData, setUserData] = useState([]);   
     const [user, setUser,removeCookie] = useCookies(['user']);
     const [sessions, setSessions] = useState()
     const [isOwner, setIsOwner] = useState(false)
     const dispatch = useAuthDispatch();
     let location =  useLocation();
-    let locationPath = location.pathname.split("/").pop();
+    let locationPath = location.pathname.split("/",3).pop();
+    const [imageFile, setImageFile] = useState(null);
 
+      // Handle selecting a new image file
+    const handleImageChange = (event) => {
+        setImageFile(event.target.files[0]);
+    };
+    
     const sliptAddressText = (address) =>{
         return address.split("").splice(-10);
     }
@@ -31,23 +39,27 @@ const ProfileEditor = () =>{
         error: null
     };
 
-    const getUserSessionsData = async() => {
-        
-        const response = db.firestore().collection('session')
-        
-            response.where("address","==",user.user.displayName).get()
-            .then(snapshot => {
-                
-                const sessions = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
+    const handleImageUpload = () => {
+        if (imageFile) {
+          // Create a storage reference
+          const storage = db.storage();
+          const storageRef = storage.ref(imageFile.name);
+          
+          // Upload the file to storage
+          storageRef.put(imageFile).then(() => {
+            // Get the URL of the uploaded file
+            storageRef.getDownloadURL().then((downloadURL) => {
+              // Save the download URL to the user's document in Firestore
+              db.firestore().collection('user').doc(userData.id).update({
+                imageUrl: downloadURL
+              });
+              setImageFile(null)
+              setUserData({...useData,imageUrl:downloadURL})
+            });
 
-                setSessions(sessions);
-                        
-        });
-        
-    }
+          });
+        }
+      };
 
     const getUserData = async() => {
 
@@ -85,8 +97,17 @@ const ProfileEditor = () =>{
 
             <div className="container">
                 <div className="leftSideBar">
-                        <div className="profilePicture">
-                            <img className="profilePicture" alt="profilePic" src={userData.profileImage? userData.profileImage : placeholder}/>
+                        <div className="profilePicture image-upload">
+                            <label for="file-input">
+                                <img className="profilePicture" alt="profilePic" src={userData.imageUrl? userData.imageUrl : placeholder}/>
+                            </label>
+                            <input id="file-input" accept="image/*" type="file" onChange={e=>{handleImageChange(e)}}/>
+                            {imageFile != null && isOwner?(
+                                <button onClick={handleImageUpload}>
+                                    update
+                                </button>
+                            ):""}
+                            
                         </div>
                         <div className='specs'>
                             <h2>{userData ? userData.artistName: "Loading..."}</h2>
@@ -131,7 +152,7 @@ const ProfileEditor = () =>{
                 </div>
 
                 <div className="profile-route-container">
-                    <Outlet/>
+                    <Outlet context={[userData,setUserData]}/>
                 </div>
                 
             </div>
