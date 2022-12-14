@@ -25,7 +25,7 @@ const Settings = () => {
     <div className="settings-container">
 
       <label>
-        Artist Name:
+        <h3>Update Artist Name</h3>
         <input type="text" value={artistName} onChange={(e)=>setArtistName(event.target.value)} />
       </label>
 

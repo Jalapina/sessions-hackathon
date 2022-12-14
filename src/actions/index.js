@@ -4,7 +4,6 @@ import * as Tone from 'tone'
 import {db} from '../functions/firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import {arrayUnion} from "firebase/firestore"
-import { useCookies } from 'react-cookie';
 import firebase from 'firebase/compat/app';
 
 export const setCTX = async (context) => {
@@ -18,14 +17,11 @@ export const createAnalyser = (context, ctx) =>{
     context.dispatch({type: types.CREATE_ANALYSER, payload: {ctx, analyser}})
 }
 
+export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
 
-  export const uploadLoop = async (context,currentPad,sessionId, file) => {
 
-        const [cookies, setCookie] = useCookies(['user']);
-        const timeStamp = firebase.firestore.Timestamp.now();
+        if (!db && user.user) return;
 
-        if (!db && !cookies.name) return;
-        
         const uploadedFile = file;
         if (!uploadedFile) return;
         
@@ -43,34 +39,38 @@ export const createAnalyser = (context, ctx) =>{
             alert("Successfully uploaded loop!");
 
         } catch (error) {
-          console.log("error", error);
+            return console.log("error", error);
         }
 
-        db.firestore().collection("collaboration")
+        const response = db.firestore().collection("collaboration")
         .add({
             stemName:"placeholder",
             instrument:"placeholder",
             loop: stemURL,
             padId: currentPad.id,
-            artist: cookies["user"].displayName,
+            artist: user.user.displayName,
             padColor: "#F2EDEA",
-            sampledOn: sessionDocRef
+            sampledOn: sessionDocRef.id,
+            createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt : firebase.firestore.FieldValue.serverTimestamp()
         }).then((data)=>{
 
-            let collabDocRef = db.firestore().doc("/collaboration/"+data.id+"/")
-            
-            const arrayToUpdate = arrayUnion(collabDocRef);
-            const session = db.firestore().collection("session").doc(sessionDocRef.id).update({
-                stems: arrayToUpdate,
-                updatedAt: timeStamp
-            });
+        console.log(data);
 
-            gridPadsArr[currentPad].source = stemURL
-            gridPadsArr[currentPad].isLoaded = true
-            gridPadsArr[currentPad].name = currentPad.id
-            gridPadsArr[currentPad].isLooping = false
-            context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
-        }).catch(e=>{console.log(e)});
+        let collabDocRef = db.firestore().doc("/collaboration/"+data.id+"/")
+        
+        const arrayToUpdate = arrayUnion(collabDocRef);
+        const session = db.firestore().collection("session").doc(sessionDocRef.id).update({
+            stems: arrayToUpdate,
+            updatedAt : firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        gridPadsArr[currentPad].source = stemURL
+        gridPadsArr[currentPad].isLoaded = true
+        gridPadsArr[currentPad].name = currentPad.id
+        gridPadsArr[currentPad].isLooping = false
+        context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
+    }).catch(e=>{console.log(e)});
 
         //     console.log(context,currentPad,sessionId, file,db)
         //     const stemFile = file

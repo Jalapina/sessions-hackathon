@@ -16,7 +16,7 @@ const Controls = (props) => {
     let currentPad = context.gridPadsArr[context.selectedPad];
     let location =  useLocation();
     let sessionID = location.pathname.split("/").pop();
-    
+    console.log(props)
     // const [session, setSession] = useState(); 
     // const CreateCollab = () => {
         
@@ -45,7 +45,7 @@ const Controls = (props) => {
         let ext = file.name.split('.')[1]
         let validExt = /mp3|wav|m4a/.test(ext)
         if(!validExt) return console.error("Unable to load selected file")
-        return uploadLoop(context,currentPad,sessionID, file)
+        return uploadLoop(context,currentPad,sessionID, file,user)
     }
     // const toggleRecMode = () => {
     //     let recMode = !context.recMode
@@ -110,9 +110,10 @@ const Controls = (props) => {
         )
     }
     const renderSourceLoadUnload = () => {
+        if(!user.hasOwnProperty()) return [];
         if(currentPad && !currentPad.source && user.user) return renderFileUpload();
-        if(currentPad && currentPad.source) {
-            return <div><div onClick={() => toggleEditMode()}>{props.editToggleText}</div> <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD LOOP</button></div>
+        if(currentPad && currentPad.source && user.user.displayName == props.props.sessionOwner.sessionOwner) {
+            return <div><div onClick={() => toggleEditMode()}>{props.props.editToggleText}</div> <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD LOOP</button></div>
         }
         if(context.editMode && currentPad && !currentPad.source) return renderFileUpload()
     }

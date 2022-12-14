@@ -29,13 +29,16 @@ const Session = () =>{
     let location =  useLocation();
     let sessionID = location.pathname.split("/").pop();
     const [user, setUser] = useCookies(['user']);
-    
+    const [isOwner, setIsOwner] = useState(false)
+    console.log("session:",user)
+
     const getSessionData = async() => {
 
         const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
             const data = snapshot.data();
             setSession(data);
+            setIsOwner(user.hasOwnProperty() && data.address ? true:false)
             setIsLoading(false);
             if(data.stems.length>0){
                 data.stems.map((stemId)=>{
@@ -146,11 +149,12 @@ const Session = () =>{
     useEffect(() => { 
         if(context.gridPadsArr.length < 1) generateGrid();
     }, []);
+    console.log(session)
 
     return(
         <div className="sessionComponent">
 
-            <Header title={isLoading? "Loading...":session.artist} button={false}/>
+            <Header title={isLoading? "Loading...":session.artistName} button={false}/>
 
             <div className="sessionContentTop">
 
@@ -212,7 +216,7 @@ const Session = () =>{
             </div>
 
             <div className="grid">
-                <Hud />
+                <Hud sessionOwner={session.address} />
 
                 {user.user && session ?(
                     user.user.displayName == session.address && !session.minted ? <button className="mintButton"  onClick={handleMint}>mint</button>:""

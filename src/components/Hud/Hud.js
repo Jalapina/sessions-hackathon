@@ -6,7 +6,7 @@ import WaveformDisplay from '../WaveformDisplay/WaveformDisplay';
 import Controls from '../Controls/Controls';
 import icon from "./settingsIcon.png";
 
-export default () => {
+export default (sessionOwner) => {
     const context = useContext(Context);
     const currentPadId = context.selectedPad;
 
@@ -25,7 +25,7 @@ export default () => {
                 <WaveformDisplay />     
             ):""
             }
-            <Controls editToggleText={editToggleMode}/>
+            <Controls props={{editToggleMode, sessionOwner}}/>
             
         </div>
     )
