@@ -8,6 +8,7 @@ export default {
     banks: 4,
     currentbank: 1,
     gridPadsArr: [],
+    sessions: [],
     players: {},
     editMode: false,
     osc: null,

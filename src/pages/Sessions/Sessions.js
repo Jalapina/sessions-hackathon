@@ -1,7 +1,9 @@
 import React, {useState,useContext,useEffect} from 'react';
+import { useOutletContext } from "react-router-dom";
 import Colors from '../../Config/ColorScheme';
 import midiMap from '../../Config/midiMap';
 import Pad from '../../components/Pad/Pad';
+import * as types from '../../reducers/types';
 import "./sessions.css"
 import placeholder from "../placeholder.png";
 import firebase from 'firebase/compat/app';
@@ -11,10 +13,11 @@ import { useLocation } from "react-router-dom";
 import {db} from '../../functions/firebase';
 import Header from '../../components/Header/Header';
 import { Link } from 'react-router-dom';
+// import INITIAL_STATE from '../../contexts/Config/AudioInitialState';
 
 const Sessions = () =>{
 
-    const [sessions, setSessions] = useState()
+    const [sessions, setSessions] = useState([])
     const array = ["",""]
     const context = useContext(Context);
     let location =  useLocation();
@@ -39,9 +42,13 @@ const Sessions = () =>{
             }));
         setSessions(sessions);
         setIsLoading(false)
+        context.dispatch({type: types.UPDATE_SOURCES, payload: {sessions}});
         
-        });
-    };
+        // (()=>{
+        //     return sessionsData
+        // })
+    });
+};
 
     const setPad = (stemId) =>{
 
@@ -49,14 +56,12 @@ const Sessions = () =>{
         .then(snapshot => {
             
             let stem = snapshot.data()
-            
             const padId = stem.padId
 
-            let gridPadsArr = context.gridPadsArr;
+            let gridPadsArr = context.sessions;
             gridPadsArr[padId].source = stem.loop
             gridPadsArr[padId].isLoaded = true
             gridPadsArr[padId].isLooping = false
-            return context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
             
         })
         .catch(err => {return console.error(err)});
@@ -79,13 +84,20 @@ const Sessions = () =>{
     }   
 
     useEffect(()=>{
-        if(db != undefined){
+        if(db != undefined && sessions.length == 0){
             getSessions();
         }
     },[])
-        
-    const rendercontent = () => {
-        return <div className="previewSession">{array.map((item,key) => { return renderPad("",key) })} </div>
+
+    useEffect(()=>{
+        return () => {
+            let gridPadsArr = []
+            context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});            
+          };
+    },[])
+
+    const rendercontent = (sessionKey) => {
+        return <div className="previewSession">{array.map((item,key) => { return renderPad("",sessionKey+key) })} </div>
     }
 
     return(
@@ -128,7 +140,7 @@ const Sessions = () =>{
                                 <Link to={"/session/"+session.id}><img style={{width:"100%"}} src={session.sessionArt? session.sessionArt:placeholder} /></Link>
                             </div>
 
-                            {rendercontent()}
+                            {rendercontent(key)}
 
                         </div>
                     ))

@@ -38,7 +38,7 @@ export default function App () {
                             <Routes>
                                 <Route path="/" element={<SamplerGrid />} exact />
                                 <Route path="profile/:id" element={<ProfileEditor />} >
-                                    <Route index element={<Settings />} />
+                                    <Route index element={<SessionsPreview />} />
                                     <Route path="settings" element={<Settings/>} />
                                     <Route path="sessions" element={<SessionsPreview/>} />
                                     <Route path="collabs" element={<Collabs/>} />

@@ -10,14 +10,14 @@ export default (props) => {
     let currentPad = context.gridPadsArr[props.id];
      let borderColor =  Colors.black;
      let backgroundColor =  Colors.black;
-     
+     let isLoaded = false
 
      if(currentPad){
-        borderColor = currentPad.grey
-        backgroundColor = currentPad.color
+    //     borderColor = currentPad.grey
+        isLoaded = currentPad.source ? true : false
+    //     backgroundColor = currentPad.color
      }
-    // let color = props.id === context.selectedPad ? currentPad.color : Colors.black;
-    
+     console.log(isLoaded)
     const handleTouchStart = (padId) => {
         if(!touchCTRL[padId].hold){
 
@@ -41,7 +41,7 @@ export default (props) => {
         className="pad" 
         id={props.id}
         style={{
-            background:backgroundColor,
+            background: isLoaded ? currentPad.color: Colors.black ,
             color: Colors.white, 
             transition: "0.5s linear", 
         }}

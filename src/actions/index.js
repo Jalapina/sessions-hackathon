@@ -24,7 +24,6 @@ export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
 
         const uploadedFile = file;
         if (!uploadedFile) return;
-        
         let sessionDocRef = db.firestore().doc("/session/"+sessionId+"/")
 
         const gridPadsArr = context.gridPadsArr;
@@ -55,8 +54,6 @@ export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
             updatedAt : firebase.firestore.FieldValue.serverTimestamp()
         }).then((data)=>{
 
-        console.log(data);
-
         let collabDocRef = db.firestore().doc("/collaboration/"+data.id+"/")
         
         const arrayToUpdate = arrayUnion(collabDocRef);
@@ -69,6 +66,8 @@ export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
         gridPadsArr[currentPad].isLoaded = true
         gridPadsArr[currentPad].name = currentPad.id
         gridPadsArr[currentPad].isLooping = false
+        gridPadsArr[currentPad].color = Colors.lightorange
+        gridPadsArr[currentPad].editToggleText = true
         context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
     }).catch(e=>{console.log(e)});
 

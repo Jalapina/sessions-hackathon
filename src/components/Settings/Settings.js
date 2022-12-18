@@ -5,7 +5,7 @@ import "./Settings.css"
 
 const Settings = () => {
   const [artistName, setArtistName] = useState('');
-  const [userData,setUserData] = useOutletContext();  
+  const [userData,setUserData,isOwner] = useOutletContext();  
 
   const handleUserUpdate = () => {
 
@@ -29,7 +29,7 @@ const Settings = () => {
         <input type="text" value={artistName} onChange={(e)=>setArtistName(event.target.value)} />
       </label>
 
-      {userData.artistName?
+      {isOwner?
         <p>Your current artist name is: {userData.artistName}</p>
         :"YOU'RE NAMELESS"
       }

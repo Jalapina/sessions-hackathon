@@ -16,7 +16,6 @@ const Controls = (props) => {
     let currentPad = context.gridPadsArr[context.selectedPad];
     let location =  useLocation();
     let sessionID = location.pathname.split("/").pop();
-    console.log(props)
     // const [session, setSession] = useState(); 
     // const CreateCollab = () => {
         
@@ -56,13 +55,13 @@ const Controls = (props) => {
         let recMode = false;
         context.dispatch({type: TOGGLE_EDIT_MODE, payload: {editMode, recMode} });
     }
-    const clearSelectedPad = () => {
-        let sources = {...context.sources}
-        sources[context.selectedPad] = {buffer: null, name: "", isPlaying: false}
-        let gridPadsArr = [...context.gridPadsArr];
-        gridPadsArr[context.selectedPad].source = null
-        context.dispatch({type: CLEAR_SELECTED_PAD, payload: {sources, gridPadsArr}})
-    }
+    // const clearSelectedPad = () => {
+    //     let sources = {...context.sources}
+    //     sources[context.selectedPad] = {buffer: null, name: "", isPlaying: false}
+    //     let gridPadsArr = [...context.gridPadsArr];
+    //     gridPadsArr[context.selectedPad].source = null
+    //     context.dispatch({type: CLEAR_SELECTED_PAD, payload: {sources, gridPadsArr}})
+    // }
     // const renderRecButton = () => {
     //     if(context.editMode && currentPad && !currentPad.source){
     //         if(!context.recMode){
@@ -99,7 +98,7 @@ const Controls = (props) => {
             <div className="file-selector-wrapper">
                 <button 
                 className="ctl-btn" 
-                onClick={(e) => openFileSelector(e)}>LOAD A LOOP</button>
+                onClick={(e) => openFileSelector(e)}>UPLOAD A LOOP</button>
                 <input 
                 type="file" 
                 style={{display:"none"}}
@@ -110,10 +109,11 @@ const Controls = (props) => {
         )
     }
     const renderSourceLoadUnload = () => {
-        if(!user.hasOwnProperty()) return [];
+        // if(!user.hasOwnProperty()) return [];
+        // console.log(props.props)
         if(currentPad && !currentPad.source && user.user) return renderFileUpload();
         if(currentPad && currentPad.source && user.user.displayName == props.props.sessionOwner.sessionOwner) {
-            return <div><div onClick={() => toggleEditMode()}>{props.props.editToggleText}</div> <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD LOOP</button></div>
+            return <div><div onClick={() => toggleEditMode()}>{props.props.editToggleMode}</div></div>
         }
         if(context.editMode && currentPad && !currentPad.source) return renderFileUpload()
     }

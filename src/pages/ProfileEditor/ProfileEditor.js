@@ -152,7 +152,7 @@ const ProfileEditor = () =>{
                 </div>
 
                 <div className="profile-route-container">
-                    <Outlet context={[userData,setUserData]}/>
+                    <Outlet context={[userData,setUserData,isOwner]}/>
                 </div>
                 
             </div>

@@ -17,6 +17,7 @@ import midiMap from '../../Config/midiMap';
 import { ethers } from 'ethers';
 import { Web3Provider } from '@ethersproject/providers';
 import { useCookies } from 'react-cookie';
+import INITIAL_STATE from '../../contexts/Config/AudioInitialState';
 
 const Session = () =>{
 
@@ -30,24 +31,28 @@ const Session = () =>{
     let sessionID = location.pathname.split("/").pop();
     const [user, setUser] = useCookies(['user']);
     const [isOwner, setIsOwner] = useState(false)
-    console.log("session:",user)
-
+    
     const getSessionData = async() => {
 
         const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
             const data = snapshot.data();
             setSession(data);
+            console.log(data)
             setIsOwner(user.hasOwnProperty() && data.address ? true:false)
-            setIsLoading(false);
             if(data.stems.length>0){
                 data.stems.map((stemId)=>{
                     setPad(stemId);
                 });
+                setIsLoading(false);
+            }else{
+                setIsLoading(false);                
             }
         });
         
     };
+
+    console.log(isLoading)
 
     const setPad = (stemId) =>{
 
@@ -58,10 +63,11 @@ const Session = () =>{
             
             const padId = stem.padId
 
-            let gridPadsArr = context.gridPadsArr;
-            gridPadsArr[padId].source = stem.loop
-            gridPadsArr[padId].isLoaded = true
-            gridPadsArr[padId].isLooping = false
+            gridArr[padId].source = stem.loop
+            gridArr[padId].isLoaded = true
+            gridArr[padId].color = "#38A8CE"
+            gridArr[padId].isLooping = false
+
             context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
             
         })
@@ -70,24 +76,31 @@ const Session = () =>{
     }
 
     useEffect(()=>{
+        return () => {
+            let gridPadsArr = []
+            context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});            
+          };
+    },[])
+
+    useEffect(()=>{
         if(db != undefined){
             getSessionData();
         }
-    },[context.gridPadsArr,sessionID])
+    },[gridArr,sessionID])
 
     const renderPad = (item) => {
         let backgroundColor = Colors.black
         let source = context.sources[item.id];
         const midiNote = midiMap[item.id + 36].note;
-        if(!context.editMode && source && source.buffer) backgroundColor = context.gridPadsArr[context.selectedPad].color;
-        if(context.editMode && source && source.buffer) backgroundColor = Colors.green;
+        if(!context.editMode && source)  backgroundColor = context.gridPadsArr[context.selectedPad].color;
+        if(context.editMode && source) backgroundColor = Colors.green;
 
         return <Pad 
-        midiNote={midiNote}
-        key={item.id} 
-        id={item.id} 
-        name={item.name}
-        backgroundColor={backgroundColor}
+            midiNote={midiNote}
+            key={item.id} 
+            id={item.id} 
+            name={item.name}
+            backgroundColor={backgroundColor}
         />
         
     }   
@@ -149,7 +162,6 @@ const Session = () =>{
     useEffect(() => { 
         if(context.gridPadsArr.length < 1) generateGrid();
     }, []);
-    console.log(session)
 
     return(
         <div className="sessionComponent">
@@ -222,8 +234,7 @@ const Session = () =>{
                     user.user.displayName == session.address && !session.minted ? <button className="mintButton"  onClick={handleMint}>mint</button>:""
                 ):""
                 }
-                
-                {rendercontent()}
+                {!isLoading? rendercontent():"LOADING...."}
             </div>
            
 
