@@ -6,7 +6,8 @@ import WaveformDisplay from '../WaveformDisplay/WaveformDisplay';
 import Controls from '../Controls/Controls';
 import icon from "./settingsIcon.png";
 
-export default (sessionOwner) => {
+export default ({sessionOwner,isMinted}) => {
+
     const context = useContext(Context);
     const currentPadId = context.selectedPad;
 
@@ -35,7 +36,7 @@ export default (sessionOwner) => {
                 </div>
             : "" } */}
 
-            <Controls props={{editToggleMode, sessionOwner}}/>
+            <Controls props={{editToggleMode, sessionOwner,isMinted}}/>
 
             {isLoaded && context.editMode ?
                 <button className="ctl-btn" onClick={() => clearSelectedPad()}>UNLOAD LOOP</button>:""

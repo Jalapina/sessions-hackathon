@@ -4,6 +4,8 @@ import * as Tone from 'tone'
 import {db} from '../functions/firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import {arrayUnion} from "firebase/firestore"
+
+
 import firebase from 'firebase/compat/app';
 
 export const setCTX = async (context) => {
@@ -17,12 +19,12 @@ export const createAnalyser = (context, ctx) =>{
     context.dispatch({type: types.CREATE_ANALYSER, payload: {ctx, analyser}})
 }
 
-export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
+export const uploadLoop = async (context,currentPad,sessionId, collabData,user) => {
 
 
         if (!db && user.user) return;
 
-        const uploadedFile = file;
+        const uploadedFile = collabData.file;
         if (!uploadedFile) return;
         let sessionDocRef = db.firestore().doc("/session/"+sessionId+"/")
 
@@ -43,9 +45,11 @@ export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
 
         const response = db.firestore().collection("collaboration")
         .add({
-            stemName:"placeholder",
-            instrument:"placeholder",
+            loopName: collabData.loopName,
+            instrument: collabData.instrument,
             loop: stemURL,
+            tempo: collabData.tempo? collabData.tempo : null,
+            key: collabData.key? collabData.key : null,
             padId: currentPad.id,
             artist: user.user.displayName,
             padColor: "#F2EDEA",
@@ -57,9 +61,12 @@ export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
         let collabDocRef = db.firestore().doc("/collaboration/"+data.id+"/")
         
         const arrayToUpdate = arrayUnion(collabDocRef);
+
+
         const session = db.firestore().collection("session").doc(sessionDocRef.id).update({
             stems: arrayToUpdate,
-            updatedAt : firebase.firestore.FieldValue.serverTimestamp()
+            updatedAt : firebase.firestore.FieldValue.serverTimestamp(),
+            collaborators: arrayUnion(user.user.displayName)
         });
 
         gridPadsArr[currentPad].source = stemURL
@@ -69,6 +76,7 @@ export const uploadLoop = async (context,currentPad,sessionId, file,user) => {
         gridPadsArr[currentPad].color = Colors.lightorange
         gridPadsArr[currentPad].editToggleText = true
         context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
+
     }).catch(e=>{console.log(e)});
 
         //     console.log(context,currentPad,sessionId, file,db)

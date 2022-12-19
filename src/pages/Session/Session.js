@@ -38,7 +38,6 @@ const Session = () =>{
         .then(snapshot =>{
             const data = snapshot.data();
             setSession(data);
-            console.log(data)
             setIsOwner(user.hasOwnProperty() && data.address ? true:false)
             if(data.stems.length>0){
                 data.stems.map((stemId)=>{
@@ -51,8 +50,6 @@ const Session = () =>{
         });
         
     };
-
-    console.log(isLoading)
 
     const setPad = (stemId) =>{
 
@@ -150,7 +147,13 @@ const Session = () =>{
             try{
                 const response = await contract.createNFT("https://sessions-e4f78.web.app/session/"+sessionID,tokenPrice,{value: ethers.utils.parseEther("0.01"),gasLimit: 5000000});
 
-                const sessionResponse = db.firestore().collection("session").doc(sessionID).update({minted:true});
+                const sessionResponse = db.firestore().collection("session").doc(sessionID).update({
+                    isMinted: true,
+                    mintData: {
+                        contractHash: response.to,
+                        mintHash: response.hash
+                    }
+                });
 
                 setSession({...session,minted:true});
 
@@ -161,6 +164,7 @@ const Session = () =>{
 
     useEffect(() => { 
         if(context.gridPadsArr.length < 1) generateGrid();
+        console.log(session)
     }, []);
 
     return(
@@ -227,11 +231,38 @@ const Session = () =>{
 
             </div>
 
+            <div style={{
+                textAlign:"center"
+            }}>
+                {isLoading?
+                        "":
+                    session.isMinted ?
+                    <div className="sessionNeedsContainer">
+                                            
+                        <h3>
+                            THIS SESSION IS MINTED ON THE CHAIN!
+                        </h3>
+                        <a href={"https://mumbai.polygonscan.com/tx/"+session.mintData.mintHash}>
+                            POLYGON LINK
+                        </a>
+
+                        <h3>Session collaborators:</h3>
+                        {session.collaborators.length>0?(
+                            session.collaborators.map(collaborator =><p>{collaborator}</p> )
+                        )
+                        
+                        :""}
+
+                    </div>:""
+                }
+            </div>
+
             <div className="grid">
-                <Hud sessionOwner={session.address} />
+            
+                {isLoading? "" : <Hud sessionOwner={session.address} isMinted={session.isMinted} />}
 
                 {user.user && session ?(
-                    user.user.displayName == session.address && !session.minted ? <button className="mintButton"  onClick={handleMint}>mint</button>:""
+                    user.user.displayName == session.address && !session.isMinted ? <button className="mintButton"  onClick={handleMint}>mint</button>:""
                 ):""
                 }
                 {!isLoading? rendercontent():"LOADING...."}

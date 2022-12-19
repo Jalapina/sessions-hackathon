@@ -13,3 +13,6 @@
 .app-wrapper{
     background: #191919;  /* fallback for old browsers */
 }
+button{
+    /* border: 0px; */
+}

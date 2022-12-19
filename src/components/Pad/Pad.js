@@ -17,8 +17,8 @@ export default (props) => {
         isLoaded = currentPad.source ? true : false
     //     backgroundColor = currentPad.color
      }
-     console.log(isLoaded)
-    const handleTouchStart = (padId) => {
+
+     const handleTouchStart = (padId) => {
         if(!touchCTRL[padId].hold){
 
             touchCTRL[padId].hold = true;

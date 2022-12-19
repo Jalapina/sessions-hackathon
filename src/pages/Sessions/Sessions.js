@@ -30,7 +30,7 @@ const Sessions = () =>{
 
     const getSessions = async() => {
         
-        const count = locationPath == "sessions" ? 10 : 6;
+        const count = locationPath == "sessions" ? 20 : 6;
         const timeStamp = firebase.firestore.Timestamp.now();
 
         const snapshot = db.firestore().collection('session').limit(count).where("updatedAt","<",timeStamp).get()
