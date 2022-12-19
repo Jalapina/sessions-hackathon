@@ -45,7 +45,7 @@ const Session = () =>{
                 });
                 setIsLoading(false);
             }else{
-                setIsLoading(false);                
+                setIsLoading(false);
             }
         });
         
@@ -61,6 +61,7 @@ const Session = () =>{
             const padId = stem.padId
 
             gridArr[padId].source = stem.loop
+            gridArr[padId].name = stem.loopName
             gridArr[padId].isLoaded = true
             gridArr[padId].color = "#38A8CE"
             gridArr[padId].isLooping = false
@@ -86,6 +87,7 @@ const Session = () =>{
     },[gridArr,sessionID])
 
     const renderPad = (item) => {
+        console.log(item)
         let backgroundColor = Colors.black
         let source = context.sources[item.id];
         const midiNote = midiMap[item.id + 36].note;
@@ -95,6 +97,7 @@ const Session = () =>{
         return <Pad 
             midiNote={midiNote}
             key={item.id} 
+            name={item.name}
             id={item.id} 
             name={item.name}
             backgroundColor={backgroundColor}

@@ -50,7 +50,7 @@ export default (props) => {
         onTouchStart={(e) => {handleTouchStart(props.id, e)}}
         onTouchEnd={(e) => {handleTouchEnd(props.id, e)}}
         >
-            <span className="pad-text">{props.midiNote}</span>
+            <span className="pad-text">{props.name}</span>
     </button>
 
 }

@@ -11,6 +11,7 @@ export default {
     sessions: [],
     players: {},
     editMode: false,
+    name: null,
     osc: null,
     sources: {},
     selectedPad: 0,
