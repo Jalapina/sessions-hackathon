@@ -23,17 +23,18 @@ const Session = () =>{
 
     const [session, setSession] = useState([]); //useState() hook, sets initial state to an empty array
     const [loops, setLoops] = useState(); //useState() hook, sets initial state to an empty array
-    const [isLoading, setIsLoading] = useState(true);
     const context = useContext(Context);
+    const [isLoading, setIsLoading] = useState(true);
     const gridArr = context.gridPadsArr;
     let getLoops = loops ? true:false;
     let location =  useLocation();
     let sessionID = location.pathname.split("/").pop();
     const [user, setUser] = useCookies(['user']);
-    const [isOwner, setIsOwner] = useState(false)
+    const [isOwner, setIsOwner] = useState(false);
+    console.log(isLoading);
 
     const getSessionData = async() => {
-        console.log("getSessionData");
+
         const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
             const data = snapshot.data();
@@ -88,8 +89,8 @@ const Session = () =>{
     },[gridArr,sessionID, isLoading])
 
     useEffect(() => { 
-        if(context.gridPadsArr.length < 1) generateGrid();
-    }, [session]);
+        if(context.gridPadsArr.length < 1 && isLoading) generateGrid();
+    }, [session,isLoading]);
 
     const renderPad = (item) => {
         let backgroundColor = Colors.black
@@ -109,7 +110,6 @@ const Session = () =>{
     }   
 
     const rendercontent = () => {
-        console.log("rendering pads")
         if(!context.editMode) return <div style={{maxWidth: "700px",margin: "auto"}}>{gridArr.map((item) => { return renderPad(item) })}</div>
         return <PadEditor />
     }
@@ -122,18 +122,17 @@ const Session = () =>{
     // }
 
     const generateGrid = () => {
-        console.log("generating grid")
-        console.log(session)
         
         // let midiEnabled = testForMidiAPI();
         let touchEnabled = testForTouchDevice();
         let gridPadsArr = [];
         for(let i = 0; i < context.numPads; i++){
-            let newPad = new GridPad({id: i })
-            gridPadsArr.push(newPad)
+            let newPad = new GridPad({id: i });
+            gridPadsArr.push(newPad);
         }
         let payload = {gridPadsArr, touchEnabled}
-        context.dispatch({ type: types.GENERATE_GRID, payload })
+        context.dispatch({ type: types.GENERATE_GRID, payload });
+
     }
 
     const handleMint = async () =>{
@@ -264,7 +263,7 @@ const Session = () =>{
             </div>
 
             <div className="grid">
-                {isLoading? "" : <Hud sessionOwner={session.address} isMinted={session.isMinted} />}
+                {isLoading? "" : <Hud sessionOwner={session.address} setIsLoading={setIsLoading} isMinted={session.isMinted} />}
 
                 {user.user && session ?(
                     user.user.displayName == session.address && !session.isMinted ? <button className="mintButton"  onClick={handleMint}>mint</button>:""

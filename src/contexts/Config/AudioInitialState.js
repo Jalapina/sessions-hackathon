@@ -1,4 +1,5 @@
 export default {
+    analyser: null,
     touchEnabled: false,
     midiEnabled: false,
     midiInputs: null,
@@ -14,8 +15,8 @@ export default {
     name: null,
     osc: null,
     sources: {},
+    stateChange: false,
     selectedPad: 0,
-    analyser: null,
     recMode: false,
     isRecording: false,
     isMonitoring: true,

@@ -71,7 +71,7 @@ const Controls = (props) => {
 
     const handelLoopUpload = (e) =>{
         e.preventDefault();
-        uploadLoop(context,currentPad,sessionID,collabData,user);
+        uploadLoop(context,currentPad,sessionID,collabData,user,props.props.setIsLoading);
         setIsOpen(false);
     }
     // const clearSelectedPad = () => {

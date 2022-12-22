@@ -17,6 +17,8 @@ export default (state, {type, payload}) => {
             return {...state, ...payload}
         case types.TOGGLE_IS_RECORDING:
             return {...state, ...payload}
+        case types.TOGGLE_STATE_CHANGE:
+            return {...state, ...payload}
         case types.TOGGLE_DIRECT_MONITOR:
             return {...state, ...payload}
         case types.GENERATE_GRID:
