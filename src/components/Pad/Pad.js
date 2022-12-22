@@ -11,7 +11,6 @@ export default (props) => {
      let borderColor =  Colors.black;
      let backgroundColor =  Colors.black;
      let isLoaded = false
-
      if(currentPad){
     //     borderColor = currentPad.grey
         isLoaded = currentPad.source ? true : false
@@ -44,6 +43,7 @@ export default (props) => {
             background: isLoaded ? currentPad.color: Colors.black ,
             color: Colors.white, 
             transition: "0.5s linear", 
+            width: ""
         }}
         onClick={() => {handleMouseClick(props.id)}}
         onDoubleClick={(e) => e.preventDefault()}

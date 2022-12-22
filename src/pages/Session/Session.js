@@ -22,7 +22,7 @@ import INITIAL_STATE from '../../contexts/Config/AudioInitialState';
 const Session = () =>{
 
     const [session, setSession] = useState([]); //useState() hook, sets initial state to an empty array
-    const [loops, setLoops] = useState(null); //useState() hook, sets initial state to an empty array
+    const [loops, setLoops] = useState(); //useState() hook, sets initial state to an empty array
     const [isLoading, setIsLoading] = useState(true);
     const context = useContext(Context);
     const gridArr = context.gridPadsArr;
@@ -31,9 +31,9 @@ const Session = () =>{
     let sessionID = location.pathname.split("/").pop();
     const [user, setUser] = useCookies(['user']);
     const [isOwner, setIsOwner] = useState(false)
-    
-    const getSessionData = async() => {
 
+    const getSessionData = async() => {
+        console.log("getSessionData");
         const response = db.firestore().collection('session').doc(sessionID).get()
         .then(snapshot =>{
             const data = snapshot.data();
@@ -63,7 +63,7 @@ const Session = () =>{
             gridArr[padId].source = stem.loop
             gridArr[padId].name = stem.loopName
             gridArr[padId].isLoaded = true
-            gridArr[padId].color = "#38A8CE"
+            gridArr[padId].color = stem.padColor
             gridArr[padId].isLooping = false
 
             context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});
@@ -73,27 +73,30 @@ const Session = () =>{
         
     }
 
-    useEffect(()=>{
-        return () => {
-            let gridPadsArr = []
-            context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});            
-          };
-    },[])
+    // useEffect(()=>{
+    //     console.log("on unmount")
+    //     return () => {
+    //         let gridPadsArr = []
+    //         context.dispatch({type: types.UPDATE_SOURCES, payload: {gridPadsArr}});            
+    //       };
+    // },[])
 
     useEffect(()=>{
-        if(db != undefined){
+        if(db != undefined || gridArr.length > 16){
             getSessionData();
         }
-    },[gridArr,sessionID])
+    },[gridArr,sessionID, isLoading])
+
+    useEffect(() => { 
+        if(context.gridPadsArr.length < 1) generateGrid();
+    }, [session]);
 
     const renderPad = (item) => {
-        console.log(item)
         let backgroundColor = Colors.black
-        let source = context.sources[item.id];
+        let isLoaded = item.isLoaded
         const midiNote = midiMap[item.id + 36].note;
-        if(!context.editMode && source)  backgroundColor = context.gridPadsArr[context.selectedPad].color;
-        if(context.editMode && source) backgroundColor = Colors.green;
-
+        if(isLoaded)  backgroundColor = context.gridPadsArr[context.selectedPad].color;
+        
         return <Pad 
             midiNote={midiNote}
             key={item.id} 
@@ -101,11 +104,12 @@ const Session = () =>{
             id={item.id} 
             name={item.name}
             backgroundColor={backgroundColor}
-        />
+            />
         
     }   
-    
+
     const rendercontent = () => {
+        console.log("rendering pads")
         if(!context.editMode) return <div style={{maxWidth: "700px",margin: "auto"}}>{gridArr.map((item) => { return renderPad(item) })}</div>
         return <PadEditor />
     }
@@ -118,11 +122,14 @@ const Session = () =>{
     // }
 
     const generateGrid = () => {
+        console.log("generating grid")
+        console.log(session)
+        
         // let midiEnabled = testForMidiAPI();
         let touchEnabled = testForTouchDevice();
         let gridPadsArr = [];
         for(let i = 0; i < context.numPads; i++){
-            let newPad = new GridPad({id: i})
+            let newPad = new GridPad({id: i })
             gridPadsArr.push(newPad)
         }
         let payload = {gridPadsArr, touchEnabled}
@@ -165,10 +172,6 @@ const Session = () =>{
 
     }
 
-    useEffect(() => { 
-        if(context.gridPadsArr.length < 1) generateGrid();
-        console.log(session)
-    }, []);
 
     return(
         <div className="sessionComponent">
@@ -261,14 +264,13 @@ const Session = () =>{
             </div>
 
             <div className="grid">
-            
                 {isLoading? "" : <Hud sessionOwner={session.address} isMinted={session.isMinted} />}
 
                 {user.user && session ?(
                     user.user.displayName == session.address && !session.isMinted ? <button className="mintButton"  onClick={handleMint}>mint</button>:""
                 ):""
                 }
-                {!isLoading? rendercontent():"LOADING...."}
+                {isLoading ? "LOADING...." : rendercontent()}
             </div>
            
 

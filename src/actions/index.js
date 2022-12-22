@@ -22,42 +22,42 @@ export const createAnalyser = (context, ctx) =>{
 export const uploadLoop = async (context,currentPad,sessionId, collabData,user) => {
 
 
-        if (!db && user.user) return;
+    if (!db && user.user) return;
 
-        const uploadedFile = collabData.file;
-        if (!uploadedFile) return;
-        let sessionDocRef = db.firestore().doc("/session/"+sessionId+"/")
+    const uploadedFile = collabData.file;
+    if (!uploadedFile) return;
+    let sessionDocRef = db.firestore().doc("/session/"+sessionId+"/")
 
-        const gridPadsArr = context.gridPadsArr;
-        const storage = db.storage();
-        const storageRef = storage.ref();
-        let stemURL = null;
+    const gridPadsArr = context.gridPadsArr;
+    const storage = db.storage();
+    const storageRef = storage.ref();
+    let stemURL = null;
 
-        try {
+    try {
 
-            const loopURL  = await storageRef.child(uploadedFile.name).put(uploadedFile);
-            stemURL = await loopURL.ref.getDownloadURL()
-            alert("Successfully uploaded loop!");
+        const loopURL  = await storageRef.child(uploadedFile.name).put(uploadedFile);
+        stemURL = await loopURL.ref.getDownloadURL()
+        alert("Successfully uploaded loop!");
 
-        } catch (error) {
-            return console.log("error", error);
-        }
+    } catch (error) {
+        return console.log("error", error);
+    }
 
-        const response = db.firestore().collection("collaboration")
-        .add({
-            loopName: collabData.loopName,
-            instrument: collabData.instrument,
-            loop: stemURL,
-            tempo: collabData.tempo? collabData.tempo : null,
-            key: collabData.key? collabData.key : null,
-            padId: currentPad.id,
-            artist: user.user.displayName,
-            padColor: "#F2EDEA",
-            sampledOn: sessionDocRef.id,
-            createdAt : firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt : firebase.firestore.FieldValue.serverTimestamp()
-        }).then((data)=>{
-
+    const response = db.firestore().collection("collaboration")
+    .add({
+        loopName: collabData.loopName,
+        instrument: collabData.instrument,
+        loop: stemURL,
+        tempo: collabData.tempo? collabData.tempo : null,
+        key: collabData.key? collabData.key : null,
+        padId: currentPad.id,
+        artist: user.user.displayName,
+        padColor: "#F2EDEA",
+        sampledOn: sessionDocRef.id,
+        createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt : firebase.firestore.FieldValue.serverTimestamp()
+    }).then((data)=>{
+        console.log(data)
         let collabDocRef = db.firestore().doc("/collaboration/"+data.id+"/")
         
         const arrayToUpdate = arrayUnion(collabDocRef);
@@ -68,7 +68,7 @@ export const uploadLoop = async (context,currentPad,sessionId, collabData,user) 
             updatedAt : firebase.firestore.FieldValue.serverTimestamp(),
             collaborators: arrayUnion(user.user.displayName)
         });
-
+        
         gridPadsArr[currentPad].source = stemURL
         gridPadsArr[currentPad].isLoaded = true
         gridPadsArr[currentPad].name = currentPad.id

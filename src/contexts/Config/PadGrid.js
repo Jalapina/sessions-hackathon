@@ -7,7 +7,7 @@ export default class GridPad {
         this.name = `Pad${id}`;
         this.gainNode = null;
         this.source = null;
-        this.color = Colors.purple;
+        this.color = "#131313";
         this.isPlaying = null;
         this.isLooping = null;
         this.loop = null;

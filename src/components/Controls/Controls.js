@@ -13,7 +13,7 @@ import { useCookies } from 'react-cookie';
   
 const Controls = (props) => {
 
-    let initialState = {instrument:"", key:"", loopName:"",tempo:null,file:null};    
+    let initialState = {instrument:"", key:"", loopName:"",tempo:"",file:null};    
     const context = useContext(Context);
     const [user, setUser] = useCookies(['user']);    
     let currentPad = context.gridPadsArr[context.selectedPad];
@@ -181,9 +181,8 @@ const Controls = (props) => {
 
     const renderSourceLoadUnload = () => {
         // if(!user.hasOwnProperty()) return [];
-        // console.log(props.props)
         if(currentPad && !currentPad.source && user.user) return renderFileUpload();
-        if(currentPad && currentPad.source && user.user.displayName == props.props.sessionOwner.sessionOwner) {
+        if(currentPad && currentPad.source && user.user.displayName == props.props.sessionOwner) {
             return <div><div onClick={() => toggleEditMode()}>{props.props.editToggleMode}</div></div>
         }
         if(context.editMode && currentPad && !currentPad.source) return renderFileUpload()
